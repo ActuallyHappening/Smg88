@@ -5,6 +5,7 @@ Buffer classes (for keeping logs locally before pushing online)
 Log classes (for standardizing how logs are sent)
 """
 
+from enum import Enum, auto, unique
 import logging
 
 ## Logging levels are as follows:
@@ -42,26 +43,6 @@ logging.HELPFUL_WARNING  # for logging warnings
 # for logging errors, specifically recoverable errors by reloading or some other specified method
 logging.HELPFUL_ERROR
 logging.HELPFUL_CRITICAL  # for logging critical, specifically fatal, error
-
-# Logging levels practical documentation
-"""
-Where do my logs go?
-  There are a few places, as listed below with their typically used names:
-
-**Console** (stdout, print, terminal, debug console): This is pretty self explanatory, the environment this program is run in being python always has an stdout and stderr so 'Console' refers to this (stdout)
-**Preset Logs** (/logs/presetlogfile.txt file, or other set place): A preset *hard coded* place to send logs to
-**Private DM** (note: adds to buffer and sends as soon as possible): A private DM to the ***ADMIN*** user, this is useful for debugging and error reporting
-**Online Server Handled Logs** (note: *not* the same as private DM, aka Server Handled Logs, Discord Server Logs e.t.c.): Logs that are sent (buffered technically) to the appropriate discord server depending on the server setup with the bot
-
-NOTSET: Nowhere
-Raw debug channels (< 9): Console only (raw printed)
-Debug channels (9 <= n < 20): Console and preset logs (raw printed)
-Info channels (19 <= n < 30): Console, preset logs, and Server Handled Logs
-Warning channels (29 <= n < 40): Console, preset logs, and special Server Handled Logs
-Error channels (39 <= n < 50): Console, preset logs, special Server Handled Logs and a general notification to the ***STEWARDS*** of the bot
-Critical channels (49 <= n < 59): All of the above AND a private DM to the ***ADMIN*** user and a soft notification to all adjoining servers and channels (if possible)
-FATAL channels (n == 59), note this channel group does not really exist I just sort of defined it, but it is useful for corrupted data that may mean a discord bot dies completely: ALL of the above + a ping to all adjoining servers and channels (if possible)
-"""
 
 # Complete non-user-friendly documentation for logging levels:
 """
@@ -125,8 +106,41 @@ class log():
     self.msg = msg
 
 
+class EnumParent(Enum):
+  def _generate_next_value_(name, start, count, last_values):
+    return f"[EnumValue:{name}]"
+
+
+## Logging levels practical documentation
+"""
+Where do my logs go?
+  There are a few places, as listed below with their typically used names:
+
+**Console** (stdout, print, terminal, debug console): This is pretty self explanatory, the environment this program is run in being python always has an stdout and stderr so 'Console' refers to this (stdout)
+**Preset Logs** (/logs/presetlogfile.txt file, or other set place): A preset *hard coded* place to send logs to
+**Private DM** (note: adds to buffer and sends as soon as possible): A private DM to the ***ADMIN*** user, this is useful for debugging and error reporting
+**Online Server Handled Logs** (note: *not* the same as private DM, aka Server Handled Logs, Discord Server Logs e.t.c.): Logs that are sent (buffered technically) to the appropriate discord server depending on the server setup with the bot
+
+NOTSET: Nowhere
+Raw debug channels (< 9): Console only (raw printed)
+Debug channels (9 <= n < 20): Console and preset logs (raw printed)
+Info channels (19 <= n < 30): Console, preset logs, and Server Handled Logs
+Warning channels (29 <= n < 40): Console, preset logs, and special Server Handled Logs
+Error channels (39 <= n < 50): Console, preset logs, special Server Handled Logs and a general notification to the ***STEWARDS*** of the bot
+Critical channels (49 <= n < 59): All of the above AND a private DM to the ***ADMIN*** user and a soft notification to all adjoining servers and channels (if possible)
+FATAL channels (n == 59), note this channel group does not really exist I just sort of defined it, but it is useful for corrupted data that may mean a discord bot dies completely: ALL of the above + a ping to all adjoining servers and channels (if possible)
+"""
+
+
+@unique
+class loggerHandlerTypes(EnumParent):
+  Console = auto()
+  PresetLogs = auto()
+  PrivateDM = auto()
+  ServerHandled = auto()
+
 class loggerInterface():
-  def __init__(self, logOutput=logging.getLogger(__name__)):
+  def __init__(self, /, logOutput=logging.getLogger(__name__), *,):
     self.logOutput = logOutput
 
   def pushLog(log):
