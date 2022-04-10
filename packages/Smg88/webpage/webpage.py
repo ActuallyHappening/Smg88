@@ -5,7 +5,6 @@ from datetime import datetime
 import flask
 from flask import Flask, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
-from requests import request
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -31,7 +30,9 @@ def index():
       db.session.add(newTask)
       db.session.commit()
       return redirect("/")
-    except:
+    except Exception as err:
+      print(f"Cool error caught! {err}")
+      raise err
       return render_template("error.html")
   else:
     tasks = Todo.query.order_by(Todo.date_created).all()
@@ -46,7 +47,9 @@ def delete(id):
     db.session.delete(taskToDelete)
     db.session.commit()
     return redirect("/")
-  except:
+  except Exception as err:
+    print(f"AWESOME ERROR caught!! {err}")
+    raise err
     return render_template("error.html")
 
 
@@ -58,7 +61,9 @@ def update(id):
     try:
       db.session.commit()
       return redirect("/")
-    except:
+    except Exception as err:
+      print("Boring update error caught :( {err}")
+      raise err
       return render_template("error.html")
   else:
     return render_template("update.html", task=task)
