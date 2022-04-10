@@ -33,8 +33,8 @@ if len(sys.argv) > 4:
 def main(args):
   global chars
   try:
-    input = bytes(args[1], encoding="utf-8")
-    extra = bytes(args[2] or b"", encoding="utf-8")
+    input = bytes(args[0], encoding="utf-8")
+    extra = bytes(args[1] or b"", encoding="utf-8")
   except:
     print("Invalid input, requires 2 text command line inputs")
   else:
@@ -50,10 +50,10 @@ def main(args):
     hashStr = "".join([chars[int(testHashNumList[n]) + int(testHashNumList[n+1])]
                       for n in range(0, len(testHashNumList)-1, 2)])
     finalHashStr = hashStr[:5] if len(hashStr) > 5 else hashStr
-    if len(sys.argv) > 3:
+    if len(args) > 2:
       print(f"Hash String:Smg!88{finalHashStr}")
   print("Finish")
 
 
 if __name__ == "__main__":
-  main(sys.argv)
+  main(sys.argv[1:])
