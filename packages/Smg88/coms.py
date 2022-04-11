@@ -52,6 +52,10 @@ class getYAMLConfig():
     self.file.close()
 
 
+class getYAMLConfig(getLocation):
+    def __init__(self, location: str = )
+
+
 class PlatformInfo():
   """Is responsible for platform specific tasks, such as retrieving secrets (absolute locations will differ between platform types)
   """
