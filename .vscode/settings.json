@@ -1,6 +1,7 @@
 {
   "python.analysis.extraPaths": [
-    "./packages"
+    "./packages",
+    "./packages/Smg88/discordbot/py-cord fork/pycord"
   ],
   "search-online.search-engine": "Google"
 }
