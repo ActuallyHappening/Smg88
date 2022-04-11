@@ -23,8 +23,7 @@ class Error(Exception):
   """
 
   def __init__(self, msg, *msgs, **extra):
-    msgs = '\n'.join(msgs)
-    self.msg = f"Message: {msg}\n{msgs}"
+    self.msg = f"Message: {msg}\n{'\n'.join(msgs)}"
     self.extras = extra
 
   def __str__(self):
@@ -32,7 +31,7 @@ class Error(Exception):
 
 
 class ProgrammerError(Error):
-  """Exception class that is root of all internal / implementation / programmer related errors
+  """Exception class that is root of all programmer related exceptions
   """
   ...
 

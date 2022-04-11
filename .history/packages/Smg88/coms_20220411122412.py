@@ -1,28 +1,28 @@
 """Enables my python scripts to communicate between running instances and to read secrets from pre-set physical files
 """
 from enum import Enum, auto
-import loghelp.EnumParent
-import errors
+from .loghelp import EnumParent
+from . import errors
 import yaml
 import platform
 
 NONE = object()  # Sentinel value for when a value is not found
 
 
-class CommunicationError(errors.Error):
-  """Raised when there is an error in communication module (root class)
+class CommunicationError(errors.CustomError):
+  """Raised when there is an error in communication
   """
   pass
 
 
-class CommSecretExtractionError(CommunicationError):
+class SecretExtractionError(CommError):
   """Raised when there is an error in extracting secrets
   """
   pass
 
 
-class CommConfigurationError(CommunicationError):
-  """Raised when there is an error in opening / parsing a configuration file
+class CommConfigError(CommError):
+  """Raised when there is an error in opening a configuration file
   """
   pass
 
@@ -39,13 +39,13 @@ class getYAMLConfig():
   def __call__(self):
     try:
       info = yaml.load(self.file)
-      print(f"Info: {info}")
+      print(info)
       return info
     except yaml.YAMLError as exc:
       print(exc)
-      raise CommConfigurationError()
+      raise CommConfigError()
 
-  def __enter__(self):
+  def __enter__():
     return self.file
 
   def __exit__(self, exc_type, exc_value, exc_traceback):
@@ -65,22 +65,11 @@ class PlatformInfo():
         case "Windows":
           self.platform = PlatformType.Windows
         case _:
-          raise CommConfigurationError(
-              f"Unsupported platform :( {platform.system()}")
+          raise CommError(f"Unsupported platform :( {platform.system()}")
     else:
       self.platform = platform
-    # Sets other stuff specific to the platform through properties
-
-  @property
-  def requestSecrets(self):
-    if self.platform == PlatformType.Linux:
-      return "/etc/secrets"
-    elif self.platform == PlatformType.Windows:
-      return "C:\\secrets"
-    else:
-      raise CommSecretExtractionError(
-          f"Unsupported platform :( {self.platform.system()}")
-
+    ...
+    # Sets other stuff specific to the platform
 
 class Communicator():
   def __init__(self, platformInfo: PlatformInfo = NONE, platform: PlatformType = NONE) -> None:

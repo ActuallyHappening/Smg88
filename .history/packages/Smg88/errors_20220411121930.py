@@ -18,21 +18,20 @@ class UserErrorHandle():
     return f"{self.msg}\n" + "\n".join(f"{k}: {v}" for k, v in self.extras.items())
 
 
-class Error(Exception):
+class CustomError(Exception):
   """Exception class that is root of all custom exceptions
   """
 
   def __init__(self, msg, *msgs, **extra):
-    msgs = '\n'.join(msgs)
-    self.msg = f"Message: {msg}\n{msgs}"
+    self.msg = f"Message: {msg}\n{'\n'.join(msgs)}"
     self.extras = extra
 
   def __str__(self):
     return f"{self.msg}\n" + "\n".join(f"{k}: {v}" for k, v in self.extras.items())
 
 
-class ProgrammerError(Error):
-  """Exception class that is root of all internal / implementation / programmer related errors
+class ProgrammerError(CustomError):
+  """Exception class that is root of all programmer related exceptions
   """
   ...
 

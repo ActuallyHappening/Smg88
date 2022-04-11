@@ -1,8 +1,8 @@
 """Enables my python scripts to communicate between running instances and to read secrets from pre-set physical files
 """
 from enum import Enum, auto
-import loghelp.EnumParent
-import errors
+from .loghelp import EnumParent
+from . import errors
 import yaml
 import platform
 

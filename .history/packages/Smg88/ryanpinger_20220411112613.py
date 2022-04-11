@@ -1,13 +1,12 @@
-from .coms import Communicator
-comm = Communicator()
+import coms
 import time
 import discord
 
-intents = discord.Intents.default()
-intents.message_content = True
+intents = discord.Intents.all()
+#intents.message_content = True
 
 client = discord.Client(intents=intents)
-TOKEN = comm.requestSecret("ryanpinger TOKEN")
+TOKEN = coms.requestSecret("ryanpinger TOKEN")
 
 
 @client.event
