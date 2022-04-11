@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    Smg88 : IOT Webpage {% block head_title %}{% endblock %}
+  </title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/boilerplate/boilerplate.css') }}">
+  {% block head_links %}{% endblock %}
+</head>
+
+<body>
+{% block body_header_content %}{% endblock %}
+{% block body_content %}{% endblock %}
+{% block body_footer_content %}{% endblock %}
+</body>
+
+</html>

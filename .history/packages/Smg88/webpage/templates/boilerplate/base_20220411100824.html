@@ -1,0 +1,25 @@
+{% extends 'boilerplate/boilerplate.html' %}
+# block head_title
+Baseplate
+# endblock
+# block head_links
+<link rel="stylesheet" href="{{ url_for('static', filename='css/boilerplate/base.css') }}">
+# endblock
+{% block body_header_content %}
+<header>
+  <h1>
+    Smg88 : IOT Webpage
+  </h1>
+</header>
+{% endblock %}
+# block body_content
+test456
+# endblock 
+{% block body_footer_content %}
+<footer>
+  <p>
+    &copy; 2022 Smg88 :: IOT
+    Note: Will link to discord bot soon
+  </p>
+</footer>
+{% endblock %}

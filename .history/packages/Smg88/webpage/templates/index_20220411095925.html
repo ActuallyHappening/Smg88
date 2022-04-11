@@ -8,9 +8,9 @@
 </h1>
 <div class="content">
     <h2>Task Master :)</h2>
-    {% if tasks|length < 1 %}
-        <h4>No tasks set :) YAY!</h4>
-    {% else %}
+    {% if tasks|length
+    < 1 %} <h4>No tasks set :) YAY!</h4>
+        {% else %}
         <table>
             <tr>
                 <th>Task</th>
@@ -28,10 +28,11 @@
             </tr>
             {% endfor %}
         </table>
-    {% endif %}
-    <form action="/" method="POST">
-        <input type="text" name="content" id="content">
-        <input type="submit" value="Add Task">
-    </form>
+        {% endif %}
+
+        <form action="/" method="POST">
+            <input type="text" name="content" id="content">
+            <input type="submit" value="Add Task">
+        </form>
 </div>
 {% endblock %}

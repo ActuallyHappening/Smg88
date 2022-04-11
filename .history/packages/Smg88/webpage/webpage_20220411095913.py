@@ -38,7 +38,6 @@ def index():
     return render_template("index.html", tasks=tasks)
 
 
-"""
 @app.route("/delete/<int:id>")
 def delete(id):
   taskToDelete = Todo.query.get_or_404(id)
@@ -67,7 +66,7 @@ def update(id):
       return render_template("error.html")
   else:
     return render_template("index.html", task=task)
-"""
+
 
 if __name__ == "__main__":
   #db.create_all()

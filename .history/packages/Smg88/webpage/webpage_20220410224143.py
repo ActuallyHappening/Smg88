@@ -38,7 +38,6 @@ def index():
     return render_template("index.html", tasks=tasks)
 
 
-"""
 @app.route("/delete/<int:id>")
 def delete(id):
   taskToDelete = Todo.query.get_or_404(id)
@@ -56,8 +55,8 @@ def delete(id):
 @app.route("/update/<int:id>", methods=["GET", "POST"])
 def update(id):
   task = Todo.query.get_or_404(id)
-  if request.method == "POST":
-    task.content = request.form["content"]
+  if flask.request.method == "POST":
+    task.content = flask.request.form["content"]
     try:
       db.session.commit()
       return redirect("/")
@@ -66,8 +65,8 @@ def update(id):
       raise err
       return render_template("error.html")
   else:
-    return render_template("index.html", task=task)
-"""
+    return render_template("update.html", task=task)
+
 
 if __name__ == "__main__":
   #db.create_all()
