@@ -64,10 +64,6 @@ class getLocation():
                 except errors.Error as err:
                     # Propagate error with proper encapsulation of error types
                     raise CommunicationError(err)
-                except FileNotFoundError as err:
-                  # Probably not plugged in harddrive
-                  raise CommConfigurationError(
-                      "Secret harddrive probably not plugged in :)", err)
             case _:
                 raise CommunicationError(
                     f"Unsupported location type: {self.locationType=}")
@@ -99,7 +95,7 @@ class PlatformInfo():
         else:
             self.platform = platform
         print(
-            f"New PlatformInfo object created for {self.platform=}, {self.config=}")
+            f"New PlatformInfo object created for {self.platform=}, {self.config=}s")
         # Sets other stuff specific to the platform through properties
 
     class _getYAMLConfig(getLocation):
@@ -115,14 +111,6 @@ class PlatformInfo():
     def requestSecrets(self):
         """Returns a dictionary of secrets for that platform specifically
         """
-        with self.config as config:
-            try:
-                configSpot = config["coms"]["platformInfo"][self.platform.value]["requestSecret"]
-                location = getLocation(
-                    location=configSpot["location"], locationType=configSpot["locationType"])
-                return location
-            except errors.Error as err:
-                raise CommunicationError(err)
 
 
 class Communicator():
@@ -136,25 +124,16 @@ class Communicator():
             self.platformInfo = platformInfo
 
     @property
-    def platform(self) -> PlatformInfo:
+    def platformInfo(self) -> PlatformInfo:
         return self.platformInfo.platform
 
     def requestSecret(self, secretHandle: str):
         """Returns the secret associated with the secretHandle
         """
-        recursivePath = secretHandle.split(" ")
-        with self.platformInfo.requestSecrets() as secrets:
-            try:
-                for path in recursivePath:
-                    secrets = secrets[path]
-                secret = secrets  # For clarity, as the recursive path leads to a singular secret
-                return secret
-            except (KeyError, errors.Error) as err:
-                raise CommSecretExtractionError(err)
+        match secretHandle:
+            case "ryanpinger TOKEN":
+                return self.platformInfo.requestSecrets()["ryanpinger TOKEN"]
 
 
 if __name__ == "__main__":
-    platformInfo = PlatformInfo()
-    comm = Communicator(platformInfo=platformInfo)
-    testSecret = comm.requestSecret('ryanpinger TOKEN')
-    print(f"{testSecret=}")
+    comm = Communicator()

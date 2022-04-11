@@ -64,10 +64,6 @@ class getLocation():
                 except errors.Error as err:
                     # Propagate error with proper encapsulation of error types
                     raise CommunicationError(err)
-                except FileNotFoundError as err:
-                  # Probably not plugged in harddrive
-                  raise CommConfigurationError(
-                      "Secret harddrive probably not plugged in :)", err)
             case _:
                 raise CommunicationError(
                     f"Unsupported location type: {self.locationType=}")
@@ -142,15 +138,9 @@ class Communicator():
     def requestSecret(self, secretHandle: str):
         """Returns the secret associated with the secretHandle
         """
-        recursivePath = secretHandle.split(" ")
-        with self.platformInfo.requestSecrets() as secrets:
-            try:
-                for path in recursivePath:
-                    secrets = secrets[path]
-                secret = secrets  # For clarity, as the recursive path leads to a singular secret
-                return secret
-            except (KeyError, errors.Error) as err:
-                raise CommSecretExtractionError(err)
+        match secretHandle:
+            case "ryanpinger TOKEN":
+                return self.platformInfo.requestSecrets()
 
 
 if __name__ == "__main__":
@@ -158,3 +148,5 @@ if __name__ == "__main__":
     comm = Communicator(platformInfo=platformInfo)
     testSecret = comm.requestSecret('ryanpinger TOKEN')
     print(f"{testSecret=}")
+    with testSecret as secrets:
+        print(f"{secrets=}")

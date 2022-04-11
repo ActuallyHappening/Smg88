@@ -108,7 +108,7 @@ class log():
 
 class EnumParent(Enum):
   def _generate_next_value_(name, start, count, last_values):
-    return f"{name}"
+    return f"{name}]"
 
 
 ## Logging levels practical documentation

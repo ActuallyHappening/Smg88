@@ -64,10 +64,6 @@ class getLocation():
                 except errors.Error as err:
                     # Propagate error with proper encapsulation of error types
                     raise CommunicationError(err)
-                except FileNotFoundError as err:
-                  # Probably not plugged in harddrive
-                  raise CommConfigurationError(
-                      "Secret harddrive probably not plugged in :)", err)
             case _:
                 raise CommunicationError(
                     f"Unsupported location type: {self.locationType=}")

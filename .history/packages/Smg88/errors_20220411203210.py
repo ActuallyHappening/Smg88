@@ -24,8 +24,7 @@ class Error(Exception):
 
   def __init__(self, msg, *msgs, **extra):
     msg = str(msg)
-    msgs = [str(m) for m in msgs]
-    msgs = '\n'.join(msgs)
+    msgs = '\n'.join(str(msgs))
     self.msg = f"Message: {msg}\n{msgs}"
     self.extras = extra
 
