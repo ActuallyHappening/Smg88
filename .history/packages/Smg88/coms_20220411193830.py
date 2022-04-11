@@ -37,7 +37,7 @@ class PlatformType(EnumParent):
 
 
 class getLocation():
-    def __init__(self, /, location: str, *, locationType: str = "file:text/yaml"):
+    def __init__(self, location: str, locationType: str = "file:text/yaml"):
         self.locationType = locationType
         if location is NONE or type(location) is not str or location is None:
             raise errors.InappropriateRequest("location must be a string")
@@ -62,7 +62,6 @@ class getLocation():
                             raise CommunicationError(
                                 f"Unsupported file type: {mimes=}")
                 except errors.Error as err:
-                    # Propagate error with proper encapsulation of error types
                     raise CommunicationError(err)
             case _:
                 raise CommunicationError(
@@ -75,10 +74,30 @@ class getLocation():
         self.file.close()
 
 
-class PlatformInfo():
-    """Is responsible for platform specific tasks, such as retrieving secrets (absolute locations will differ between platform types) and config files
+class getYAMLConfig():
+    def __init__(self, fileLocation=os.path.join(os.path.dirname(__file__), CONFIG_RELATIVE_LOCATION)) -> None:
+        # print("init for getYAML config called with fileLocation: " + fileLocation)
+        self.file = open(fileLocation, "r")
 
-    requestSecrets(secretHandle: str) -> str
+    def __call__(self):
+        try:
+            # print(f"{self.file=}")
+            info = yaml.safe_load(self.file)
+            print(f"Info: {info}")
+            return info
+        except yaml.YAMLError as exc:
+            print(exc)
+            raise CommConfigurationError()
+
+    def __enter__(self):
+        return self()
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        self.file.close()
+
+
+class PlatformInfo():
+    """Is responsible for platform specific tasks, such as retrieving secrets (absolute locations will differ between platform types)
     """
 
     def __init__(self, platform: PlatformType = NONE) -> None:
@@ -94,37 +113,30 @@ class PlatformInfo():
                         f"Unsupported platform :( {platform.system()}")
         else:
             self.platform = platform
-        print(
-            f"New PlatformInfo object created for {self.platform=}, {self.config=}s")
         # Sets other stuff specific to the platform through properties
 
-    class _getYAMLConfig(getLocation):
-      def __init__(self, relativeLocation: str = CONFIG_RELATIVE_LOCATION) -> None:
-          absLocation = os.path.join(os.path.dir(__file__), relativeLocation)
-          super().__init__(location=absLocation, locationType="file:text/yaml")
-
-    @property
-    def config(self):
-      return self._getYAMLConfig(CONFIG_RELATIVE_LOCATION)
-
     def requestSecrets(self):
-      """Returns a dictionary of secrets for that platform specifically
-      """
+        if self.platform == PlatformType.Linux:
+
+        elif self.platform == PlatformType.Windows:
+
+        else:
+            raise CommSecretExtractionError(
+                f"Unsupported platform :( {self.platform.system()}")
 
 
 class Communicator():
-    """Is responsible, and the 'API', for communicating from thread/process/project across platforms
-    """
-
-    def __init__(self, platformInfo: PlatformInfo = NONE) -> None:
+    def __init__(self, platformInfo: PlatformInfo = NONE, platform: PlatformType = NONE) -> None:
         if platformInfo is NONE:
-            self.platformInfo = PlatformInfo()
+            if platform is NONE:
+                self.platformInfo = PlatformInfo()
+                self.platform = self.platformInfo.platform
+            else:
+                self.platformInfo = PlatformInfo(platform=platform)
+                self.platform = self.platformInfo.platform
         else:
             self.platformInfo = platformInfo
-
-    @property
-    def platformInfo(self) -> PlatformInfo:
-      return self.platformInfo.platform
+            self.platform = platformInfo.platform
 
     def requestSecret(self, secretHandle: str):
         """Returns the secret associated with the secretHandle

@@ -1,0 +1,10 @@
+coms:
+  platformInfo:
+    Linux:
+      requestSecret:
+        locationType: file:text/yaml
+        location: /media/pi/44B4-8AFD/FlaskStuff/QADattempt3/com.py/requestSecret.yaml
+    Windows:
+      requestSecret:
+        locationType: file:text/yaml
+        location: D:\Projects\FlaskStuff\QADattempt3\com.py\requestSecret.yaml

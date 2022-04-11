@@ -75,10 +75,13 @@ class getLocation():
         self.file.close()
 
 
-class PlatformInfo():
-    """Is responsible for platform specific tasks, such as retrieving secrets (absolute locations will differ between platform types) and config files
+class getYAMLConfig(getLocation):
+    def __init__(self, location: str = os.path.join(os.path.dir(__file__), CONFIG_RELATIVE_LOCATION)):
+        super().__init__(location=location, locationType="file:text/yaml")
 
-    requestSecrets(secretHandle: str) -> str
+
+class PlatformInfo():
+    """Is responsible for platform specific tasks, such as retrieving secrets (absolute locations will differ between platform types)
     """
 
     def __init__(self, platform: PlatformType = NONE) -> None:
@@ -94,37 +97,30 @@ class PlatformInfo():
                         f"Unsupported platform :( {platform.system()}")
         else:
             self.platform = platform
-        print(
-            f"New PlatformInfo object created for {self.platform=}, {self.config=}s")
         # Sets other stuff specific to the platform through properties
 
-    class _getYAMLConfig(getLocation):
-      def __init__(self, relativeLocation: str = CONFIG_RELATIVE_LOCATION) -> None:
-          absLocation = os.path.join(os.path.dir(__file__), relativeLocation)
-          super().__init__(location=absLocation, locationType="file:text/yaml")
-
-    @property
-    def config(self):
-      return self._getYAMLConfig(CONFIG_RELATIVE_LOCATION)
-
     def requestSecrets(self):
-      """Returns a dictionary of secrets for that platform specifically
-      """
+        if self.platform == PlatformType.Linux:
+
+        elif self.platform == PlatformType.Windows:
+
+        else:
+            raise CommSecretExtractionError(
+                f"Unsupported platform :( {self.platform.system()}")
 
 
 class Communicator():
-    """Is responsible, and the 'API', for communicating from thread/process/project across platforms
-    """
-
-    def __init__(self, platformInfo: PlatformInfo = NONE) -> None:
+    def __init__(self, platformInfo: PlatformInfo = NONE, platform: PlatformType = NONE) -> None:
         if platformInfo is NONE:
-            self.platformInfo = PlatformInfo()
+            if platform is NONE:
+                self.platformInfo = PlatformInfo()
+                self.platform = self.platformInfo.platform
+            else:
+                self.platformInfo = PlatformInfo(platform=platform)
+                self.platform = self.platformInfo.platform
         else:
             self.platformInfo = platformInfo
-
-    @property
-    def platformInfo(self) -> PlatformInfo:
-      return self.platformInfo.platform
+            self.platform = platformInfo.platform
 
     def requestSecret(self, secretHandle: str):
         """Returns the secret associated with the secretHandle

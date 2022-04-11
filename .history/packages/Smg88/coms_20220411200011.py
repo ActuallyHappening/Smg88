@@ -94,15 +94,13 @@ class PlatformInfo():
                         f"Unsupported platform :( {platform.system()}")
         else:
             self.platform = platform
-        print(
-            f"New PlatformInfo object created for {self.platform=}, {self.config=}s")
         # Sets other stuff specific to the platform through properties
 
     class _getYAMLConfig(getLocation):
       def __init__(self, relativeLocation: str = CONFIG_RELATIVE_LOCATION) -> None:
           absLocation = os.path.join(os.path.dir(__file__), relativeLocation)
           super().__init__(location=absLocation, locationType="file:text/yaml")
-
+    
     @property
     def config(self):
       return self._getYAMLConfig(CONFIG_RELATIVE_LOCATION)
@@ -110,7 +108,7 @@ class PlatformInfo():
     def requestSecrets(self):
       """Returns a dictionary of secrets for that platform specifically
       """
-
+      
 
 class Communicator():
     """Is responsible, and the 'API', for communicating from thread/process/project across platforms
@@ -121,7 +119,7 @@ class Communicator():
             self.platformInfo = PlatformInfo()
         else:
             self.platformInfo = platformInfo
-
+    
     @property
     def platformInfo(self) -> PlatformInfo:
       return self.platformInfo.platform

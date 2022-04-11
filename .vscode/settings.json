@@ -3,5 +3,8 @@
     "./packages",
     "./packages/Smg88/discordbot/py-cord fork/pycord"
   ],
-  "search-online.search-engine": "Google"
+  "search-online.search-engine": "Google",
+  "cSpell.words": [
+    "Dattempt"
+  ]
 }

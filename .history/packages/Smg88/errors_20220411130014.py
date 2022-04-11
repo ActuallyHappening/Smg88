@@ -11,11 +11,11 @@ class UserErrorHandle():
   """
 
   def __init__(self, msg, *msgs, **extra):
-    self.msg = f"Message: {msg}" + "\n" + '\n'.join(msgs)
+    self.msg = f"Message: {msg}\n{'\n'.join(msgs)}"
     self.extras = extra
 
   def __str__(self):
-    return f"{self.msg}" + "\n" + "\n".join(f"{k}: {v}" for k, v in self.extras.items())
+    return f"{self.msg}" + "\n".join(f"{k}: {v}" for k, v in self.extras.items())
 
 
 class Error(Exception):
