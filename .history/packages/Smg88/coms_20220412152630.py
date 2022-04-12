@@ -149,9 +149,6 @@ class UserCommunicator(Communicator):
                         "Try not to set all=True and retain=False else you will purge (delete the whole of) the self._buffer!"))
         elif retain is ...:
             retain = False
-        if type(num) is not int:
-            raise errors.InappropriateRequest("num must be an int if provided and all=False", errorHandle=ProgrammerErrorHandle(
-                "Either set all=True or provide an int for the num parameter when using get()"))
         if num > len(self._buffer):
             raise CommunicatorEmptyBuffer(errorHandle=ProgrammerErrorHandle(
                 "Do not request more items than are in the buffer, use all=True and/or retain=True"))
@@ -160,7 +157,7 @@ class UserCommunicator(Communicator):
         return [self._buffer.pop(0) for i in range(num)]
 
     def _receive(self, *packets: PacketItem) -> None:
-        self._bufffer.append(packets)
+        self._bufffer.append(PacketItem(input("User Communicator: ")))
 
     def _send(self, num: int = 1) -> None:
         print(f"P{i}: {self._buffer.pop(0)}\n" for i in range(num))

@@ -151,7 +151,7 @@ class UserCommunicator(Communicator):
             retain = False
         if type(num) is not int:
             raise errors.InappropriateRequest("num must be an int if provided and all=False", errorHandle=ProgrammerErrorHandle(
-                "Either set all=True or provide an int for the num parameter when using get()"))
+                "Either set all=True or provide an int for the num parameter"))
         if num > len(self._buffer):
             raise CommunicatorEmptyBuffer(errorHandle=ProgrammerErrorHandle(
                 "Do not request more items than are in the buffer, use all=True and/or retain=True"))
