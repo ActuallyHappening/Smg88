@@ -233,9 +233,7 @@ if __name__ == "__main__":
     platformInfo = PlatformInfo()
     pointInfo = PointCommType(
         PointConType.Node, PointConNetworkType.LocalToLocal)
-    comm = Communicator(pointInfo, platformInfo=platformInfo)
+    comm = Communicator(CommPointError, platformInfo=platformInfo)
     #testSecret = comm.requestSecret('ryanpinger TOKEN')
     #print(f"{testSecret=}")
-    print(f"{pointInfo=}")
-    print(f"{comm.pointCommunicationType=}")
-    print(f"{comm.pointCommunicationType.pointType=}, {comm.pointCommunicationType.networkType=}")
+    print(comm.pointCo)

@@ -3,7 +3,7 @@
 from enum import auto
 import os
 from pprint import pprint
-from typing import final, overload
+from typing import final
 from loghelp import EnumParent
 import errors
 from errors import ProgrammerErrorHandle, UserErrorHandle
@@ -38,6 +38,36 @@ class CommPointError(CommunicationError):
 class PlatformType(EnumParent):
     Windows = auto()
     Linux = auto()
+
+
+class PointCommNetworkType(EnumParent):
+    """Represents states of access across networks / internet to projects
+
+    Args:
+        EnumParent (PointNetworkType): Type of network access (remote <-> locallyremote <-> remote)
+    
+    Long Description:
+        When you think of an internet of things, their are many different 'angles' or points.
+        Consider the local side, my webpage is hosted somewhere and that place is generally referred to as 'local'
+        Also consider the locally remote point, I may be right next to my webpage server and so want to access it physically/locally even though it is hosting for other remote places to access it
+        Finally, consider the 'largest' side of an IOT (Internet of Things), the remote side. This is where anybody with internet connection can access the IOT and interact with it.
+
+        Every one of these points has their own 'level' of control, and their own ways of communicating with other points.
+        So, if (hypothetically of course) we were to create a python class to represent a way of communicating from point to point (Communicator duh).
+        And this class would need, probably an Enum, to represent the type of communication wanted by this communicator. If you haven't caught on, this Enum represents just that
+
+        Each Communicator object has only one Point Network Type (probably another class down the track called 'Communicatoin' that manages every possible Point Network Type) which determines how it communicates with other points, over internet, physical Serial, http remote requests, local http requests, etc.
+    """
+    # Local instance to access locally hosted stuff (test webpage, local database, etc)
+    LocalToLocal = auto()
+    # Local instance to access my remote stuff (basically client)
+    LocalToRemote = auto()
+    # Local instance to control my remote stuff I am hosting locally (actually hosting webpage, database, etc)
+    LocalToLocallyRemote = auto()
+    # Remote / Random instance to access my remote stuff (hosted website talking to discordbot)
+    RemoteToRemote = auto()
+    # Remote instance to control local stuff (wanting to change my desk lights from a holiday)
+    RemoteToLocal = auto()
 
 
 class getLocation():
@@ -134,74 +164,33 @@ class PlatformInfo():
                 raise CommunicationError(err)
 
 
-class PointConNetworkType(EnumParent):
-    """Represents states of access across networks / internet to projects
-
-    Args:
-        EnumParent (PointNetworkType): Type of network access (remote <-> locallyremote <-> remote)
-    
-    Long Description:
-        When you think of an internet of things, their are many different 'angles' or points.
-        Consider the local side, my webpage is hosted somewhere and that place is generally referred to as 'local'
-        Also consider the locally remote point, I may be right next to my webpage server and so want to access it physically/locally even though it is hosting for other remote places to access it
-        Finally, consider the 'largest' side of an IOT (Internet of Things), the remote side. This is where anybody with internet connection can access the IOT and interact with it.
-
-        Every one of these points has their own 'level' of control, and their own ways of communicating with other points.
-        So, if (hypothetically of course) we were to create a python class to represent a way of communicating from point to point (Communicator duh).
-        And this class would need, probably an Enum, to represent the type of communication wanted by this communicator. If you haven't caught on, this Enum represents just that
-
-        Each Communicator object has only one Point Connection Network Type (probably another class down the track called 'Communication' that manages every possible Point Connection Network Type) which determines how it communicates with other points, over internet, physical Serial, http remote requests, local http requests, etc.
-    """
-    # Local instance to access locally (same python interpreter) hosted stuff (test webpage, local database, etc)
-    LocalToLocal = auto()
-    # Local instance to access my remote stuff (basically client)
-    LocalToRemote = auto()
-    # Remote / Random instance to access my remote stuff (hosted website talking to discordbot)
-    RemoteToRemote = auto()
-    # Remote instance to control local stuff (wanting to change my desk lights from a holiday)
-    RemoteToLocal = auto()
-
-
-class PointConType(EnumParent):
-    Server = auto()
-    Node = auto()
-
-
 class PointCommType():
     """Represents a type of communication between any *TWO* points, over network or serial or other
 
     Raises:
-        CommPointError
+        
+
+    Returns:
+        _type_: _description_
     """
-
-    def __init__(self, pointType: PointConType, networkType: PointConNetworkType) -> None:
-        self.pointType = pointType
-        self.networkType = networkType
-        print(
-            f"New PointCommType object created for {self.pointType=}, {self.networkType=}")
-
 
 @final
 class Communicator():
-    """Is responsible, and the 'API', for communicating from thread/process/project across platforms and the IOT
+    """Is responsible, and the 'API', for communicating from thread/process/project across platforms
 
     requestSecret(secretHandle: str) -> str
       Use to request a secret from the platform-specific secret store, e.g. comm.requestSecret("ryanpinger TOKEN")
     """
-    @overload
-    def __init__(self, pointCommunicationType: PointCommType):
-        ...
 
-    def __init__(self, pointCommunicationType: PointCommType = ..., platformInfo: PlatformInfo = ...) -> None:
-        if pointCommunicationType == ...:
-            raise errors.InappropriateRequest("No pointCommunicationType specified", errorHandle=ProgrammerErrorHandle(
-                "Must provide pointCommunicationType when instinating Communicator"))
-        else:
-            self.pointCommunicationType = pointCommunicationType
+    def __init__(self, pointCommunicationType: platformInfo: PlatformInfo = ...) -> None:
         if platformInfo is ...:
             self.platformInfo = PlatformInfo()
         else:
             self.platformInfo = platformInfo
+
+    @property
+    def platform(self) -> PlatformInfo:
+        return self.platformInfo.platform
 
     @staticmethod
     def _getProjects(filePath: str = FILE_PATH) -> dict:
@@ -210,8 +199,8 @@ class Communicator():
         projects = {}
         for dir in os.listdir(filePath):
             if os.path.isdir(os.path.join(filePath, dir)):
-                ...
-                #
+
+                projects[dir] = PointNetworkType.Project
         return projects
 
     def requestSecret(self, secretHandle: str):
@@ -231,11 +220,6 @@ class Communicator():
 
 if __name__ == "__main__":
     platformInfo = PlatformInfo()
-    pointInfo = PointCommType(
-        PointConType.Node, PointConNetworkType.LocalToLocal)
-    comm = Communicator(pointInfo, platformInfo=platformInfo)
-    #testSecret = comm.requestSecret('ryanpinger TOKEN')
-    #print(f"{testSecret=}")
-    print(f"{pointInfo=}")
-    print(f"{comm.pointCommunicationType=}")
-    print(f"{comm.pointCommunicationType.pointType=}, {comm.pointCommunicationType.networkType=}")
+    comm = Communicator(platformInfo=platformInfo)
+    testSecret = comm.requestSecret('ryanpinger TOKEN')
+    print(f"{testSecret=}")

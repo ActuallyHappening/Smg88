@@ -3,7 +3,7 @@
 from enum import auto
 import os
 from pprint import pprint
-from typing import final, overload
+from typing import final
 from loghelp import EnumParent
 import errors
 from errors import ProgrammerErrorHandle, UserErrorHandle
@@ -180,28 +180,26 @@ class PointCommType():
         print(
             f"New PointCommType object created for {self.pointType=}, {self.networkType=}")
 
-
 @final
 class Communicator():
-    """Is responsible, and the 'API', for communicating from thread/process/project across platforms and the IOT
+    """Is responsible, and the 'API', for communicating from thread/process/project across platforms
 
     requestSecret(secretHandle: str) -> str
       Use to request a secret from the platform-specific secret store, e.g. comm.requestSecret("ryanpinger TOKEN")
     """
-    @overload
-    def __init__(self, pointCommunicationType: PointCommType):
-        ...
 
     def __init__(self, pointCommunicationType: PointCommType = ..., platformInfo: PlatformInfo = ...) -> None:
         if pointCommunicationType == ...:
             raise errors.InappropriateRequest("No pointCommunicationType specified", errorHandle=ProgrammerErrorHandle(
                 "Must provide pointCommunicationType when instinating Communicator"))
-        else:
-            self.pointCommunicationType = pointCommunicationType
         if platformInfo is ...:
             self.platformInfo = PlatformInfo()
         else:
             self.platformInfo = platformInfo
+
+    @property
+    def platform(self) -> PlatformInfo:
+        return self.platformInfo.platform
 
     @staticmethod
     def _getProjects(filePath: str = FILE_PATH) -> dict:
@@ -210,8 +208,8 @@ class Communicator():
         projects = {}
         for dir in os.listdir(filePath):
             if os.path.isdir(os.path.join(filePath, dir)):
-                ...
-                #
+
+                projects[dir] = PointNetworkType.Project
         return projects
 
     def requestSecret(self, secretHandle: str):
@@ -231,11 +229,6 @@ class Communicator():
 
 if __name__ == "__main__":
     platformInfo = PlatformInfo()
-    pointInfo = PointCommType(
-        PointConType.Node, PointConNetworkType.LocalToLocal)
-    comm = Communicator(pointInfo, platformInfo=platformInfo)
-    #testSecret = comm.requestSecret('ryanpinger TOKEN')
-    #print(f"{testSecret=}")
-    print(f"{pointInfo=}")
-    print(f"{comm.pointCommunicationType=}")
-    print(f"{comm.pointCommunicationType.pointType=}, {comm.pointCommunicationType.networkType=}")
+    comm = Communicator(platformInfo=platformInfo)
+    testSecret = comm.requestSecret('ryanpinger TOKEN')
+    print(f"{testSecret=}")

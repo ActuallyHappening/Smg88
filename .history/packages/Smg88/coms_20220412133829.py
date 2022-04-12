@@ -196,8 +196,6 @@ class Communicator():
         if pointCommunicationType == ...:
             raise errors.InappropriateRequest("No pointCommunicationType specified", errorHandle=ProgrammerErrorHandle(
                 "Must provide pointCommunicationType when instinating Communicator"))
-        else:
-            self.pointCommunicationType = pointCommunicationType
         if platformInfo is ...:
             self.platformInfo = PlatformInfo()
         else:
@@ -231,11 +229,7 @@ class Communicator():
 
 if __name__ == "__main__":
     platformInfo = PlatformInfo()
-    pointInfo = PointCommType(
-        PointConType.Node, PointConNetworkType.LocalToLocal)
-    comm = Communicator(pointInfo, platformInfo=platformInfo)
-    #testSecret = comm.requestSecret('ryanpinger TOKEN')
-    #print(f"{testSecret=}")
-    print(f"{pointInfo=}")
-    print(f"{comm.pointCommunicationType=}")
-    print(f"{comm.pointCommunicationType.pointType=}, {comm.pointCommunicationType.networkType=}")
+    pointInfo = PointCommType()
+    comm = Communicator(CommPointError, platformInfo=platformInfo)
+    testSecret = comm.requestSecret('ryanpinger TOKEN')
+    print(f"{testSecret=}")

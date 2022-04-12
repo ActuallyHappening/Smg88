@@ -238,4 +238,3 @@ if __name__ == "__main__":
     #print(f"{testSecret=}")
     print(f"{pointInfo=}")
     print(f"{comm.pointCommunicationType=}")
-    print(f"{comm.pointCommunicationType.pointType=}, {comm.pointCommunicationType.networkType=}")
