@@ -35,35 +35,12 @@ class PlatformType(EnumParent):
     Linux = auto()
 
 
-class PointNetworkType(EnumParent):
-    """Represents states of access across networks / internet to projects
+class ProjectType(EnumParent):
+    ...
 
-    Args:
-        EnumParent (PointNetworkType): Type of network access (remote <-> locallyremote <-> remote)
-    
-    Long Description:
-        When you think of an internet of things, their are many different 'angles' or points.
-        Consider the local side, my webpage is hosted somewhere and that place is generally referred to as 'local'
-        Also consider the locally remote point, I may be right next to my webpage server and so want to access it physically/locally even though it is hosting for other remote places to access it
-        Finally, consider the 'largest' side of an IOT (Internet of Things), the remote side. This is where anybody with internet connection can access the IOT and interact with it.
 
-        Every one of these points has their own 'level' of control, and their own ways of communicating with other points.
-        So, if (hypothetically of course) we were to create a python class to represent a way of communicating from point to point (Communicator duh).
-        And this class would need, probably an Enum, to represent the type of communication wanted by this communicator. If you haven't caught on, this Enum represents just that
-
-        Each Communicator object has only one Point Network Type (probably another class down the track called 'Communicatoin' that manages every possible Point Network Type) which determines how it communicates with other points, over internet, physical Serial, http remote requests, local http requests, etc.
-    """
-    # Local instance to access locally hosted stuff (test webpage, local database, etc)
-    LocalToLocal = auto()
-    # Local instance to access my remote stuff (basically client)
-    LocalToRemote = auto()
-    # Local instance to control my remote stuff I am hosting locally (actually hosting webpage, database, etc)
-    LocalToLocallyRemote = auto()
-    # Remote / Random instance to access my remote stuff (hosted website talking to discordbot)
-    RemoteToRemote = auto()
-    # Remote instance to control local stuff (wanting to change my desk lights from a holiday)
-    RemoteToLocal = auto()
-
+for dir in os.listdir(FILE_PATH):
+    print(f"Wow cool directory: {dir=}")
 
 class getLocation():
     def __init__(self, /, location: str, *, locationType: str = "file:text/yaml"):
@@ -176,17 +153,6 @@ class Communicator():
     @property
     def platform(self) -> PlatformInfo:
         return self.platformInfo.platform
-
-    @staticmethod
-    def _getProjects(filePath: str = FILE_PATH) -> dict:
-        """Returns a dictionary of projects, with project names as keys and project types as values
-        """
-        projects = {}
-        for dir in os.listdir(filePath):
-            if os.path.isdir(os.path.join(filePath, dir)):
-
-                projects[dir] = PointNetworkType.Project
-        return projects
 
     def requestSecret(self, secretHandle: str):
         """Returns the secret associated with the secretHandle
