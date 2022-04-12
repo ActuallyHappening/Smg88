@@ -1,5 +1,3 @@
-projectType: Node
-projectNetworkType: LocalToLocal
 coms:
   platformInfo:
     Linux:
