@@ -36,56 +36,25 @@ class Communicator():
     isasync: bool = True
     requestRolt(): PointRole
     requestType(): PointType
-    buffer: List[Item] property get
-    bufferSend: List[Item] property get
 
-    get(num: int): Item
-        Takes (num number of) items off the _buffer and gives it to the caller
-    send(*items: Item): Item
-        Takes items and puts it on the _bufferSend
-
-    _buffer: List[Item]
-        An array that represents the data received  
-    _buffersend: List[Item]
-        An array that represents data yet to be sent (on next eventloop perhaps?)
-    
-    _send(num: int): Item
-        Asynchronously sends (num number of) items from the _bufferSend
-    _receive(*packets): Item
-        Is called to receive packet/s
-     
+    _send(): str
+        Send a 'packet' or item of data
+    _buffer: str
+        An array that represents the data received
+    _get() : str
+        Takes an item off the _buffer and gives it to the caller
     """
     isasync: bool
 
     _buffer: List[str]
-    _bufferSend: List[Item]
 
     def __init__(self, isasync: bool = True):
         self.isasync = isasync
         self._buffer = []
-        self._bufferSend = []
-
-    @property
-    def buffer(self):
-        return self._buffer
-
-    @property
-    def bufferSend(self):
-        return self._bufferSend
-
-    def _send(self, *packets):
-        raise NotImplementedError
-
-    def _receive(self, *packets):
-        raise NotImplementedError
 
 
 class UserCommunicator(Communicator):
-    def _send(self, *packets):
-        print(*packets)
-
-    def _receive(self, *packets):
-        input("User Communicator: ")
+    ...
 
 
 class Communication():
