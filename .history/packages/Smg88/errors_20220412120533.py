@@ -23,27 +23,26 @@ class ErrorHandle():
 
 
 class UserErrorHandle(ErrorHandle):
-    handleName = "User Error Handle: "
+  handleName = "User Error Handle: "
 
 
 class ProgrammerErrorHandle(ErrorHandle):
-    handleName = "Programmer Error Handle: "
-
+  handleName = "Programmer Error Handle: "
 
 class Error(Exception):
     """Exception class that is root of all custom exceptions
     """
 
-    def __init__(self, msg, *msgs, errorHandle: ErrorHandle = ..., **extra):
+    def __init__(self, msg, *msgs, userErrorHandle: UserErrorHandle = ..., **extra):
         msg = str(msg)
         _msgs = [str(m) for m in msgs]
         _msgs = '\n'.join(_msgs)
         self.msg = f"Message: \n{msg}\n{_msgs}"
         self.extras = extra
-        self.errorHandle = errorHandle
+        self.userErrorHandle = userErrorHandle
 
     def __str__(self):
-        return f"{self.msg}\n" + "\n".join(f"{k}: {v}" for k, v in self.extras.items()) + f"\n{str(self.errorHandle)}"
+        return f"{self.msg}\n" + "\n".join(f"{k}: {v}" for k, v in self.extras.items()) + "\n" + str(self.userErrorHandle)
 
 
 class ProgrammerError(Error):
@@ -56,12 +55,3 @@ class InappropriateRequest(ProgrammerError):
     """Exception class that is raised when a request on some programming object / function / property is inappropriate
     """
     ...
-
-
-class SimpleUserError(Error):
-  """Error class used to refer to errors that are not programmer errors
-
-  Args:
-      Error (str / strs): Represents the error message and attached error handles
-  """
-  ...

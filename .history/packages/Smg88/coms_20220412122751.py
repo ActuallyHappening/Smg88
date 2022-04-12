@@ -1,6 +1,6 @@
 """Enables my python scripts to communicate between running instances and to read secrets from pre-set physical files
 """
-from enum import auto
+from enum import Enum, auto
 import os
 from pprint import pprint
 from typing import final

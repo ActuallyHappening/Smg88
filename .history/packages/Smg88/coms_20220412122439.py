@@ -1,12 +1,13 @@
 """Enables my python scripts to communicate between running instances and to read secrets from pre-set physical files
 """
-from enum import auto
+from enum import Enum, auto
 import os
 from pprint import pprint
 from typing import final
+from Smg88.errors import ProgrammerErrorHandle, UserErrorHandle
 from loghelp import EnumParent
 import errors
-from errors import ProgrammerErrorHandle, UserErrorHandle
+from errors import ErrorHandle
 import yaml
 import platform as osplatform
 
@@ -65,11 +66,10 @@ class getLocation():
                                 f"Unsupported file type: {mimes=}", errorHandle=ProgrammerErrorHandle(f"{self.locationType=} was assumed to be type 'file', but the mime type {mimes} was not recognized"))
                 except errors.Error as err:
                     # Propagate error with proper encapsulation of error types
-                    raise CommunicationError(err, errorHandle=UserErrorHandle(
-                        f"For some reason the file at location {self.location} could not be properly configured with location type {self.locationType}"))
+                    raise CommunicationError(err, errorHandle=UserErrorHandle(f"For some reason the file at location {self.location} could not be properly configured with location type {self.locationType}"))
                 except FileNotFoundError as err:
                     # Probably not plugged in harddrive
-                    raise errors.SimpleUserError(
+                    raise errors.(
                         "Secret harddrive probably not plugged in :)", err, errorHandle=UserErrorHandle(f"The secret harddrive / location set in {CONFIG_RELATIVE_LOCATION} could not be found, maybe not plugged in?"))
             case _:
                 raise CommunicationError(

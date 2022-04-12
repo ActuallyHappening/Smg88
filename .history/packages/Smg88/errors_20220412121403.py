@@ -56,12 +56,3 @@ class InappropriateRequest(ProgrammerError):
     """Exception class that is raised when a request on some programming object / function / property is inappropriate
     """
     ...
-
-
-class SimpleUserError(Error):
-  """Error class used to refer to errors that are not programmer errors
-
-  Args:
-      Error (str / strs): Represents the error message and attached error handles
-  """
-  ...

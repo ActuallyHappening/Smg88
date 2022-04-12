@@ -1,12 +1,10 @@
 """Enables my python scripts to communicate between running instances and to read secrets from pre-set physical files
 """
-from enum import auto
+from enum import Enum, auto
 import os
 from pprint import pprint
-from typing import final
 from loghelp import EnumParent
 import errors
-from errors import ProgrammerErrorHandle, UserErrorHandle
 import yaml
 import platform as osplatform
 
@@ -58,19 +56,17 @@ class getLocation():
                                 return yaml.safe_load(self.file)
                             except yaml.YAMLError as err:
                                 # print(f"{err=}")
-                                raise CommunicationError(
-                                    err, errorHandle=errors.ProgrammerErrorHandle(f"YAML error, could not parse the text/yaml at {self.location} with location type {self.locationType}, the file openned though"))
+                                raise CommunicationError(err)
                         case _:
                             raise CommunicationError(
-                                f"Unsupported file type: {mimes=}", errorHandle=ProgrammerErrorHandle(f"{self.locationType=} was assumed to be type 'file', but the mime type {mimes} was not recognized"))
+                                f"Unsupported file type: {mimes=}")
                 except errors.Error as err:
                     # Propagate error with proper encapsulation of error types
-                    raise CommunicationError(err, errorHandle=UserErrorHandle(
-                        f"For some reason the file at location {self.location} could not be properly configured with location type {self.locationType}"))
+                    raise CommunicationError(err)
                 except FileNotFoundError as err:
                     # Probably not plugged in harddrive
-                    raise errors.SimpleUserError(
-                        "Secret harddrive probably not plugged in :)", err, errorHandle=UserErrorHandle(f"The secret harddrive / location set in {CONFIG_RELATIVE_LOCATION} could not be found, maybe not plugged in?"))
+                    raise CommConfigurationError(
+                        "Secret harddrive probably not plugged in :)", err)
             case _:
                 raise CommunicationError(
                     f"Unsupported location type: {self.locationType=}")
@@ -128,7 +124,6 @@ class PlatformInfo():
                 raise CommunicationError(err)
 
 
-@final
 class Communicator():
     """Is responsible, and the 'API', for communicating from thread/process/project across platforms
 

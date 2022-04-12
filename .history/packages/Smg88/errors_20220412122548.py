@@ -57,11 +57,10 @@ class InappropriateRequest(ProgrammerError):
     """
     ...
 
-
 class SimpleUserError(Error):
   """Error class used to refer to errors that are not programmer errors
+  ...
 
   Args:
       Error (str / strs): Represents the error message and attached error handles
   """
-  ...
