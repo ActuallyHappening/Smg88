@@ -97,18 +97,8 @@ class CommunicatorErrors(errors.Errors):
     ...
 
 
-class CommunicatorBufferError(CommunicatorErrors):
-    """Errors for the Communicator class related to buffers"""
-    ...
-
-
-class CommunicatorEmptyBuffer(CommunicatorBufferError):
-    """Raised when strict and the buffer is empty"""
-    ...
-
-
-class CommunicatorPurgeBuffer(CommunicatorBufferError):
-    """Raised when strict and the buffer is purged"""
+class CommunicatorEmptyBuffer(CommunicatorErrors):
+    """Raised when the buffer is empty"""
     ...
 
 
@@ -124,43 +114,21 @@ class UserCommunicator(Communicator):
     def get(self, all: bool = True) -> List[PacketItem]:
         ...
 
-    def get(self, /, num: int = 1, *, all: bool = False, retain: bool = ..., strict: bool = True) -> List[PacketItem]:
-        """Gets (num number of) items from the buffer
-
-        Args:
-            num (int, optional): how many items to take from the buffer. Defaults to 1.
-            all (bool, optional *overrides num*): whether to take all items from the buffer. Defaults to False.
-            retain (bool, optional): whether to retain taken items or to pop them. Defaults to False, unless all then *defaults* to True
-            strict (bool, optional): whether to raise errors on bad practices. Defaults to True.
-
-        Raises:
-            CommunicatorPurgeBuffer: Raises when strict and the buffer is purged, as in all=True and retain=False (note: retain defaults to True when all=True to avoid this)
-            CommunicatorEmptyBuffer: Raises when the items requested (through setting num) are not in the buffer
-
-        Returns:
-            List[PacketItem]: A list of PacketItems taken from the buffer
-        """
-        if all:
+    def get(self, /, num: int = 1, *, all: bool = False, retain: bool = ..., strict: bool = False) -> List[PacketItem]:
+        if all and all is not ...:
             num = len(self._buffer)
-            if not retain:
-                # TODO Add warning for purging self._buffer when !strict
-                if strict:
-                    raise CommunicatorPurgeBuffer(errorHandle=ProgrammerErrorHandle(
-                        "Try not to set all=True and retain=False else you will purge (delete the whole of) the self._buffer!"))
-        elif retain is ...:
-            retain = False
-        if type(num) is not int:
-            raise errors.InappropriateRequest("num must be an int if provided and all=False", errorHandle=ProgrammerErrorHandle(
-                "Either set all=True or provide an int for the num parameter when using get()"))
-        if num > len(self._buffer):
+            if retain and retain is ...:
+                retain = True
+            else:
+                # TODO Add warning for purging self._buffer
+                ...
+        if num > len(self._buffer) and strict:
             raise CommunicatorEmptyBuffer(errorHandle=ProgrammerErrorHandle(
-                "Do not request more items than are in the buffer, use all=True and/or retain=True"))
-        if retain:
-            return [self._buffer[i] for i in range(num)]
+                "Do not request more items than are in the buffer, use all=true and/or retain=True"))
         return [self._buffer.pop(0) for i in range(num)]
 
     def _receive(self, *packets: PacketItem) -> None:
-        self._bufffer.append(packets)
+        self._bufffer.append(PacketItem(input("User Communicator: ")))
 
     def _send(self, num: int = 1) -> None:
         print(f"P{i}: {self._buffer.pop(0)}\n" for i in range(num))
@@ -187,7 +155,7 @@ class Point():
     requestPoints(): Dict
         Returns a dictionary of Communication objects for each point found that responded in my IOT
     requestServers(): Dict
-        Returns a dictionary of Communication objects for each server found that responded in my IOT
+        Returns a dictionary of Communication obejcts for each server found that responded in my IOT
     requestNodes(): Dict
         Returns a dictionary of Communication objects for each node found that responded in my IOT
 
