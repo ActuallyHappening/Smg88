@@ -28,13 +28,12 @@ class EventStage():
 
   _subscriptions: Dict  [Callable, Callable]
   """
-  _subscriptions: Dict[Callable, Callable] = ...
+  _subscriptions: Dict[Callable, Callable]
   nameHandle: str = ...
-
-  _eventBuffer: List[Event] = ...
 
   def __init__(self, nameHandle: str = ...) -> None:
     self.nameHandle = nameHandle
     self._subscriptions = {}
 
-  def _post(self, num: int = 1) -> None:
+  def _post(self, event: Event) -> None:
+    ...

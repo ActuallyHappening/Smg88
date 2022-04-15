@@ -6,7 +6,7 @@ import string
 Keys
 Note: most up to date record is kept in Discord::Discord Raiders Hub::For Private Reference::Improved Alts
 
-appleid --str
+apple --str
 smartguy89 --str > gmail + discord
 smartguy88 --str > discord + gmail
 smartguy87 --str > gmail + discord
