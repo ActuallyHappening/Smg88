@@ -1,8 +1,8 @@
-"""This module adds supportive functions and classes for logging to the Smg88 package
-Supports Smg88.events, Smg88.coms, Smg88.security
-
+"""This module adds support
 Should Include:
-Syntactic sugar for logging
+A class representing a log (for formatting in different places)
+Buffer classes (for keeping logs locally before pushing online)
+Log classes (for standardizing how logs are sent)
 """
 
 from enum import Enum, auto, unique

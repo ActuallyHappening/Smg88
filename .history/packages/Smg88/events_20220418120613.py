@@ -1,46 +1,26 @@
-from email.message import _PayloadType
 from typing import Callable, Dict, List
 import errors
 
 
 class Event():
-  """Event class represents an event that can be posted and subscribed to
+  channel: str
+  name: str
 
-  Attributes:
-    channel: str
-      The channel to which the event is said to be existing in
-    name: str
-      The name of the event, used for easy identification
-    payload: str
-      The payload of the event, used to convey the information of the event usually in JSON
-  """
-  channel: str = ...
-  name: str = ...
-
-  payload: str = ...
-
-  def __init__(self, *, channel: str = ..., name: str = ..., payload: str = ..., **kwargs) -> None:
+  def __init__(self, channel: str, name: str) -> None:
     self.channel = channel
-    if self.channel is ...:
-      # TODO add warning for instinating event without channel handle
-      ...
-    if type(self.channel) is not str:
-      # TODO add warning for instinating event with non-serializable (not str) channel handle
-      ...
     self.name = name
-    if self.name is ...:
-      # TODO add warning for instinating event without name handle
-      ...
-    if type(self.name) is not str:
-      # TODO add warning for instinating event with non-serializable (not str) name handle
-      ...
-    self.payload = payload
-    if self.payload is ...:
-      # TODO add warning for instinating event without payload
-      ...
-    if type(self.payload) is not str:
-      # TODO add warning for instinating event with non-serializable (not str) payload
-      ...
+
+
+def EventFilter(channelsAccepted: List[str] = ..., namesAccepted: List[str] = ...):
+  def _filter(event: Event) -> bool:
+    if namesAccepted is not None:
+      if event.name not in namesAccepted:
+        return False
+    if channelsAccepted is not None:
+      if event.channel not in channelsAccepted:
+        return False
+    return True
+  return _filter
 
 class EventStage():
   """Represents a place for events to occur
@@ -70,9 +50,6 @@ class EventStage():
     if self.nameHandle is ...:
       # TODO add warning for instinating an EventStage without a nameHandle
       ...
-    if type(self.nameHandle) is not str:
-      # TODO add warning for instinating an EventStage without a serializable (str) nameHandle
-      ...
     self._subscriptions = {}
 
   def post(self, event: Event = ..., /, **kwargs) -> None:
@@ -92,11 +69,9 @@ class EventStage():
       self._postn(num=len(self._eventBuffer), retain=bool(retain) ** kwargs)
 
   def _postn(self, /, num: int = 1, *, retain: bool = False, **kwargs) -> None:
-    for _ in range(num):
+    for n in range(num):
       self._eventBuffer.pop(0)
 
   def _handle(self, event: Event) -> None:
-    subscribers = [subscriber for channel, subscriber in self._subscriptions.items(
-    ) if channel == event.channel]
-    for subscriber in subscribers:
-      subscriber(event=event)
+    if event.channel in self._subscriptions.keys():
+      self._subscriptions[event.channel](event=event)

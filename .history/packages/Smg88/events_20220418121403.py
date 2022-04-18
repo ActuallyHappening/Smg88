@@ -1,46 +1,19 @@
-from email.message import _PayloadType
 from typing import Callable, Dict, List
 import errors
 
 
 class Event():
-  """Event class represents an event that can be posted and subscribed to
+  channel: str
+  name: str
 
-  Attributes:
-    channel: str
-      The channel to which the event is said to be existing in
-    name: str
-      The name of the event, used for easy identification
-    payload: str
-      The payload of the event, used to convey the information of the event usually in JSON
-  """
-  channel: str = ...
-  name: str = ...
-
-  payload: str = ...
-
-  def __init__(self, *, channel: str = ..., name: str = ..., payload: str = ..., **kwargs) -> None:
+  def __init__(self, *, channel: str = ..., name: str = ..., **kwargs) -> None:
     self.channel = channel
     if self.channel is ...:
       # TODO add warning for instinating event without channel handle
       ...
     if type(self.channel) is not str:
       # TODO add warning for instinating event with non-serializable (not str) channel handle
-      ...
     self.name = name
-    if self.name is ...:
-      # TODO add warning for instinating event without name handle
-      ...
-    if type(self.name) is not str:
-      # TODO add warning for instinating event with non-serializable (not str) name handle
-      ...
-    self.payload = payload
-    if self.payload is ...:
-      # TODO add warning for instinating event without payload
-      ...
-    if type(self.payload) is not str:
-      # TODO add warning for instinating event with non-serializable (not str) payload
-      ...
 
 class EventStage():
   """Represents a place for events to occur
