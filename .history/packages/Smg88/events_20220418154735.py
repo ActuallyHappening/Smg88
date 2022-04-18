@@ -1,5 +1,3 @@
-from json import JSONDecodeError
-import json
 from typing import Callable, Dict, List
 from Smg88 import loghelp
 from Smg88.errors import SafeCatchAll
@@ -118,9 +116,7 @@ class HeartBeatEvent(Event):
       # TODO add warning for non-serializable (not str) name
       ...
     try:
-      self._package = json.dumps(self.payload)
-    except JSONDecodeError:
-      ...
+      json.dumps(self.payload)
     super().__init__(channel=channel, name=name, payload=payload, **kwargs)
 
 
@@ -188,6 +184,3 @@ class EventStage():
       except SafeCatchAll as err:
         # TODO add warning for subscriber callback error
         raise err
-
-
-class AutoEventStage

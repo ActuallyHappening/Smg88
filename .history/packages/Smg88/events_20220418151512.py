@@ -1,7 +1,4 @@
-from json import JSONDecodeError
-import json
 from typing import Callable, Dict, List
-from Smg88 import loghelp
 from Smg88.errors import SafeCatchAll
 import errors
 
@@ -29,11 +26,11 @@ class Event():
 
   Attributes:
     channel: str
-      The channel to which the event is said to be existing in
+    The channel to which the event is said to be existing in
     name: str
-      The name of the event, used for easy identification
+    The name of the event, used for easy identification
     payload: str
-      The payload of the event, used to convey the information of the event, usually in JSON format
+    The payload of the event, used to convey the information of the event, usually in JSON format
   """
   channel: str = ...
   name: str = ...
@@ -63,65 +60,14 @@ class Event():
       # TODO add warning for instinating event with non-serializable (not str) payload
       ...
 
-  def send(self, /, stage=..., **kwargs) -> None:
+  def send(self, /, stage: EventStage = ..., **kwargs) -> None:
     """Posts the event to the given EventStage as if EventStage.post(event=self) was called (hint it is : )
 
     Args:
-      stage: EventStage
-        The stage to which the event is sent too
-        Note: Annotation for stage is not possible as this is a convenience method
+    stage: EventStage
+      The stage to which the event is said to be existing in
     """
-    try:
-      stage.post(event=self)
-    except SafeCatchAll as err:
-      # TODO add warning for eventstage post failure
-      raise err
-
-
-class HeartBeatEvent(Event):
-  """Event class representing a heartbeat event
-
-  For __docs__ on Event, see Event.__doc__ NOT here!
-  Attributes:
-    channel: str = "Smg88::HeartBeat"
-      The channel to which the event is said to be existing in
-    name: str = f"Smg88 HeartBeat ({self.count}) at about {loghelp.now()}"
-    payload: str = JSON Format below:
-      {
-        "count": int,
-        "approxtime": str,
-      }
-  """
-  count: int = ...
-
-  def __init__(self, count: int = -1, *, channel: str = ..., name: str = ..., timestr: str = ..., payload: str = ..., **kwargs) -> None:
-    self.count = count
-    if type(self.count) is not int:
-      # TODO add warning for non-serializable (not int) count
-      ...
-    self.timestr = timestr
-    if self.timestr is ...:
-      self.timestr = loghelp.now()
-    if self.timestr is not str:
-      # TODO add warning for non-serializable (not str) timestr
-      ...
-    self.payload = payload
-    if self.payload is ...:
-      self.payload = {
-          "count": self.count,
-          "approxtime": self.timestr,
-      }
-    self.name = name
-    if self.name is ...:
-      self.name = f"Smg88 HeartBeat ({self.count}) at about {self.timestr}"
-    if self.name is not str:
-      # TODO add warning for non-serializable (not str) name
-      ...
-    try:
-      self._package = json.dumps(self.payload)
-    except JSONDecodeError:
-      ...
-    super().__init__(channel=channel, name=name, payload=payload, **kwargs)
+    stage.post(event=self)
 
 
 class EventStage():
@@ -156,7 +102,6 @@ class EventStage():
       # TODO add warning for instinating an EventStage without a serializable (str) nameHandle
       ...
     self._subscriptions = {}
-    self._eventBuffer = []
 
   def post(self, event: Event = ..., /, **kwargs) -> None:
     if event is ...:
@@ -188,6 +133,3 @@ class EventStage():
       except SafeCatchAll as err:
         # TODO add warning for subscriber callback error
         raise err
-
-
-class AutoEventStage

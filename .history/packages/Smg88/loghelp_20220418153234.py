@@ -5,7 +5,6 @@ Should Include:
 Syntactic sugar for logging
 """
 
-from datetime import datetime
 from enum import Enum, auto, unique
 import logging
 
@@ -113,4 +112,4 @@ class EnumParent(Enum):
 
 
 def now():
-  return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+  return time.now()

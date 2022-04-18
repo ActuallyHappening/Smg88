@@ -1,5 +1,4 @@
 from json import JSONDecodeError
-import json
 from typing import Callable, Dict, List
 from Smg88 import loghelp
 from Smg88.errors import SafeCatchAll
@@ -188,6 +187,3 @@ class EventStage():
       except SafeCatchAll as err:
         # TODO add warning for subscriber callback error
         raise err
-
-
-class AutoEventStage

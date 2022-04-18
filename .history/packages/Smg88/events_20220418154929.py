@@ -188,6 +188,3 @@ class EventStage():
       except SafeCatchAll as err:
         # TODO add warning for subscriber callback error
         raise err
-
-
-class AutoEventStage

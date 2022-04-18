@@ -1,7 +1,4 @@
-from json import JSONDecodeError
-import json
 from typing import Callable, Dict, List
-from Smg88 import loghelp
 from Smg88.errors import SafeCatchAll
 import errors
 
@@ -85,44 +82,11 @@ class HeartBeatEvent(Event):
   Attributes:
     channel: str = "Smg88::HeartBeat"
       The channel to which the event is said to be existing in
-    name: str = f"Smg88 HeartBeat ({self.count}) at about {loghelp.now()}"
-    payload: str = JSON Format below:
-      {
-        "count": int,
-        "approxtime": str,
-      }
+    name: str = f"Smg88 HeartBeat ({self.count})"
+    payload: str
+      The payload of the event, used to convey the information of the event, usually in JSON format
   """
-  count: int = ...
-
-  def __init__(self, count: int = -1, *, channel: str = ..., name: str = ..., timestr: str = ..., payload: str = ..., **kwargs) -> None:
-    self.count = count
-    if type(self.count) is not int:
-      # TODO add warning for non-serializable (not int) count
-      ...
-    self.timestr = timestr
-    if self.timestr is ...:
-      self.timestr = loghelp.now()
-    if self.timestr is not str:
-      # TODO add warning for non-serializable (not str) timestr
-      ...
-    self.payload = payload
-    if self.payload is ...:
-      self.payload = {
-          "count": self.count,
-          "approxtime": self.timestr,
-      }
-    self.name = name
-    if self.name is ...:
-      self.name = f"Smg88 HeartBeat ({self.count}) at about {self.timestr}"
-    if self.name is not str:
-      # TODO add warning for non-serializable (not str) name
-      ...
-    try:
-      self._package = json.dumps(self.payload)
-    except JSONDecodeError:
-      ...
-    super().__init__(channel=channel, name=name, payload=payload, **kwargs)
-
+  ...
 
 class EventStage():
   """Represents a place for events to occur
@@ -188,6 +152,3 @@ class EventStage():
       except SafeCatchAll as err:
         # TODO add warning for subscriber callback error
         raise err
-
-
-class AutoEventStage
