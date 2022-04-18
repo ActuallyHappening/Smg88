@@ -213,27 +213,10 @@ class EventStageHeartbeat():
 
   def __init__(self, *, stage: EventStage = ..., stages: List[EventStage] = ..., countstart: int = -1) -> None:
     self.counter = countstart
-    if type(self.counter) is not int:
+    if self.counter is not int:
       # TODO add warning for non-int counter
       raise errors.InappropriateRequest("counterstart must be an int", errorHandle=ProgrammerErrorHandle(
           "counterstart must be an int when instinating an EventStageHeartbeat object (or children of such)"))
-    self.stages = []
-    if stage is ... and stages is ...:
-      # TODO add info for not passing a stage or stages
-      ...
-    if stage is not ... and stages is not ...:
-      raise errors.InappropriateRequest("Cannot pass both a stage and stages", errorHandle=ProgrammerErrorHandle("Please pass only a stages or a list of stages to an EventStageHeartbeat object (or children thereof)"))
-    if stage is ...:
-      # TODO add info for not passing a stage
-      ...
-    else:
-      self.stages.append(stage)
-    if stages is ...:
-      # TODO add info for not passing stages
-      ...
-    else:
-      for stage in stages:
-        self.stages.append(stage)
 
   def pump(self) -> None:
     self._step()

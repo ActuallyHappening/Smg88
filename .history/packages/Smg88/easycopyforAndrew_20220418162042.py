@@ -4,7 +4,7 @@ import os
 import shutil
 from glob import glob
 
-Download_Folder: str = "YAY SEE!"
+Download_Folder: str = "C:/Users/verys/Downloads/*"
 Destination_Folder: str = "C:/Users/verys/Downloads/TestDestination/"
 
 Tax_Return_Check_String: str = "signal"

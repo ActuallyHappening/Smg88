@@ -4,7 +4,7 @@ import os
 import shutil
 from glob import glob
 
-Download_Folder: str = "YAY SEE!"
+Download_Folder: str = "C:/Users/verys/Downloads/*"
 Destination_Folder: str = "C:/Users/verys/Downloads/TestDestination/"
 
 Tax_Return_Check_String: str = "signal"
@@ -39,7 +39,7 @@ with open(_config_location, "r") as config:
     if "Download_Folder" not in settings:
       settings["Download_Folder"] = input(
           "No download folder detected (copy paste below pls): ") + "/*"
-      settings["Download_Folder"]
+
     Download_Folder = settings["Download_Folder"]
   except:
     ...

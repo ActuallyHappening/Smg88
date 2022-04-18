@@ -102,7 +102,7 @@ class HeartBeatEvent(Event):
         self.timestr = timestr
         if self.timestr is ...:
             self.timestr = loghelp.now()
-        if type(self.timestr) is not str:
+        if self.timestr is not str:
             # TODO add warning for non-serializable (not str) timestr
             ...
         self.payload = payload
@@ -114,13 +114,12 @@ class HeartBeatEvent(Event):
         self.name = name
         if self.name is ...:
             self.name = f"Smg88 HeartBeat ({self.count}) at about {self.timestr}"
-        if type(self.name) is not str:
+        if self.name is not str:
             # TODO add warning for non-serializable (not str) name
             ...
         try:
             self._package = json.dumps(self.payload)
-        except SafeCatchAll as err:
-          # TODO properly handle this error :)
+        except JSONDecodeError:
             ...
         super().__init__(channel=channel, name=name, payload=payload, **kwargs)
 
@@ -148,7 +147,7 @@ class EventStage():
 
     _eventBuffer: List[Event] = ...
 
-    def __init__(self, /, nameHandle: str = ...) -> None:
+    def __init__(self, nameHandle: str = ...) -> None:
         self.nameHandle = nameHandle
         if self.nameHandle is ...:
             # TODO add warning for instinating an EventStage without a nameHandle
@@ -165,9 +164,6 @@ class EventStage():
             raise errors.InappropriateRequest("No event was passed to the post method",
                                               errorHandle=errors.ProgrammerErrorHandle("Must pass an event to the post method"))
         self._eventBuffer.append(event)
-
-    def release(self):
-      self._post(num=1, all=False, retain=False)
 
     def _post(self, /, num: int = 1, *, all: bool = False, retain: bool = ..., **kwargs) -> None:
         if all:
@@ -195,82 +191,18 @@ class EventStage():
 
 
 class EventStageHeartbeat():
-  """Represents a heartbeat for an AutoEventStage, subscribes to its own channel and reposts it with count++
+    stage: EventStage = ...
+    counter: int = ...
 
-  Attributes:
-    SubscribeHandle: Callable
-      Represents the handle 
-
-  Methods:
-    pump(): Pump this heartbeat once more!
-    subscribe
-  """
-
-  counter: int = ...
-  approxlastpump: str = ...
-
-  stages: EventStage = ...
-
-  def __init__(self, *, stage: EventStage = ..., stages: List[EventStage] = ..., countstart: int = -1) -> None:
-    self.counter = countstart
-    if type(self.counter) is not int:
-      # TODO add warning for non-int counter
-      raise errors.InappropriateRequest("counterstart must be an int", errorHandle=ProgrammerErrorHandle(
-          "counterstart must be an int when instinating an EventStageHeartbeat object (or children of such)"))
-    self.stages = []
-    if stage is ... and stages is ...:
-      # TODO add info for not passing a stage or stages
-      ...
-    if stage is not ... and stages is not ...:
-      raise errors.InappropriateRequest("Cannot pass both a stage and stages", errorHandle=ProgrammerErrorHandle("Please pass only a stages or a list of stages to an EventStageHeartbeat object (or children thereof)"))
-    if stage is ...:
-      # TODO add info for not passing a stage
-      ...
-    else:
-      self.stages.append(stage)
-    if stages is ...:
-      # TODO add info for not passing stages
-      ...
-    else:
-      for stage in stages:
-        self.stages.append(stage)
-
-  def pump(self) -> None:
-    self._step()
-
-  def _step(self) -> None:
-    self.counter += 1
-    self.post()
-  
-  def post(self) -> None:
-    [self.stage.post(event=HeartBeatEvent(count=self.counter,)) for stage in self.stages]
+    def __init__(self, stage: EventStage = ..., *, countstart: int = 0) -> None:
+        self.counter = countstart
+        if self.counter is not int:
+          # TODO add warning for non-int counter
+          raise errors.InappropriateRequest("counterstart must be an int", errorHandle=ProgrammerErrorHandle("counterstart must be an int when instinating an EventStageHeartbeat object (or children of such)"))
 
 
 class AutoEventStage(EventStage):
-  """An EventStage that automatically posts its events (no manual post required)
+    heartbeat: EventStageHeartbeat = ...
 
-  Args:
-      nameHandle: str
-      autosetup: bool
-      heartbeat: EventStageHeartbeat
-        Dependency injection
-  """
-  heartbeat: EventStageHeartbeat = ...
-
-  def setup(self, *, heartbeat: EventStageHeartbeat = ...) -> None:
-    if heartbeat is ...:
-      self.heartbeat = EventStageHeartbeat()
-    if type(self.heartbeat) is not EventStageHeartbeat:
-      # TODO add warning for non-EventStageHeartbeat heartbeat
-      ...
-    self.heartbeat.subscribeTo(self)
-    
-    self.heartbeat.pump()
-
-  def __init__(self, *, nameHandle: str = ..., autosetup: bool = True, heartbeat: EventStageHeartbeat = ...) -> None:
-    super().__init__(nameHandle=nameHandle)
-    self.heartbeat = heartbeat
-    if self.heartbeat is ...:
-      self.heartbeat = EventStageHeartbeat(stage=self, countstart=0)
-    if autosetup:
-      self.setup(heartbeat=self.heartbeat)
+    def __init__(self, *, nameHandle: str = ..., /, heartbeat) -> None:
+        super().__init__(nameHandle)
