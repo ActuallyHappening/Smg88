@@ -46,11 +46,7 @@ class Error(Exception):
         return f"{self.msg}\n" + "\n".join(f"{k}: {v}" for k, v in self.extras.items()) + f"\n{str(self.errorHandle)}"
 
 
-class SafeCatchAll(Error, Exception):
-    """Use instead of "catch Exception:" to catch all safe-to-catch exceptions
-
-    This is to allow for a custom error deriving from errors.Error to indicate a system shutdown and not have to change any code
-    """
+class SafeCatchAll(Error, SystemError, SystemExit, KeyboardInterrupt):
     ...
 
 class ProgrammerError(Error):
