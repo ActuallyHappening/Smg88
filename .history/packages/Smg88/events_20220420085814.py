@@ -298,7 +298,7 @@ class EventStageHeartbeat():
             stage (EventStage): Stage to subscribe to
         """
         if channel is ...:
-          # TODO add info for calling _subscribeTo with no given channel
+            # TODO add info for calling _subscribeTo with no given channel
             channel = self.defaultChannel
         if stage is ...:
             # TODO add error for calling _subscribeTo without a given stage

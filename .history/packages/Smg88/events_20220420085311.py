@@ -240,7 +240,6 @@ class EventStageHeartbeat():
     approxlastpump: str = ...
 
     stages: List[EventStage] = ...
-    defaultChannel: str = "Smg88::heartbeat::pulse"
 
     @staticmethod
     def __subscribeHandle(event: Event = ...) -> None:
@@ -291,15 +290,12 @@ class EventStageHeartbeat():
         [stage.post(event=self._defaultEventConstructor())
          for stage in self.stages]
 
-    def _subscribeTo(self, *, stage: EventStage = ..., channel: str = ...) -> None:
+    def _subscribeTo(self, *, stage: EventStage = ..., channel: str = "Testing Name"):
         """Internal function to subscribe this heartbeat to an EventStage
 
         Args:
             stage (EventStage): Stage to subscribe to
         """
-        if channel is ...:
-          # TODO add info for calling _subscribeTo with no given channel
-            channel = self.defaultChannel
         if stage is ...:
             # TODO add error for calling _subscribeTo without a given stage
             raise errors.InappropriateRequest(
@@ -310,7 +306,7 @@ class EventStageHeartbeat():
         def _(event: Event = ...):
             self.__subscribeHandle(event)
 
-    def setupStage(self, /, stage: EventStage = ...) -> None:
+    def setupStage(self, *, stage: EventStage = ...) -> None:
         """Setups up a stage to receive heartbeats from this object
 
         Args:
@@ -319,7 +315,7 @@ class EventStageHeartbeat():
         if stage is ...:
             # TODO add warning for calling setup without a stage
             raise errors.InappropriateRequest("stage not given to setupStage")
-        self._subscribeTo(stage=stage, channel=self.defaultChannel)
+        self._subscribeTo(stage=stage, channel="Smg88::Heartbeat::Pulse")
 
 
 class AutoEventStage(EventStage):
@@ -329,7 +325,7 @@ class AutoEventStage(EventStage):
         nameHandle: str
         autosetup: bool
         heartbeat: EventStageHeartbeat
-          Dependency injection only
+          Dependency injection
     """
     heartbeat: EventStageHeartbeat = ...
 
@@ -339,7 +335,7 @@ class AutoEventStage(EventStage):
         if type(self.heartbeat) is not EventStageHeartbeat:
             # TODO add warning for non-EventStageHeartbeat heartbeat
             ...
-        self.heartbeat.setupStage(stage=self)
+        self.heartbeat._subscribeTo(stage=self)
 
         self.heartbeat.pump()
 
@@ -358,8 +354,7 @@ def main():
     @stage.subscribe
     @loghelp.callbacknamed("Smg88")
     def _(event: Event):
-        print(
-            f"EVENT {event=}, {event.channel=}, {event.name=}, {event.payload=}")
+        print(f"EVENT {event=}")
     stage.post(Event(channel="Smg", name="help!", payload="TESTING!"))
     stage.post(Event(channel="Smg88", name="LETS F**KING GO!", payload="gout!"))
     stage._post(all=True)
