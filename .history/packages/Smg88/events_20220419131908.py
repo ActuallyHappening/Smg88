@@ -1,4 +1,18 @@
-from json import JSONDecodeError
+:
+      self.__subscribeHandle():
+      self.__subscribeHandle():
+      self.__subscribeHandle():
+      self.__subscribeHandle():
+      self.__subscribeHandle():
+      self.__subscribeHandle():
+      self.__subscribeHandle():
+      self.__subscribeHandle():
+      self.__subscribeHandle():
+      self.__subscribeHandle():
+      self.__subscribeHandle():
+      self.__subscribeHandle():
+      self.__subscribeHandle():
+      self.__subscribeHandle()from json import JSONDecodeError
 import json
 from typing import Callable, Dict, List
 import loghelp
@@ -12,7 +26,8 @@ class EventError(errors.Error):
     ...
 
 
-class EventSubscriberCallbackError:
+class EventSub:
+      self.__subscribeHandle()scriberCallbackError(EventError):
     """Class of error parenting all errors related to subscriber callbacks
     """
     ...
@@ -288,7 +303,6 @@ class EventStageHeartbeat():
     if stage is ...:
       # TODO add error for calling _subscribeTo without a given stage
       raise errors.InappropriateRequest("stage not given to _subscribeTo")
-
     @self.callbacknamed(name)
     def callbackToSubscribe(event: Event = ...):
       self.__subscribeHandle()
@@ -334,3 +348,5 @@ class AutoEventStage(EventStage):
       self.heartbeat = EventStageHeartbeat(stage=self, countstart=0)
     if autosetup:
       self.setup(heartbeat=self.heartbeat)
+:
+      self.__subscribeHandle()

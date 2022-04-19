@@ -12,7 +12,7 @@ class EventError(errors.Error):
     ...
 
 
-class EventSubscriberCallbackError:
+class EventSubscriberCallbackError(EventError):
     """Class of error parenting all errors related to subscriber callbacks
     """
     ...
@@ -66,8 +66,7 @@ class Event():
     def send(self, /, stage=..., **kwargs) -> None:
         """Posts the event to the given EventStage as if EventStage.post(event=self) was called (hint it is : )
 
-:
-      self.__subscribeHandle()        Args:
+        Args:
           stage: EventStage
             The stage to which the event is sent too
             Note: Annotation for stage is not possible as this is a convenience method
@@ -279,7 +278,7 @@ class EventStageHeartbeat():
   def post(self) -> None:
     [self.stage.post(event=HeartBeatEvent(count=self.counter,)) for stage in self.stages]
 
-  def _subscribeTo(self, *, stage: EventStage = ..., name: str = "Testing Name"):
+  def _subscribeTo(self, *, stage: EventStage = ...):
     """Internal function to subscribe this heartbeat to an EventStage
 
     Args:
@@ -288,11 +287,7 @@ class EventStageHeartbeat():
     if stage is ...:
       # TODO add error for calling _subscribeTo without a given stage
       raise errors.InappropriateRequest("stage not given to _subscribeTo")
-
-    @self.callbacknamed(name)
-    def callbackToSubscribe(event: Event = ...):
-      self.__subscribeHandle()
-    stage.subscribe()
+    stage.subscribe(channel="Smg88::Heartbeat")
 
   def setupStage(self, *, stage: EventStage = ...) -> None:
     """Setups up a stage to receive heartbeats from this object
@@ -300,10 +295,7 @@ class EventStageHeartbeat():
     Args:
         stage (EventStage): Stage to setup (NOT a list of stages)
     """
-    if stage is ...:
-      # TODO add warning for calling setup without a stage
-      raise errors.InappropriateRequest("stage not given to setupStage")
-    self._subscribeTo(stage)
+
 
 
 class AutoEventStage(EventStage):

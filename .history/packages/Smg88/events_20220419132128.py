@@ -12,7 +12,8 @@ class EventError(errors.Error):
     ...
 
 
-class EventSubscriberCallbackError:
+class EventSub:
+    self.__subscribeHandle()scriberCallbackError(EventError):
     """Class of error parenting all errors related to subscriber callbacks
     """
     ...
@@ -334,3 +335,7 @@ class AutoEventStage(EventStage):
       self.heartbeat = EventStageHeartbeat(stage=self, countstart=0)
     if autosetup:
       self.setup(heartbeat=self.heartbeat)
+
+
+:
+    self.__subscribeHandle()

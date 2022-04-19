@@ -12,7 +12,7 @@ class EventError(errors.Error):
     ...
 
 
-class EventSubscriberCallbackError:
+class EventSubscriberCallbackError(EventError):
     """Class of error parenting all errors related to subscriber callbacks
     """
     ...
@@ -66,8 +66,7 @@ class Event():
     def send(self, /, stage=..., **kwargs) -> None:
         """Posts the event to the given EventStage as if EventStage.post(event=self) was called (hint it is : )
 
-:
-      self.__subscribeHandle()        Args:
+        Args:
           stage: EventStage
             The stage to which the event is sent too
             Note: Annotation for stage is not possible as this is a convenience method
@@ -133,20 +132,16 @@ class EventStage():
     Events can be posted to this stage by instancing the 'Event' object and calling EventStageInstance.post(EventInstance)
     Or, shorthand, call 'send' on an Event instance with the EventStage instance
 
-    Methods:
-      subscribe(callback)
-        Subscribes the function to be called with all events that are posted to the EventStaged called upon
-
     Attributes:
       nameHandle: str
-        A common name for the EventStage, needed to connect to the EventStage
+      A common name for the EventStage, needed to connect to the EventStage
       subscriptions: Dict[str, Callable.__name__]
-        Is a property exposing the subscriptions of the stage, the key is the channel and the value is the name of the subscriber's function
+      Is a property exposing the subscriptions of the stage, the key is the channel and the value is the name of the subscriber's function
 
       _subscriptions: Dict[str, Callable]
-        A dictionary of channel names to functions that are subscribed to that channel name
+      A dictionary of channel names to functions that are subscribed to that channel name
       _eventBuffer: List[Event]
-        A buffer of events to post to the stage
+      A buffer of events to post to the stage
     """
     _subscriptions: Dict[str, Callable] = ...
     nameHandle: str = ...
@@ -173,9 +168,6 @@ class EventStage():
 
     def release(self):
       self._post(num=1, all=False, retain=False)
-
-    def subscribe() -> None:
-      ...
 
     def _post(self, /, num: int = 1, *, all: bool = False, retain: bool = ..., **kwargs) -> None:
         if all:
@@ -217,32 +209,7 @@ class EventStageHeartbeat():
   counter: int = ...
   approxlastpump: str = ...
 
-  stages: List[EventStage] = ...
-
-  @classmethod
-  def callbacknamed(cls, name: str = ...):
-    if name is ...:
-      # TODO add warning for using decorator without given name
-      errors.InappropriateRequest(
-          "Name not given to callbacknamed decorator constructor")
-
-    def __decoratorfunction(func: Callable = ...):
-      if func is ...:
-        # TODO add warning for using func decorator without a given function ??
-        raise errors.InappropriateRequest(
-            "WTF? Decorator used without given function?")
-      return cls.__subscribeHandle
-    __decoratorfunction.__name__ = name
-    return __decoratorfunction
-
-  def __subscribeHandle(event: Event = ...) -> None:
-    """Internal function to be called on a heartbeat
-
-    Args:
-        event (Event): Event to be analysed
-    """
-    print("Cool event handle called!")
-    print(f"{event=}")
+  stages: EventStage = ...
 
   def __init__(self, *, stage: EventStage = ..., stages: List[EventStage] = ..., countstart: int = -1) -> None:
     self.counter = countstart
@@ -255,8 +222,7 @@ class EventStageHeartbeat():
       # TODO add info for not passing a stage or stages
       ...
     if stage is not ... and stages is not ...:
-      raise errors.InappropriateRequest("Cannot pass both a stage and stages", errorHandle=ProgrammerErrorHandle(
-          "Please pass only a stages or a list of stages to an EventStageHeartbeat object constructor (or children thereof)"))
+      raise errors.InappropriateRequest("Cannot pass both a stage and stages", errorHandle=ProgrammerErrorHandle("Please pass only a stages or a list of stages to an EventStageHeartbeat object (or children thereof)"))
     if stage is ...:
       # TODO add info for not passing a stage
       ...
@@ -278,32 +244,6 @@ class EventStageHeartbeat():
   
   def post(self) -> None:
     [self.stage.post(event=HeartBeatEvent(count=self.counter,)) for stage in self.stages]
-
-  def _subscribeTo(self, *, stage: EventStage = ..., name: str = "Testing Name"):
-    """Internal function to subscribe this heartbeat to an EventStage
-
-    Args:
-        stage (EventStage): Stage to subscribe to
-    """
-    if stage is ...:
-      # TODO add error for calling _subscribeTo without a given stage
-      raise errors.InappropriateRequest("stage not given to _subscribeTo")
-
-    @self.callbacknamed(name)
-    def callbackToSubscribe(event: Event = ...):
-      self.__subscribeHandle()
-    stage.subscribe()
-
-  def setupStage(self, *, stage: EventStage = ...) -> None:
-    """Setups up a stage to receive heartbeats from this object
-
-    Args:
-        stage (EventStage): Stage to setup (NOT a list of stages)
-    """
-    if stage is ...:
-      # TODO add warning for calling setup without a stage
-      raise errors.InappropriateRequest("stage not given to setupStage")
-    self._subscribeTo(stage)
 
 
 class AutoEventStage(EventStage):
