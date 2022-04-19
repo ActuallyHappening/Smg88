@@ -175,10 +175,8 @@ class EventStage():
     def release(self):
         self._post(num=1, all=False, retain=False)
 
-    def subscribe(self, callback: Callable = ...) -> None:
-        # TODO add some info for this function as it is very useful
-        print(f"Subscribing {callback=}")
-        self._subscriptions[callback.__name__, callback]
+    def subscribe() -> None:
+        ...
 
     def _post(self, /, num: int = 1, *, all: bool = False, retain: bool = ..., **kwargs) -> None:
         if all:
@@ -297,7 +295,7 @@ class EventStageHeartbeat():
         @self.callbacknamed(name)
         def callbackToSubscribe(event: Event = ...):
             self.__subscribeHandle()
-        stage.subscribe(callbackToSubscribe)
+        stage.subscribe()
 
     def setupStage(self, *, stage: EventStage = ...) -> None:
         """Setups up a stage to receive heartbeats from this object

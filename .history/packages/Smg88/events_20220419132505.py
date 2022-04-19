@@ -1,10 +1,10 @@
-import functools
 from json import JSONDecodeError
 import json
 from typing import Callable, Dict, List
 import loghelp
 from errors import ProgrammerError, ProgrammerErrorHandle, SafeCatchAll
 import errors
+from decorator import decorator
 
 
 class EventError(errors.Error):
@@ -173,12 +173,10 @@ class EventStage():
         self._eventBuffer.append(event)
 
     def release(self):
-        self._post(num=1, all=False, retain=False)
+      self._post(num=1, all=False, retain=False)
 
-    def subscribe(self, callback: Callable = ...) -> None:
-        # TODO add some info for this function as it is very useful
-        print(f"Subscribing {callback=}")
-        self._subscriptions[callback.__name__, callback]
+    def subscribe() -> None:
+      ...
 
     def _post(self, /, num: int = 1, *, all: bool = False, retain: bool = ..., **kwargs) -> None:
         if all:
@@ -206,136 +204,135 @@ class EventStage():
 
 
 class EventStageHeartbeat():
-    """Represents a heartbeat for an AutoEventStage, subscribes to its own channel and reposts it with count++
+  """Represents a heartbeat for an AutoEventStage, subscribes to its own channel and reposts it with count++
 
-    Attributes:
-      SubscribeHandle: Callable
-        Represents the handle 
+  Attributes:
+    SubscribeHandle: Callable
+      Represents the handle 
 
-    Methods:
-      pump(): Pump this heartbeat once more!
-      subscribe
+  Methods:
+    pump(): Pump this heartbeat once more!
+    subscribe
+  """
+
+  counter: int = ...
+  approxlastpump: str = ...
+
+  stages: List[EventStage] = ...
+
+  @classmethod
+  def callbacknamed(cls, name: str = ...):
+    if name is ...:
+      # TODO add warning for using decorator without given name
+      errors.InappropriateRequest(
+          "Name not given to callbacknamed decorator constructor")
+
+    @decor
+    def __decoratorfunction(func: Callable = ...):
+      if func is ...:
+        # TODO add warning for using func decorator without a given function ??
+        raise errors.InappropriateRequest(
+            "WTF? Decorator used without given function?")
+      return func
+    __decoratorfunction.__name__ = name
+    return __decoratorfunction
+
+  def __subscribeHandle(event: Event = ...) -> None:
+    """Internal function to be called on a heartbeat
+
+    Args:
+        event (Event): Event to be analysed
     """
+    print("Cool event handle called!")
+    print(f"{event=}")
 
-    counter: int = ...
-    approxlastpump: str = ...
+  def __init__(self, *, stage: EventStage = ..., stages: List[EventStage] = ..., countstart: int = -1) -> None:
+    self.counter = countstart
+    if type(self.counter) is not int:
+      # TODO add warning for non-int counter
+      raise errors.InappropriateRequest("counterstart must be an int", errorHandle=ProgrammerErrorHandle(
+          "counterstart must be an int when instinating an EventStageHeartbeat object (or children of such)"))
+    self.stages = []
+    if stage is ... and stages is ...:
+      # TODO add info for not passing a stage or stages
+      ...
+    if stage is not ... and stages is not ...:
+      raise errors.InappropriateRequest("Cannot pass both a stage and stages", errorHandle=ProgrammerErrorHandle(
+          "Please pass only a stages or a list of stages to an EventStageHeartbeat object constructor (or children thereof)"))
+    if stage is ...:
+      # TODO add info for not passing a stage
+      ...
+    else:
+      self.stages.append(stage)
+    if stages is ...:
+      # TODO add info for not passing stages
+      ...
+    else:
+      for stage in stages:
+        self.stages.append(stage)
 
-    stages: List[EventStage] = ...
+  def pump(self) -> None:
+    self._step()
 
-    @classmethod
-    def callbacknamed(cls, name: str = ...):
-        if name is ...:
-            # TODO add warning for using decorator without given name
-            errors.InappropriateRequest(
-                "Name not given to callbacknamed decorator constructor")
+  def _step(self) -> None:
+    self.counter += 1
+    self.post()
+  
+  def post(self) -> None:
+    [self.stage.post(event=HeartBeatEvent(count=self.counter,)) for stage in self.stages]
 
-        def __decoratorfunction(func: Callable = ...):
-            if func is ...:
-                # TODO add warning for using func decorator without a given function ??
-                raise errors.InappropriateRequest(
-                    "WTF? Decorator used without given function?")
-            func.__name__ = name
-            return func
-        return __decoratorfunction
+  def _subscribeTo(self, *, stage: EventStage = ..., name: str = "Testing Name"):
+    """Internal function to subscribe this heartbeat to an EventStage
 
-    def __subscribeHandle(event: Event = ...) -> None:
-        """Internal function to be called on a heartbeat
+    Args:
+        stage (EventStage): Stage to subscribe to
+    """
+    if stage is ...:
+      # TODO add error for calling _subscribeTo without a given stage
+      raise errors.InappropriateRequest("stage not given to _subscribeTo")
 
-        Args:
-            event (Event): Event to be analysed
-        """
-        print("Cool event handle called!")
-        print(f"{event=}")
+    @self.callbacknamed(name)
+    def callbackToSubscribe(event: Event = ...):
+      self.__subscribeHandle()
+    stage.subscribe()
 
-    def __init__(self, *, stage: EventStage = ..., stages: List[EventStage] = ..., countstart: int = -1) -> None:
-        self.counter = countstart
-        if type(self.counter) is not int:
-            # TODO add warning for non-int counter
-            raise errors.InappropriateRequest("counterstart must be an int", errorHandle=ProgrammerErrorHandle(
-                "counterstart must be an int when instinating an EventStageHeartbeat object (or children of such)"))
-        self.stages = []
-        if stage is ... and stages is ...:
-            # TODO add info for not passing a stage or stages
-            ...
-        if stage is not ... and stages is not ...:
-            raise errors.InappropriateRequest("Cannot pass both a stage and stages", errorHandle=ProgrammerErrorHandle(
-                "Please pass only a stages or a list of stages to an EventStageHeartbeat object constructor (or children thereof)"))
-        if stage is ...:
-            # TODO add info for not passing a stage
-            ...
-        else:
-            self.stages.append(stage)
-        if stages is ...:
-            # TODO add info for not passing stages
-            ...
-        else:
-            for stage in stages:
-                self.stages.append(stage)
+  def setupStage(self, *, stage: EventStage = ...) -> None:
+    """Setups up a stage to receive heartbeats from this object
 
-    def pump(self) -> None:
-        self._step()
-
-    def _step(self) -> None:
-        self.counter += 1
-        self.post()
-
-    def post(self) -> None:
-        [self.stage.post(event=HeartBeatEvent(count=self.counter,))
-         for stage in self.stages]
-
-    def _subscribeTo(self, *, stage: EventStage = ..., name: str = "Testing Name"):
-        """Internal function to subscribe this heartbeat to an EventStage
-
-        Args:
-            stage (EventStage): Stage to subscribe to
-        """
-        if stage is ...:
-            # TODO add error for calling _subscribeTo without a given stage
-            raise errors.InappropriateRequest(
-                "stage not given to _subscribeTo")
-
-        @self.callbacknamed(name)
-        def callbackToSubscribe(event: Event = ...):
-            self.__subscribeHandle()
-        stage.subscribe(callbackToSubscribe)
-
-    def setupStage(self, *, stage: EventStage = ...) -> None:
-        """Setups up a stage to receive heartbeats from this object
-
-        Args:
-            stage (EventStage): Stage to setup (NOT a list of stages)
-        """
-        if stage is ...:
-            # TODO add warning for calling setup without a stage
-            raise errors.InappropriateRequest("stage not given to setupStage")
-        self._subscribeTo(stage=stage)
+    Args:
+        stage (EventStage): Stage to setup (NOT a list of stages)
+    """
+    if stage is ...:
+      # TODO add warning for calling setup without a stage
+      raise errors.InappropriateRequest("stage not given to setupStage")
+    self._subscribeTo(stage=stage)
 
 
 class AutoEventStage(EventStage):
-    """An EventStage that automatically posts its events (no manual post required)
+  """An EventStage that automatically posts its events (no manual post required)
 
-    Args:
-        nameHandle: str
-        autosetup: bool
-        heartbeat: EventStageHeartbeat
-          Dependency injection
-    """
-    heartbeat: EventStageHeartbeat = ...
+  Args:
+      nameHandle: str
+      autosetup: bool
+      heartbeat: EventStageHeartbeat
+        Dependency injection
+  """
+  heartbeat: EventStageHeartbeat = ...
 
-    def setup(self, *, heartbeat: EventStageHeartbeat = ...) -> None:
-        if heartbeat is ...:
-            self.heartbeat = EventStageHeartbeat()
-        if type(self.heartbeat) is not EventStageHeartbeat:
-            # TODO add warning for non-EventStageHeartbeat heartbeat
-            ...
-        self.heartbeat.subscribeTo(self)
+  def setup(self, *, heartbeat: EventStageHeartbeat = ...) -> None:
+    if heartbeat is ...:
+      self.heartbeat = EventStageHeartbeat()
+    if type(self.heartbeat) is not EventStageHeartbeat:
+      # TODO add warning for non-EventStageHeartbeat heartbeat
+      ...
+    self.heartbeat.subscribeTo(self)
+    
+    self.heartbeat.pump()
 
-        self.heartbeat.pump()
-
-    def __init__(self, *, nameHandle: str = ..., autosetup: bool = True, heartbeat: EventStageHeartbeat = ...) -> None:
-        super().__init__(nameHandle=nameHandle)
-        self.heartbeat = heartbeat
-        if self.heartbeat is ...:
-            self.heartbeat = EventStageHeartbeat(stage=self, countstart=0)
-        if autosetup:
-            self.setup(heartbeat=self.heartbeat)
+  def __init__(self, *, nameHandle: str = ..., autosetup: bool = True, heartbeat: EventStageHeartbeat = ...) -> None:
+    super().__init__(nameHandle=nameHandle)
+    self.heartbeat = heartbeat
+    if self.heartbeat is ...:
+      self.heartbeat = EventStageHeartbeat(stage=self, countstart=0)
+    if autosetup:
+      self.setup(heartbeat=self.heartbeat)
