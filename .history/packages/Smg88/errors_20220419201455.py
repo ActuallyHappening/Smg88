@@ -10,6 +10,7 @@ class ErrorHandle():
 
     handleName = "Generic Error Handle: "
 
+    @classmethod
     def __init__(cls, msg, *msgs, **extra):
         msg = str(msg)
         _msgs = [str(m) for m in msgs]

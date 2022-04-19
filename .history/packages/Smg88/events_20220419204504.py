@@ -283,11 +283,12 @@ class EventStageHeartbeat():
         self.counter += 1
         self.postdefault()
 
+    @classmethod
     def _defaultEventConstructor(self):
         return HeartBeatEvent(count=self.counter,)
 
     def postdefault(self) -> None:
-        [stage.post(event=self._defaultEventConstructor())
+        [self.stages.post(event=self._defaultEventConstructor())
          for stage in self.stages]
 
     def _subscribeTo(self, *, stage: EventStage = ..., name: str = "Testing Name"):

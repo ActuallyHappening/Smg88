@@ -159,7 +159,7 @@ class EventStage():
 
     @property
     def channels(self) -> List[str]:
-        return list(self._subscriptions.keys())
+      return list(self._subscriptions.keys())
 
     def __init__(self, /, nameHandle: str = ...) -> None:
         self.nameHandle = nameHandle
@@ -183,19 +183,19 @@ class EventStage():
         self._post(num=1, all=False, retain=False)
 
     def subscribe(self, /, callback: Callable = ..., *, channel: str = ...) -> None:
-        """Subscribes a callback to the given channel (defaults to callback.__name__)
+      """Subscribes a callback to the given channel (defaults to callback.__name__)
 
-        Args:
-            callback (Callable): Callable to call with event=event when event is posted on that channel. Defaults to ....
-            channel (str, optional): The exact channel to subscribe the callback to. Defaults to callback.__name__
-        """
-        # TODO add some info for this function as it is very useful
-        if channel is ...:
-            channel = callback.__name__
-        print(f"Subscribing to EventStage {callback=} under {channel=}")
-        if channel not in self.channels:
-            self._subscriptions[channel] = []
-        self._subscriptions[channel].append(callback)
+      Args:
+          callback (Callable): Callable to call with event=event when event is posted on that channel. Defaults to ....
+          channel (str, optional): The exact channel to subscribe the callback to. Defaults to callback.__name__
+      """
+      # TODO add some info for this function as it is very useful
+      if channel is ...:
+        channel = callback.__name__
+      print(f"Subscribing to EventStage {callback=} under {channel=}")
+      if channel not in self.channels:
+        self._subscriptions[channel] = []
+      self._subscriptions[channel].append(callback)
 
     def _post(self, /, num: int = 1, *, all: bool = False, retain: bool = ..., **kwargs) -> None:
         if all:
@@ -221,7 +221,7 @@ class EventStage():
                 subscriber(event=event)
         else:
           # TODO add warning for no subscribers to given event channel
-            ...
+          ...
 
 
 class EventStageHeartbeat():
@@ -281,13 +281,10 @@ class EventStageHeartbeat():
 
     def _step(self) -> None:
         self.counter += 1
-        self.postdefault()
+        self.post()
 
-    def _defaultEventConstructor(self):
-        return HeartBeatEvent(count=self.counter,)
-
-    def postdefault(self) -> None:
-        [stage.post(event=self._defaultEventConstructor())
+    def post(self) -> None:
+        [self.stage.post(event=HeartBeatEvent(count=self.counter,))
          for stage in self.stages]
 
     def _subscribeTo(self, *, stage: EventStage = ..., name: str = "Testing Name"):

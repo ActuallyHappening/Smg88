@@ -148,18 +148,18 @@ class EventStage():
       _eventBuffer: List[Event]
         A buffer of events to post to the stage
     """
-    _subscriptions: Dict[str, List[Callable]]
-    nameHandle: str
+    _subscriptions: Dict[str, Callable] = ...
+    nameHandle: str = ...
 
-    _eventBuffer: List[Event]
+    _eventBuffer: List[Event] = ...
 
     @property
     def eventBuffer(self) -> List[Event]:
         return self._eventBuffer
-
+    
     @property
-    def channels(self) -> List[str]:
-        return list(self._subscriptions.keys())
+    def chanels(self) -> List[str]:
+      return list(self._subscriptions.keys())
 
     def __init__(self, /, nameHandle: str = ...) -> None:
         self.nameHandle = nameHandle
@@ -183,19 +183,17 @@ class EventStage():
         self._post(num=1, all=False, retain=False)
 
     def subscribe(self, /, callback: Callable = ..., *, channel: str = ...) -> None:
-        """Subscribes a callback to the given channel (defaults to callback.__name__)
+      """Subscribes a callback to the given channel (defaults to callback.__name__)
 
-        Args:
-            callback (Callable): Callable to call with event=event when event is posted on that channel. Defaults to ....
-            channel (str, optional): The exact channel to subscribe the callback to. Defaults to callback.__name__
-        """
-        # TODO add some info for this function as it is very useful
-        if channel is ...:
-            channel = callback.__name__
+      Args:
+          callback (Callable): Callable to call with event=event when event is posted on that channel. Defaults to ....
+          channel (str, optional): The exact channel to subscribe the callback to. Defaults to callback.__name__
+      """
+      # TODO add some info for this function as it is very useful
+      if channel is ...:
+        channel = callback.__name__
         print(f"Subscribing to EventStage {callback=} under {channel=}")
-        if channel not in self.channels:
-            self._subscriptions[channel] = []
-        self._subscriptions[channel].append(callback)
+        self._subscriptions[channel] = callback
 
     def _post(self, /, num: int = 1, *, all: bool = False, retain: bool = ..., **kwargs) -> None:
         if all:
@@ -205,7 +203,7 @@ class EventStage():
                 # TODO Warn for purging buffer
                 ...
             self._postn(num=len(self._eventBuffer),
-                        retain=bool(retain), **kwargs)
+                        retain=bool(retain) ** kwargs)
         else:
             self._postn(num=num, retain=retain, **kwargs)
 
@@ -214,14 +212,14 @@ class EventStage():
             self._handle(self._eventBuffer.pop(0))
 
     def _handle(self, event: Event) -> None:
-        if event.channel in self.channels:
-            subscribers = self._subscriptions[event.channel]
-            for subscriber in subscribers:
-                # TODO add warning for subscriber callback error
+        subscribers = [subscriber for channel, subscriber in self._subscriptions.items()
+                       if channel == event.channel]
+        for subscriber in subscribers:
+            try:
                 subscriber(event=event)
-        else:
-          # TODO add warning for no subscribers to given event channel
-            ...
+            except SafeCatchAll as err:
+                # TODO add warning for subscriber callback error
+                raise err
 
 
 class EventStageHeartbeat():
@@ -241,7 +239,6 @@ class EventStageHeartbeat():
 
     stages: List[EventStage] = ...
 
-    @staticmethod
     def __subscribeHandle(event: Event = ...) -> None:
         """Internal function to be called on a heartbeat
 
@@ -281,13 +278,10 @@ class EventStageHeartbeat():
 
     def _step(self) -> None:
         self.counter += 1
-        self.postdefault()
+        self.post()
 
-    def _defaultEventConstructor(self):
-        return HeartBeatEvent(count=self.counter,)
-
-    def postdefault(self) -> None:
-        [stage.post(event=self._defaultEventConstructor())
+    def post(self) -> None:
+        [self.stage.post(event=HeartBeatEvent(count=self.counter,))
          for stage in self.stages]
 
     def _subscribeTo(self, *, stage: EventStage = ..., name: str = "Testing Name"):
@@ -357,7 +351,7 @@ def main():
         print(f"EVENT {event=}")
     stage.post(Event(channel="Smg", name="help!", payload="TESTING!"))
     stage.post(Event(channel="Smg88", name="LETS F**KING GO!", payload="gout!"))
-    stage._post(all=True)
+    stage._post(2)
 
 
 if __name__ == "__main__":
