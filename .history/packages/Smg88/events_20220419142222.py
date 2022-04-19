@@ -302,7 +302,8 @@ class EventStageHeartbeat():
         self._subscribeTo(stage=stage)
 
 
-class AutoEventStage(EventStage):
+callback =
+print(f"EVENT {event=}")()testingclass AutoEventStage(EventStage):
     """An EventStage that automatically posts its events (no manual post required)
 
     Args:
@@ -335,12 +336,11 @@ class AutoEventStage(EventStage):
 def main():
     stage = EventStage()
 
-    @stage.subscribe
-    @loghelp.callbacknamed("Smg88")
-    def _(event: Event):
+    @stage.callbacknamed("Smg")
+    def testing(event: Event):
         print(f"EVENT {event=}")
+    stage.subscribe(callback=testing)
     stage.post(Event(channel="Smg", name="help!", payload="TESTING!"))
-    stage.post(Event(channel="Smg88", name="LETS F**KING GO!", payload="gout!"))
     stage._post()
 
 

@@ -135,7 +135,7 @@ class EventStage():
 
     Methods:
       subscribe(callback)
-        Subscribes the function to be called with all Event objects posted to this stage under the channel (default __name__ of function)
+        Subscribes the function to be called with all events that are posted to the EventStaged called upon
 
     Attributes:
       nameHandle: str
@@ -335,12 +335,11 @@ class AutoEventStage(EventStage):
 def main():
     stage = EventStage()
 
-    @stage.subscribe
-    @loghelp.callbacknamed("Smg88")
-    def _(event: Event):
+    @stage.callbacknamed("Smg")
+    def testing(event: Event):
         print(f"EVENT {event=}")
+    stage.subscribe(callback=testing)
     stage.post(Event(channel="Smg", name="help!", payload="TESTING!"))
-    stage.post(Event(channel="Smg88", name="LETS F**KING GO!", payload="gout!"))
     stage._post()
 
 

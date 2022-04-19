@@ -336,11 +336,10 @@ def main():
     stage = EventStage()
 
     @stage.subscribe
-    @loghelp.callbacknamed("Smg88")
-    def _(event: Event):
+    @loghelp.callbacknamed("Smg")
+    def testing(event: Event):
         print(f"EVENT {event=}")
     stage.post(Event(channel="Smg", name="help!", payload="TESTING!"))
-    stage.post(Event(channel="Smg88", name="LETS F**KING GO!", payload="gout!"))
     stage._post()
 
 
