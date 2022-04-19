@@ -67,10 +67,11 @@ class Event():
     def send(self, /, stage=..., **kwargs) -> None:
         """Posts the event to the given EventStage as if EventStage.post(event=self) was called (hint it is : )
 
-          Args:       
-            stage: EventStage
-              The stage to which the event is sent too
-              Note: Annotation for stage is not possible as this is a convenience method
+:
+      self.__subscribeHandle()        Args:
+          stage: EventStage
+            The stage to which the event is sent too
+            Note: Annotation for stage is not possible as this is a convenience method
         """
         try:
             stage.post(event=self)
@@ -180,9 +181,8 @@ class EventStage():
 
     def subscribe(self, callback: Callable = ...) -> None:
         # TODO add some info for this function as it is very useful
-        print(
-            f"Subscribing to EventStage {callback=} under name {callback.__name__=}")
-        self._subscriptions[callback.__name__] = callback
+        print(f"Subscribing {callback=}")
+        self._subscriptions[callback.__name__, callback]
 
     def _post(self, /, num: int = 1, *, all: bool = False, retain: bool = ..., **kwargs) -> None:
         if all:
@@ -194,11 +194,11 @@ class EventStage():
             self._postn(num=len(self._eventBuffer),
                         retain=bool(retain) ** kwargs)
         else:
-            self._postn(num=num, retain=retain, **kwargs)
+          self._postn(num=num, retain=retain, **kwargs)
 
     def _postn(self, /, num: int = 1, *, retain: bool = False, **kwargs) -> None:
         for _ in range(num):
-            self._handle(self._eventBuffer.pop(0))
+            self._eventBuffer.pop(0)
 
     def _handle(self, event: Event) -> None:
         subscribers = [subscriber for channel, subscriber in self._subscriptions.items()
@@ -227,6 +227,22 @@ class EventStageHeartbeat():
     approxlastpump: str = ...
 
     stages: List[EventStage] = ...
+
+    @classmethod
+    def callbacknamed(cls, name: str = ...):
+        if name is ...:
+            # TODO add warning for using decorator without given name
+            errors.InappropriateRequest(
+                "Name not given to callbacknamed decorator constructor")
+
+        def __decoratorfunction(func: Callable = ...):
+            if func is ...:
+                # TODO add warning for using func decorator without a given function ??
+                raise errors.InappropriateRequest(
+                    "WTF? Decorator used without given function?")
+            func.__name__ = name
+            return func
+        return __decoratorfunction
 
     def __subscribeHandle(event: Event = ...) -> None:
         """Internal function to be called on a heartbeat
@@ -332,15 +348,8 @@ class AutoEventStage(EventStage):
 
 
 def main():
-    stage = EventStage()
-
-    @stage.callbacknamed("Smg")
-    def testing(event: Event):
-        print(f"EVENT {event=}")
-    stage.subscribe(callback=testing)
-    stage.post(Event(channel="Smg", name="help!", payload="TESTING!"))
-    stage._post()
+  stage = EventStage()
 
 
 if __name__ == "__main__":
-    main()
+  main()

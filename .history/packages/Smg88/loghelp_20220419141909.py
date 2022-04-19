@@ -8,7 +8,6 @@ Syntactic sugar for logging
 from datetime import datetime
 from enum import Enum, auto, unique
 import logging
-from typing import Callable
 import errors
 
 # Logging levels are as follows:
@@ -119,16 +118,16 @@ def now():
 
 
 def callbacknamed(name: str = ...):
-    if name is ...:
-        # TODO add warning for using decorator without given name
-        errors.InappropriateRequest(
-            "Name not given to callbacknamed decorator constructor")
+        if name is ...:
+            # TODO add warning for using decorator without given name
+            errors.InappropriateRequest(
+                "Name not given to callbacknamed decorator constructor")
 
-    def __decoratorfunction(func: Callable = ...):
-        if func is ...:
-            # TODO add warning for using func decorator without a given function ??
-            raise errors.InappropriateRequest(
-                "WTF? Decorator used without given function?")
-        func.__name__ = name
-        return func
-    return __decoratorfunction
+        def __decoratorfunction(func: Callable = ...):
+            if func is ...:
+                # TODO add warning for using func decorator without a given function ??
+                raise errors.InappropriateRequest(
+                    "WTF? Decorator used without given function?")
+            func.__name__ = name
+            return func
+        return __decoratorfunction

@@ -8,7 +8,6 @@ Syntactic sugar for logging
 from datetime import datetime
 from enum import Enum, auto, unique
 import logging
-from typing import Callable
 import errors
 
 # Logging levels are as follows:
