@@ -8,7 +8,7 @@ Raises:
 
 import functools
 from typing import Callable
-from Smg88 import errors
+from .. .. import errors
 
 
 class TestingError(errors.Error):
@@ -27,7 +27,7 @@ class WrapperErrorHandle(errors.ErrorHandle):
     handleName = "Wrapper Error Handle: "
 
 
-def catchall(func: Callable = ...):
+def catchallf(func: Callable = ...):
     """Used to decorate functions that are being tested, will catch and appropriately handle any errors raised in calling function
 
     Args:
@@ -54,7 +54,7 @@ def catchall(func: Callable = ...):
 
 
 class ConditionalError(TestingError):
-    def __init__(self, /, condition: bool, *, check: bool = True):
+    def __init__(self, condition: bool, /, *, check: bool = True):
         super().__init__(f"ConditionalError: {condition!r}")
         if bool(condition) is bool(check):
             raise self

@@ -16,7 +16,7 @@ def test_EventStageConstructorBasic():
     stages.append(events.EventStage("nameHandle positional argument"))
 
     for stage in stages:
-        #print(f"Testing {stage=}")
+        print(f"Testing {stage=}")
         TestError(hasattr(stage, "nameHandle"))
         TestError(hasattr(stage, "_subscriptions"))
         TestError(hasattr(stage, "_eventBuffer"))

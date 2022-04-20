@@ -70,8 +70,6 @@ def importTests():
             _module = __module + f".{folder}"  # Firstly '... tests_events'
             importlib.import_module(_module)
             for testfile in os.listdir(_folder):
-                if testfile[-3:] != ".py":
-                    continue
                 _testfileModule = _module + f".{testfile.split('.')[0]}"
                 print(f"Found test file: {testfile=}, {_testfileModule=}")
                 testfileModule = importlib.import_module(_testfileModule)

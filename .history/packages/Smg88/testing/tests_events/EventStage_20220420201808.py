@@ -1,14 +1,14 @@
 from typing import List
-from Smg88 import events  # Testing this :)
-from .. testingerrors import catchall, TestError, ExpectedError
+from .. .. import events
+from .. testingerrors import catchallf, TestError, ExpectedError
 from .. import testmanager
 
 tests = testmanager.Tests()
 
 
 @tests.registertest
-@catchall
-def test_EventStageConstructorBasic():
+@catchallf
+def test_EventConstructorBasic():
     """This is an UNSAFE FUNCTION (wrapped with @catchall) used for testing
     """
     stages: List[events.EventStage] = []
@@ -16,7 +16,6 @@ def test_EventStageConstructorBasic():
     stages.append(events.EventStage("nameHandle positional argument"))
 
     for stage in stages:
-        #print(f"Testing {stage=}")
         TestError(hasattr(stage, "nameHandle"))
         TestError(hasattr(stage, "_subscriptions"))
         TestError(hasattr(stage, "_eventBuffer"))
@@ -26,8 +25,8 @@ def test_EventStageConstructorBasic():
 
 
 @tests.registertest
-@catchall
-def test_EventStageSubscribingBasic():
+@catchallf
+def test_EventSubscribingBasic():
     stage = events.EventStage()
 
     trigger = False

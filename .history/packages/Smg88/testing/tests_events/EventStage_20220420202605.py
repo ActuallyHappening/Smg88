@@ -8,7 +8,7 @@ tests = testmanager.Tests()
 
 @tests.registertest
 @catchall
-def test_EventStageConstructorBasic():
+def test_EventConstructorBasic():
     """This is an UNSAFE FUNCTION (wrapped with @catchall) used for testing
     """
     stages: List[events.EventStage] = []
@@ -16,7 +16,6 @@ def test_EventStageConstructorBasic():
     stages.append(events.EventStage("nameHandle positional argument"))
 
     for stage in stages:
-        #print(f"Testing {stage=}")
         TestError(hasattr(stage, "nameHandle"))
         TestError(hasattr(stage, "_subscriptions"))
         TestError(hasattr(stage, "_eventBuffer"))
@@ -27,7 +26,7 @@ def test_EventStageConstructorBasic():
 
 @tests.registertest
 @catchall
-def test_EventStageSubscribingBasic():
+def test_EventSubscribingBasic():
     stage = events.EventStage()
 
     trigger = False
