@@ -181,17 +181,6 @@ class EventStage():
         self._eventBuffer.append(event)
 
     def release(self, /, channel: str = ...,) -> None:
-        """_posts all events in the buffer that are in the given channel
-
-        Overloads:
-          release()
-            Release the latest event in the buffer: _post(1, all=False, retain=False)
-          release("channel")
-            Release all of the events conforming to that channel: _release(channel="channel")
-
-        Args:
-            channel (str, optional): Channel to post all buffered events that are in.
-        """
         if channel is ...:
             self._post(num=1, all=False, retain=False)
         else:
@@ -246,8 +235,6 @@ class EventStage():
         else:
             # TODO add warning for no subscribers to given event channel
             ...
-        if remove:
-            self._eventBuffer.remove(event)
 
 
 class EventStageHeartbeat():

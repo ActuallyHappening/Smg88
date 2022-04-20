@@ -246,8 +246,23 @@ class EventStage():
         else:
             # TODO add warning for no subscribers to given event channel
             ...
-        if remove:
-            self._eventBuffer.remove(event)
+
+    def _findEventInstance(self, event: Event = ...) -> int:
+        """Searches the event buffer for the given event and returns the index of the event in the buffer
+
+        Args:
+            event (Event, optional): Event INSTANCE.
+
+        Raises:
+            errors.InappropriateRequest: Raised when event is not given (LET THIS PROPAGATE)
+
+        Returns:
+            int: Index of self._eventBuffer that Event instance occurs
+        """
+        if event is ...:
+            raise errors.InappropriateRequest("MUST pass an event to _findEventInstance", errorHandle=errors.ProgrammerErrorHandle(
+                "No event passed to _findEventInstance, method of EventStage (or child of such)"))
+        for _event in self._eventBuffer
 
 
 class EventStageHeartbeat():

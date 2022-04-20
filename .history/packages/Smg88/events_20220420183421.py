@@ -249,6 +249,26 @@ class EventStage():
         if remove:
             self._eventBuffer.remove(event)
 
+    def _findEventInstance(self, event: Event = ..., _fail=...) -> int:
+        """Searches the event buffer for the given event and returns the index of the event in the buffer
+
+        Args:
+            event (Event, optional): Event INSTANCE.
+
+        Raises:
+            errors.InappropriateRequest: Raised when event is not given (LET THIS PROPAGATE)
+
+        Returns:
+            int: Index of self._eventBuffer that Event instance occurs
+        """
+        if event is ...:
+            raise errors.InappropriateRequest("MUST pass an event to _findEventInstance", errorHandle=errors.ProgrammerErrorHandle(
+                "No event passed to _findEventInstance, method of EventStage (or child of such)"))
+        try:
+            return self._eventBuffer.index(event)
+        except ValueError as err:
+            return _fail
+
 
 class EventStageHeartbeat():
     """Represents a heartbeat for an AutoEventStage, subscribes to its own channel and reposts it with count++
