@@ -224,9 +224,7 @@ class EventStage():
         for _ in range(num):
             self._handle(self._eventBuffer.pop(0))
 
-    def _handle(self, /, event: Event, *, remove: bool = ...) -> None:
-        if remove is ...:
-            remove = False
+    def _handle(self, /, event: Event) -> None:
         if event.channel in self.channels:
             subscribers = self._subscriptions[event.channel]
             for subscriber in subscribers:

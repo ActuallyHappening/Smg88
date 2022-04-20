@@ -1,4 +1,3 @@
-from distutils.log import error
 import functools
 from json import JSONDecodeError
 import json
@@ -182,16 +181,7 @@ class EventStage():
 
     def release(self, /, channel: str = ...,) -> None:
         if channel is ...:
-            self._post(num=1, all=False, retain=False)
-        else:
-            self._release(channel=channel)
-
-    def _release(self, /, channel: str = ...,) -> None:
-        if channel is ...:
-            raise errors.InappropriateRequest("No channel was passed to the _release method", errorHandle=errors.ProgrammerErrorHandle(
-                "Must pass a channel to the _release method (of an EventStage instance or child of such)"))
-        [self._handle(event, remove=True)
-         for event in self._eventBuffer if event.channel == channel]
+        self._post(num=1, all=False, retain=False)
 
     def subscribe(self, /, callback: Callable = ..., *, channel: str = ...) -> None:
         """Subscribes a callback to the given channel (defaults to callback.__name__)
@@ -224,16 +214,14 @@ class EventStage():
         for _ in range(num):
             self._handle(self._eventBuffer.pop(0))
 
-    def _handle(self, /, event: Event, *, remove: bool = ...) -> None:
-        if remove is ...:
-            remove = False
+    def _handle(self, /, event: Event) -> None:
         if event.channel in self.channels:
             subscribers = self._subscriptions[event.channel]
             for subscriber in subscribers:
                 # TODO add warning for subscriber callback error
                 subscriber(event=event)
         else:
-            # TODO add warning for no subscribers to given event channel
+          # TODO add warning for no subscribers to given event channel
             ...
 
 

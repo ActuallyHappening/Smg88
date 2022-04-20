@@ -1,4 +1,3 @@
-from distutils.log import error
 import functools
 from json import JSONDecodeError
 import json
@@ -180,18 +179,8 @@ class EventStage():
                                               errorHandle=errors.ProgrammerErrorHandle("Must pass an event to the post method (of an EventStage instance or child of such)"))
         self._eventBuffer.append(event)
 
-    def release(self, /, channel: str = ...,) -> None:
-        if channel is ...:
-            self._post(num=1, all=False, retain=False)
-        else:
-            self._release(channel=channel)
-
-    def _release(self, /, channel: str = ...,) -> None:
-        if channel is ...:
-            raise errors.InappropriateRequest("No channel was passed to the _release method", errorHandle=errors.ProgrammerErrorHandle(
-                "Must pass a channel to the _release method (of an EventStage instance or child of such)"))
-        [self._handle(event, remove=True)
-         for event in self._eventBuffer if event.channel == channel]
+    def release(self):
+        self._post(num=1, all=False, retain=False)
 
     def subscribe(self, /, callback: Callable = ..., *, channel: str = ...) -> None:
         """Subscribes a callback to the given channel (defaults to callback.__name__)
@@ -224,16 +213,14 @@ class EventStage():
         for _ in range(num):
             self._handle(self._eventBuffer.pop(0))
 
-    def _handle(self, /, event: Event, *, remove: bool = ...) -> None:
-        if remove is ...:
-            remove = False
+    def _handle(self, /, event: Event) -> None:
         if event.channel in self.channels:
             subscribers = self._subscriptions[event.channel]
             for subscriber in subscribers:
                 # TODO add warning for subscriber callback error
                 subscriber(event=event)
         else:
-            # TODO add warning for no subscribers to given event channel
+          # TODO add warning for no subscribers to given event channel
             ...
 
 
@@ -296,7 +283,6 @@ class EventStageHeartbeat():
     def _step(self) -> None:
         self.counter += 1
         self.postdefault()
-        [stage.release(channel=self.defaultChannels) for stage in self.stages]
 
     def _defaultEventConstructor(self):
         return HeartBeatEvent(count=self.counter,)
@@ -357,7 +343,7 @@ class AutoEventStage(EventStage):
 
         self.heartbeat.pump()
 
-    def __init__(self, *, nameHandle: str = ..., autosetup: bool = ..., heartbeat: EventStageHeartbeat = ...) -> None:
+    def __init__(self, *, nameHandle: str = ..., autosetup: bool = True, heartbeat: EventStageHeartbeat = ...) -> None:
         super().__init__(nameHandle=nameHandle)
         self.heartbeat = heartbeat
         if self.heartbeat is ...:
