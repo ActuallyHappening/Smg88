@@ -60,29 +60,16 @@ def importTests():
         _folder = os.path.join(__location__, folder)
         print(
             f"Found folder to check for tests: {folder}, checks: {os.path.isdir(_folder)=}, {folder.startswith('tests_')=}")
-        """ for k, v in sys.modules.items():
-            print(f"{k=}") """
+        for k, v in sys.modules:
+            print(f"{k=}")
         if os.path.isdir(_folder) and folder.startswith("tests_"):
             print(f"Found good folder to search for tests: {folder}")
             _folder = os.path.join(__location__, folder)
-            # Typically '... testing' folder ..
-            __module = ".".join(__name__.split(".")[:-1])
-            _module = __module + f".{folder}"  # Firstly '... tests_events'
-            importlib.import_module(_module)
-            for testfile in os.listdir(_folder):
-                _testfileModule = _module + f".{testfile}"
-                testfileModule = importlib.import_module(_testfileModule)
-                for name, obj in inspect.getmembers(sys.modules[_testfileModule]):
-                    print(f"Cool testfile member! {name=}, {obj=}")
-                    if inspect.isfunction(obj):
-                        if name.startswith("test_"):
-                            print(f"Importing test {name}")
-                            allTests.append(
-                                importlib.import_module(testfileModule).tests)
-
-
-def runtests():
-    """Used to run all Tests registered
-    """
-    for test in allTests:
-        test.runtests()
+            for name, obj in inspect.getmembers(
+                    sys.modules[".".join(__name__.split(".")[:-1]) + f".{folder}"]):
+                print(f"Cool! {name=}, {obj=}")
+                if inspect.isfunction(obj):
+                    if name.startswith("test_"):
+                        print(f"Importing test {name}")
+                        allTests.append(
+                            importlib.import_module(_folder).tests)

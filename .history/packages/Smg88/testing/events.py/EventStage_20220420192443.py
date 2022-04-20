@@ -3,10 +3,12 @@ import events
 from testingerrors import catchall, TestError, ExpectedError
 import testmanager
 
+tests = testmanager.Tests()
 
-@testmanager.registertest
+
+@tests.registertest
 @catchall
-def test_EventConstructor():
+def test_EventConstructorBasic():
     """This is an UNSAFE FUNCTION (wrapped with @catchall) used for testing
     """
     stages: List[events.EventStage] = []
@@ -20,3 +22,25 @@ def test_EventConstructor():
         TestError(hasattr(stage, "eventBuffer"))
         TestError(hasattr(stage, "channels"))
         ExpectedError(hasattr(stage, "stage"))
+
+
+@tests.registertest
+@catchall
+def test_EventSubscribingBasic():
+    stage = events.EventStage()
+
+    trigger = False
+
+    @stage.subscribe
+    def testchannel(event: events.Event):
+        TestError(event.channel == "testchannel")
+        TestError(event.stage == stage)
+        TestError(event.payload == "testdata")
+        TestError(event.name == "testname")
+        trigger = True
+
+    stage.push(events.Event(
+        channel="testchannel", name="testname", payload="testdata"))
+    stage.release()
+
+    TestError(trigger)

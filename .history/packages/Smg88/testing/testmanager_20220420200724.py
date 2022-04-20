@@ -65,20 +65,15 @@ def importTests():
         if os.path.isdir(_folder) and folder.startswith("tests_"):
             print(f"Found good folder to search for tests: {folder}")
             _folder = os.path.join(__location__, folder)
-            # Typically '... testing' folder ..
-            __module = ".".join(__name__.split(".")[:-1])
-            _module = __module + f".{folder}"  # Firstly '... tests_events'
+            _module = ".".join(__name__.split(".")[:-1]) + f".{folder}"
             importlib.import_module(_module)
-            for testfile in os.listdir(_folder):
-                _testfileModule = _module + f".{testfile}"
-                testfileModule = importlib.import_module(_testfileModule)
-                for name, obj in inspect.getmembers(sys.modules[_testfileModule]):
-                    print(f"Cool testfile member! {name=}, {obj=}")
-                    if inspect.isfunction(obj):
-                        if name.startswith("test_"):
-                            print(f"Importing test {name}")
-                            allTests.append(
-                                importlib.import_module(testfileModule).tests)
+            for name, obj in inspect.getmembers(sys.modules[_module]):
+                print(f"Cool! {name=}, {obj=}")
+                if inspect.isfunction(obj):
+                    if name.startswith("test_"):
+                        print(f"Importing test {name}")
+                        allTests.append(
+                            importlib.import_module(_module).tests)
 
 
 def runtests():
