@@ -8,7 +8,6 @@ import os
 import sys
 import inspect
 import importlib
-import re
 
 __location__ = os.path.dirname(__file__)
 

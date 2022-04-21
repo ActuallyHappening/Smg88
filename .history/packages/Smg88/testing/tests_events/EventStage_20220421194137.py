@@ -34,6 +34,7 @@ def test_EventStageSubscribingBasic():
 
     @stage.subscribe
     def testchannel(event: events.Event):
+        global trigger
         TestError(event.channel == "testchannel")
         TestError(event.stage == stage)
         TestError(event.payload == "testdata")
