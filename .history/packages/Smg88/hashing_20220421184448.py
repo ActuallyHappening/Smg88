@@ -14,6 +14,18 @@ smartguy86 --str > gmail + discord
 
 pypi88 --str
 pypi87 --str
+
+gravatar87 --str
+"""
+
+"""
+Password that use --str
+
+apple
+smartguy89
+smartguy88
+smartguy87
+smartguy86
 """
 
 chars = string.ascii_letters + string.digits + string.punctuation + \
@@ -45,7 +57,6 @@ def main(args):
         finalHashStr = hashStr[:5] if len(hashStr) > 5 else hashStr
         if len(args) > 2:
             print(f"Hash String:Smg!88{finalHashStr}")
-            return(f"Smg!88{finalHashStr}")
     print("Finish")
 
 
