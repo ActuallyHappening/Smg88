@@ -47,9 +47,6 @@ def main(action: str):
     elif action == "successful":
         print(
             "You macro finished successfully :)\nLETS GOOOO YIPEE HAVE JOY IT IS FINISHED!!")
-    elif action == "finished":
-        print(
-            "You macro finished :)\nMaybe it worked, just check to see :)")
     elif action == "gitautocommit":
         print("Auto Commiting to git ...")
         subprocess.run(["git", "add", "-A"])
