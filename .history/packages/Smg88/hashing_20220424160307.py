@@ -15,7 +15,7 @@ smartguy86 --str > gmail + discord
 pypi88 --str
 pypi87 --str
 
-commbank
+commbank (NOT STR)
 """
 
 chars = string.ascii_letters + string.digits + string.punctuation + \
