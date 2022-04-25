@@ -16,7 +16,7 @@ pypi88 --str
 pypi87 --str
 
 commbank
-electronics --str > gmail password
+electronics --str
 """
 
 chars = string.ascii_letters + string.digits + string.punctuation + \
