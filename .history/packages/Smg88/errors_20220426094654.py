@@ -84,6 +84,5 @@ class SimpleUserError(Error):
 
     Args:
         Error (str / strings): Represents the error message and attached error handles
-        *errorHandle (ErrorHandle): Represents the error handle that is attached to the error
     """
     ...

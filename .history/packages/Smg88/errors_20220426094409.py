@@ -52,19 +52,11 @@ class Error(Exception):
 
 
 class SafeCatchAll(Error, Exception):
-    """e.g. >>> catch SafeCatchAll as e: SafeCatchAll(e); foo(); bar(); Use to catch all non-program-terminating exceptions (like KeyboardInterrupt)
-
-
+    """Use instead of "catch Exception:" to catch all safe-to-catch exceptions
 
     This is to allow for a custom error deriving from errors.Error to indicate a system shutdown and not have to change any code
-
     """
-    @staticmethod
-    def __call__(err: BaseException):
-        if isinstance(err, KeyboardInterrupt):
-            raise err
-        elif isinstance(err, SystemExit):
-            raise err
+    ...
 
 
 class ProgrammerError(Error):
@@ -84,6 +76,5 @@ class SimpleUserError(Error):
 
     Args:
         Error (str / strings): Represents the error message and attached error handles
-        *errorHandle (ErrorHandle): Represents the error handle that is attached to the error
     """
     ...
