@@ -46,7 +46,7 @@ class Error(Exception):
         _msgs: str = '\n'.join([str(m) for m in msgs])
         self.msg = f"Message: \n{msg}\n{_msgs}"
         self.extras = extra
-        self.errorHandle = errorHandle  # type: ignore
+        self.errorHandle = errorHandle
 
     def __str__(self):
         return f"{self.msg}\n" + "\n".join(f"{k}: {v}" for k, v in self.extras.items()) + f"\n{str(self.errorHandle)}"
