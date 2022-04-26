@@ -123,9 +123,7 @@ def now():
     return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
 
-def callbacknamed(
-    name: o_str = ...  # type: ignore
-):
+def callbacknamed(name: o_str = ...):
     if name is ...:
         # TODO add warning for using decorator without given name
         errors.InappropriateRequest(

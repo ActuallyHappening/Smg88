@@ -17,7 +17,7 @@ from . import errors
 # Note that commented definitions are default for the logging module anyway
 
 o_str = Type[str | EllipsisType]
-o_Callable = Type[Callable | EllipsisType]
+o_callable = Callable | EllipsisType
 
 # NOTSET = 0
 RAW_DEBUG = 3
@@ -44,13 +44,13 @@ CORRUPTED_CRITICAL = 59
 
 # Which channels should I use?
 # logging.NOTSET # for None (sentinel value)
-USER_RAW_DEBUG  # for raw debugging
-HELPFUL_DEBUG  # for debugging generally
-HELPFUL_INFO  # for logging info
-HELPFUL_WARNING  # for logging warnings
+logging.USER_RAW_DEBUG  # for raw debugging
+logging.HELPFUL_DEBUG  # for debugging generally
+logging.HELPFUL_INFO  # for logging info
+logging.HELPFUL_WARNING  # for logging warnings
 # for logging errors, specifically recoverable errors by reloading or some other specified method
-HELPFUL_ERROR
-HELPFUL_CRITICAL  # for logging critical, specifically fatal, error
+logging.HELPFUL_ERROR
+logging.HELPFUL_CRITICAL  # for logging critical, specifically fatal, error
 
 # Complete non-user-friendly documentation for logging levels:
 """
@@ -123,21 +123,17 @@ def now():
     return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
 
-def callbacknamed(
-    name: o_str = ...  # type: ignore
-):
+def callbacknamed(name: str = ...):
     if name is ...:
         # TODO add warning for using decorator without given name
         errors.InappropriateRequest(
             "Name not given to callbacknamed decorator constructor")
 
-    def __decoratorfunction(
-        func: o_Callable = ...  # type: ignore
-    ):
+    def __decoratorfunction(func: Callable = ...):
         if func is ...:
             # TODO add warning for using func decorator without a given function ??
             raise errors.InappropriateRequest(
                 "WTF? Decorator used without given function?")
-        func.__name__ = name  # type: ignore
+        func.__name__ = name
         return func
     return __decoratorfunction

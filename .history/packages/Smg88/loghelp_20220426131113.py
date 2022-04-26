@@ -123,17 +123,13 @@ def now():
     return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
 
-def callbacknamed(
-    name: o_str = ...  # type: ignore
-):
+def callbacknamed(name: o_str = ...):
     if name is ...:
         # TODO add warning for using decorator without given name
         errors.InappropriateRequest(
             "Name not given to callbacknamed decorator constructor")
 
-    def __decoratorfunction(
-        func: o_Callable = ...  # type: ignore
-    ):
+    def __decoratorfunction(func: o_Callable = ...):  # type: ignore
         if func is ...:
             # TODO add warning for using func decorator without a given function ??
             raise errors.InappropriateRequest(

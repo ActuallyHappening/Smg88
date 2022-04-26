@@ -17,40 +17,40 @@ from . import errors
 # Note that commented definitions are default for the logging module anyway
 
 o_str = Type[str | EllipsisType]
-o_Callable = Type[Callable | EllipsisType]
+o_callable = Union[Callable, ...]
 
-# NOTSET = 0
-RAW_DEBUG = 3
-USER_RAW_DEBUG = 4
-# DEBUG = 9
-STANDARD_DEBUG = 13
-HELPFUL_DEBUG = 14
-# INFO = 19
-STANDARD_INFO = 23
-HELPFUL_INFO = 24
-# WARNING = 29
-STANDARD_WARNING = 33
-HELPFUL_WARNING = 34
-# ERROR = 39
-STANDARD_ERROR = 43
-HELPFUL_ERROR = 44
-PRIVATE_ERROR = 48
-# CRITICAL = 49
-STANDARD_CRITICAL = 53
-HELPFUL_CRITICAL = 54
-PRIVATE_CRITICAL = 57
-FATAL_CRITICAL = 58
-CORRUPTED_CRITICAL = 59
+# logging.NOTSET = 0
+logging.RAW_DEBUG = 3
+logging.USER_RAW_DEBUG = 4
+# logging.DEBUG = 9
+logging.STANDARD_DEBUG = 13
+logging.HELPFUL_DEBUG = 14
+# logging.INFO = 19
+logging.STANDARD_INFO = 23
+logging.HELPFUL_INFO = 24
+# logging.WARNING = 29
+logging.STANDARD_WARNING = 33
+logging.HELPFUL_WARNING = 34
+# logging.ERROR = 39
+logging.STANDARD_ERROR = 43
+logging.HELPFUL_ERROR = 44
+logging.PRIVATE_ERROR = 48
+# logging.CRITICAL = 49
+logging.STANDARD_CRITICAL = 53
+logging.HELPFUL_CRITICAL = 54
+logging.PRIVATE_CRITICAL = 57
+logging.FATAL_CRITICAL = 58
+logging.CORRUPTED_CRITICAL = 59
 
 # Which channels should I use?
 # logging.NOTSET # for None (sentinel value)
-USER_RAW_DEBUG  # for raw debugging
-HELPFUL_DEBUG  # for debugging generally
-HELPFUL_INFO  # for logging info
-HELPFUL_WARNING  # for logging warnings
+logging.USER_RAW_DEBUG  # for raw debugging
+logging.HELPFUL_DEBUG  # for debugging generally
+logging.HELPFUL_INFO  # for logging info
+logging.HELPFUL_WARNING  # for logging warnings
 # for logging errors, specifically recoverable errors by reloading or some other specified method
-HELPFUL_ERROR
-HELPFUL_CRITICAL  # for logging critical, specifically fatal, error
+logging.HELPFUL_ERROR
+logging.HELPFUL_CRITICAL  # for logging critical, specifically fatal, error
 
 # Complete non-user-friendly documentation for logging levels:
 """
@@ -123,21 +123,17 @@ def now():
     return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
 
-def callbacknamed(
-    name: o_str = ...  # type: ignore
-):
+def callbacknamed(name: str = ...):
     if name is ...:
         # TODO add warning for using decorator without given name
         errors.InappropriateRequest(
             "Name not given to callbacknamed decorator constructor")
 
-    def __decoratorfunction(
-        func: o_Callable = ...  # type: ignore
-    ):
+    def __decoratorfunction(func: Callable = ...):
         if func is ...:
             # TODO add warning for using func decorator without a given function ??
             raise errors.InappropriateRequest(
                 "WTF? Decorator used without given function?")
-        func.__name__ = name  # type: ignore
+        func.__name__ = name
         return func
     return __decoratorfunction
