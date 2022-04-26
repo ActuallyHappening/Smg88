@@ -15,7 +15,7 @@ from . import errors
 # Logging levels are as follows:
 # Note that commented definitions are default for the logging module anyway
 
-o_str = Type[Union[str, Type[Ellipsis]]]
+o_str = Type[Union[str, Ellipsis]]
 o_callable = Union[Callable, Ellipsis]
 
 # logging.NOTSET = 0

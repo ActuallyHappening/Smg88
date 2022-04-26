@@ -3,7 +3,7 @@ import json
 from json import JSONDecodeError
 from typing import Callable, Dict, List
 from . import loghelp
-from .loghelp import o_str
+from .loghelp import Sstr
 from . import errors
 from . errors import ProgrammerError, ProgrammerErrorHandle, SafeCatchAll
 
@@ -42,7 +42,7 @@ class Event():
 
     payload: str
 
-    def __init__(self, *, channel: o_str = ..., name: o_str = ..., payload: o_str = ..., **kwargs) -> None:
+    def __init__(self, *, channel: Sstr = ..., name: Sstr = ..., payload: Sstr = ..., **kwargs) -> None:
         self.channel = channel
         if self.channel is ...:
             # TODO add warning for instinating event without channel handle
@@ -96,7 +96,7 @@ class HeartBeatEvent(Event):
     """
     count: int
 
-    def __init__(self, /, count: int = -1, *, channel: o_str = ..., name: o_str = ..., timestr: o_str = ..., payload: o_str = ..., **kwargs) -> None:
+    def __init__(self, /, count: int = -1, *, channel: Sstr = ..., name: Sstr = ..., timestr: Sstr = ..., payload: Sstr = ..., **kwargs) -> None:
         self.count = count
         if type(self.count) is not int:
             # TODO add warning for non-serializable (not int) count
@@ -162,7 +162,7 @@ class EventStage():
     def channels(self) -> List[str]:
         return list(self._subscriptions.keys())
 
-    def __init__(self, /, nameHandle: o_str = ...) -> None:
+    def __init__(self, /, nameHandle: Sstr = ...) -> None:
         self.nameHandle = nameHandle
         if self.nameHandle is ...:
             # TODO add warning for instinating an EventStage without a nameHandle
@@ -180,7 +180,7 @@ class EventStage():
                                               errorHandle=errors.ProgrammerErrorHandle("Must pass an event to the post method (of an EventStage instance or child of such)"))
         self._eventBuffer.append(event)
 
-    def release(self, /, channel: o_str = ...,) -> None:
+    def release(self, /, channel: Sstr = ...,) -> None:
         """_posts all events in the buffer that are in the given channel
 
         Overloads:

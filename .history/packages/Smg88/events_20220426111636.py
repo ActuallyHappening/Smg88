@@ -3,7 +3,6 @@ import json
 from json import JSONDecodeError
 from typing import Callable, Dict, List
 from . import loghelp
-from .loghelp import o_str
 from . import errors
 from . errors import ProgrammerError, ProgrammerErrorHandle, SafeCatchAll
 
@@ -37,12 +36,12 @@ class Event():
       payload: str
         The payload of the event, used to convey the information of the event, usually in JSON format
     """
-    channel: str
-    name: str
+    channel: str = ...
+    name: str = ...
 
-    payload: str
+    payload: str = ...
 
-    def __init__(self, *, channel: o_str = ..., name: o_str = ..., payload: o_str = ..., **kwargs) -> None:
+    def __init__(self, *, channel: str = ..., name: str = ..., payload: str = ..., **kwargs) -> None:
         self.channel = channel
         if self.channel is ...:
             # TODO add warning for instinating event without channel handle
@@ -94,9 +93,9 @@ class HeartBeatEvent(Event):
           "approxtime": str,
         }
     """
-    count: int
+    count: int = ...
 
-    def __init__(self, /, count: int = -1, *, channel: o_str = ..., name: o_str = ..., timestr: o_str = ..., payload: o_str = ..., **kwargs) -> None:
+    def __init__(self, /, count: int = -1, *, channel: str = ..., name: str = ..., timestr: str = ..., payload: str = ..., **kwargs) -> None:
         self.count = count
         if type(self.count) is not int:
             # TODO add warning for non-serializable (not int) count
@@ -162,7 +161,7 @@ class EventStage():
     def channels(self) -> List[str]:
         return list(self._subscriptions.keys())
 
-    def __init__(self, /, nameHandle: o_str = ...) -> None:
+    def __init__(self, /, nameHandle: str = ...) -> None:
         self.nameHandle = nameHandle
         if self.nameHandle is ...:
             # TODO add warning for instinating an EventStage without a nameHandle
@@ -173,14 +172,14 @@ class EventStage():
         self._subscriptions = {}
         self._eventBuffer = []
 
-    def post(self, /, event: Event | ... = ...,) -> None:
+    def post(self, /, event: Event = ...,) -> None:
         if event is ...:
             # TODO add warning for not passing an event
             raise errors.InappropriateRequest(f"No event was passed to the post method {event}",
                                               errorHandle=errors.ProgrammerErrorHandle("Must pass an event to the post method (of an EventStage instance or child of such)"))
         self._eventBuffer.append(event)
 
-    def release(self, /, channel: o_str = ...,) -> None:
+    def release(self, /, channel: str = ...,) -> None:
         """_posts all events in the buffer that are in the given channel
 
         Overloads:
@@ -201,9 +200,8 @@ class EventStage():
         if channel is ...:
             raise errors.InappropriateRequest("No channel was passed to the _release method", errorHandle=errors.ProgrammerErrorHandle(
                 "Must pass a channel to the _release method (of an EventStage instance or child of such)"))
-        for event in self._eventBuffer:
-            if event.channel == channel:
-                self._handle(event, remove=True)
+        [self._handle(event, remove=True)
+         for event in self._eventBuffer if event.channel == channel]
 
     def subscribe(self, /, callback: Callable = ..., *, channel: str = ...) -> None:
         """Subscribes a callback to the given channel (defaults to callback.__name__)

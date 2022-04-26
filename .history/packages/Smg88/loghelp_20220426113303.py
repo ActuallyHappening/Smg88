@@ -8,14 +8,14 @@ Syntactic sugar for logging
 from datetime import datetime
 from enum import Enum, auto, unique
 import logging
-from typing import Callable, Type, Union
+from typing import Callable, Union
 
 from . import errors
 
 # Logging levels are as follows:
 # Note that commented definitions are default for the logging module anyway
 
-o_str = Type[Union[str, Type[Ellipsis]]]
+o_str = Union[str, Ellipsis]
 o_callable = Union[Callable, Ellipsis]
 
 # logging.NOTSET = 0

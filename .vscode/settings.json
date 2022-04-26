@@ -10,7 +10,8 @@
     "isasync",
     "isdunder",
     "osplatform",
-    "postn"
+    "postn",
+    "Sstr"
   ],
   "python.linting.pylintEnabled": false,
   "python.linting.enabled": true,

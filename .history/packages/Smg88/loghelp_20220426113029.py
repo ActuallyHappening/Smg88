@@ -1,6 +1,8 @@
 """This module adds supportive functions and classes for logging to the Smg88 package
 Supports Smg88.events, Smg88.coms, Smg88.security
 
+
+
 Should Include:
 Syntactic sugar for logging
 """
@@ -8,15 +10,15 @@ Syntactic sugar for logging
 from datetime import datetime
 from enum import Enum, auto, unique
 import logging
-from typing import Callable, Type, Union
+from typing import Callable, Union
 
 from . import errors
 
 # Logging levels are as follows:
 # Note that commented definitions are default for the logging module anyway
 
-o_str = Type[Union[str, Type[Ellipsis]]]
-o_callable = Union[Callable, Ellipsis]
+o_str = Union(str, ...)
+o_callable = Union(Callable, ...)
 
 # logging.NOTSET = 0
 logging.RAW_DEBUG = 3
