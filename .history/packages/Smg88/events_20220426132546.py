@@ -4,7 +4,7 @@ from json import JSONDecodeError
 from types import EllipsisType
 from typing import Callable, Dict, List
 from . import loghelp
-from .loghelp import o_str, o_Callable, s_sable, sT_sable, s_str
+from .loghelp import o_str, o_Callable, s_sable, s_str
 from . import errors
 from . errors import ProgrammerError, ProgrammerErrorHandle, SafeCatchAll
 
@@ -38,10 +38,10 @@ class Event():
       payload: str
         The payload of the event, used to convey the information of the event, usually in JSON format
     """
-    channel: o_str = ...
-    name: o_str = ...
+    channel: str
+    name: str
 
-    payload: o_str = ...
+    payload: str
 
     def __init__(self, *,
                  channel: o_str = ...,
@@ -120,15 +120,12 @@ class HeartBeatEvent(Event):
         if type(self.timestr) is not str:
             # TODO add warning for non-serializable (not str) timestr
             ...
-        _payload: Dict[str, sT_sable] = payload
-        if _payload is ...:
-            _payload = {
+        self.payload = payload
+        if self.payload is ...:
+            self.payload = {
                 "count": self.count,
                 "approxtime": self.timestr,
             }
-        if type(_payload) is Dict:
-            _payload = s_jsonify(_payload)
-        self.payload = _payload
         self.name = name
         if self.name is ...:
             self.name = f"Smg88 HeartBeat ({self.count}) at about {self.timestr}"
@@ -138,7 +135,7 @@ class HeartBeatEvent(Event):
         try:
             self._package = json.dumps(self.payload)
         except SafeCatchAll as err:
-            # TODO properly handle this error :)
+          # TODO properly handle this error :)
             ...
         super().__init__(channel=channel, name=name, payload=payload, **kwargs)
 

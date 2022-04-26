@@ -126,9 +126,6 @@ class HeartBeatEvent(Event):
                 "count": self.count,
                 "approxtime": self.timestr,
             }
-        if type(_payload) is Dict:
-            _payload = s_jsonify(_payload)
-        self.payload = _payload
         self.name = name
         if self.name is ...:
             self.name = f"Smg88 HeartBeat ({self.count}) at about {self.timestr}"
@@ -138,7 +135,7 @@ class HeartBeatEvent(Event):
         try:
             self._package = json.dumps(self.payload)
         except SafeCatchAll as err:
-            # TODO properly handle this error :)
+          # TODO properly handle this error :)
             ...
         super().__init__(channel=channel, name=name, payload=payload, **kwargs)
 

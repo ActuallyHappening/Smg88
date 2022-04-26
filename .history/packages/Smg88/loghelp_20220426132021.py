@@ -9,7 +9,7 @@ from datetime import datetime
 from enum import Enum, auto, unique
 import logging
 from types import EllipsisType
-from typing import Any, Callable, Type, Union
+from typing import Callable, Type, Union
 
 from . import errors
 
@@ -18,41 +18,6 @@ from . import errors
 
 o_str = str | EllipsisType
 o_Callable = Callable | EllipsisType
-o_bool = bool | EllipsisType
-
-class Serializer(object, metaclass=type):
-  """This class is used to define a protocol for serialization
-
-  """
-
-  def s_str(thing: Any) -> str:
-      """Serializes anything into a good, proper format :)
-      """
-      return str(thing)
-
-
-  def T_Serializable(thing: Any, /, *, istype: bool = False) -> bool:
-      """Checks weather the type of some thing is seralizable
-
-      Args:
-          thing (Any): Thing to check serializability
-          istype (bool): Weather to call 'type' on 'thing' or to treat 'thing' as a type already
-
-      Returns:
-          bool: True if serializable, False if not
-      """
-      if istype:
-          return type(thing) is str
-      else:
-        return thing is str
-
-
-def s_jsonify():
-    ...
-
-
-sT_sable = str
-
 
 # NOTSET = 0
 RAW_DEBUG = 3
