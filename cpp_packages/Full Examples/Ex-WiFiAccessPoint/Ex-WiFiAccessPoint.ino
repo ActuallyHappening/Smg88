@@ -18,8 +18,8 @@
 #define LED_BUILTIN 2   // Set the GPIO pin where you connected your test LED or comment this line out if your dev board has a built-in LED
 
 // Set these to your desired credentials.
-const char *ssid = "Smg:IOT::Test!";
-const char *password = "Smg!88>";
+const char *ssid = "EMCX Sucks Right  Smg88";
+const char *password = "indeed";
 
 WiFiServer server(80);
 
