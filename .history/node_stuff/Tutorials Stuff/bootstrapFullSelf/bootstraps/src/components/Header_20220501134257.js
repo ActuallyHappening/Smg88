@@ -2,7 +2,7 @@
 import React from 'react'
 import Summary from './Summary'
 
-const Header = ({ icon }) => {
+const Header = ({ iconURL: icon }) => {
   return (
     <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-primary p-3">
       <img src={icon} width="30" height="30" alt="Smg88 Icon (Swift)" /* className="navbar-brand" */ href="#"/>

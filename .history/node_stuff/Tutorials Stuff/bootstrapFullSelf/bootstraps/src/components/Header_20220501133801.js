@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
-import Summary from './Summary'
 
-const Header = ({ icon }) => {
+const Header = ({ iconURL: icon }) => {
   return (
     <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-primary p-3">
-      <img src={icon} width="30" height="30" alt="Smg88 Icon (Swift)" /* className="navbar-brand" */ href="#"/>
+      <a className="navbar-brand" href="#">
+        <img src={icon} width="30" height="30" className="d-inline-block align-top" alt="Smg88 Icon (Swift)"/>
+      </a>
       <button className="btn btn-primary" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
@@ -25,7 +26,6 @@ const Header = ({ icon }) => {
           </li>
         </ul>
       </div>
-      <Summary />
     </nav>
   )
 }

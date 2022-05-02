@@ -1,13 +1,13 @@
 import React from 'react'
 import Header from './components/Header'
-import icon from './SwiftIcon.png'
+import Summary from './components/Summary'
+import icon from "./Swift Icon.png"
 
 const App = () => {
-  console.log(icon);
-
   return (
     <div>
-      <Header icon={icon}/>
+      <Header />
+      <Summary />
     </div>
   )
 }
