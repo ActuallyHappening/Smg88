@@ -7,17 +7,17 @@ Keys
 Note: most up to date record is kept in Discord::Discord Raiders Hub::For Private Reference::Improved Alts
 
 appleid --str
-smartguy89 --str > discord
+smartguy89 --str > gmail + discord
 smartguy88 --str > discord + gmail
 smartguy87 --str > gmail + discord
 smartguy86 --str > gmail + discord
-smg88 --str > google
 
 pypi88 --str
 pypi87 --str
 
 commbank
 electronics --str > gmail password
+microso
 """
 
 chars = string.ascii_letters + string.digits + string.punctuation + \

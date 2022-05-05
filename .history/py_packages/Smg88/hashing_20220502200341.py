@@ -11,7 +11,7 @@ smartguy89 --str > discord
 smartguy88 --str > discord + gmail
 smartguy87 --str > gmail + discord
 smartguy86 --str > gmail + discord
-smg88 --str > google
+smg88 --str > gmail
 
 pypi88 --str
 pypi87 --str
