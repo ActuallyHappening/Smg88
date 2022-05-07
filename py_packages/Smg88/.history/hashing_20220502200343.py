@@ -18,8 +18,6 @@ pypi87 --str
 
 commbank
 electronics --str > gmail password
-
-eversync --str > chrome extension
 """
 
 chars = string.ascii_letters + string.digits + string.punctuation + \
