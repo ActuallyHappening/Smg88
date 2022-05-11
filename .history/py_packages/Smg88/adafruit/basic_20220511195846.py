@@ -8,7 +8,6 @@ except ImportError:
 
 
 class AIOIntegrationError(errors.Error):
-    # TODO add a parameter to assemble a useful error message when provided an AIO.AdafruitIOError
     ...
 
 

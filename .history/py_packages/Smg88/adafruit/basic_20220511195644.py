@@ -1,14 +1,10 @@
 import Adafruit_IO as AIO
 from dotenv import dotenv_values
 
-try:
-    from .. import errors
-except ImportError:
-    raise(Exception("I NEED AN ERRORS LIBRARY GIMME!"))
+from Smg88.errors import runAndRaise
 
 
 class AIOIntegrationError(errors.Error):
-    # TODO add a parameter to assemble a useful error message when provided an AIO.AdafruitIOError
     ...
 
 
@@ -28,7 +24,7 @@ aio = AIO.Client(username, key)
 def post(data: AIO.Data = AIO.Data(warning="<DEFAULT DATA PASSED TO postTO>"), /, *, group: str = usedGroup, feed: str = workingchannel,) -> AIO.Data:
     """Posts data to the given feed and handles edge cases"""
 
-    @errors.runAndRaise(AIO.AdafruitIOError, AIOIntegrationError("Adafruit IO Error"))
+    @runAndRaise(AIO.AdafruitIOError, )
     def _(): aio.create_data(feed, data)
 
 

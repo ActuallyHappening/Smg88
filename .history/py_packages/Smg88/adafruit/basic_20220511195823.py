@@ -8,7 +8,6 @@ except ImportError:
 
 
 class AIOIntegrationError(errors.Error):
-    # TODO add a parameter to assemble a useful error message when provided an AIO.AdafruitIOError
     ...
 
 
@@ -28,7 +27,7 @@ aio = AIO.Client(username, key)
 def post(data: AIO.Data = AIO.Data(warning="<DEFAULT DATA PASSED TO postTO>"), /, *, group: str = usedGroup, feed: str = workingchannel,) -> AIO.Data:
     """Posts data to the given feed and handles edge cases"""
 
-    @errors.runAndRaise(AIO.AdafruitIOError, AIOIntegrationError("Adafruit IO Error"))
+    @errors.runAndRaise(AIO.AdafruitIOError, )
     def _(): aio.create_data(feed, data)
 
 
