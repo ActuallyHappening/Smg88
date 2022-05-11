@@ -14,9 +14,7 @@ workingchannel = f"{usedGroup}.testing123"
 aio = AIO.Client(username, key)
 
 
-def post(data: AIO.Data = AIO.Data(warning="<DEFAULT DATA PASSED TO postTO>"), feed: str = workingchannel,) -> AIO.Data:
-    """Posts data to the given feed and handles edge cases"""
-
+def post(data: AIO.Data = AIO.Data(warning="<DEFAULT DATA PASSED TO postTO>"), feed: str = workingchannel,) -> int:
     aio.create_data(feed, data)
 
 
