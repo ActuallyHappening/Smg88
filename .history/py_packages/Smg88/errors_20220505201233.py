@@ -88,16 +88,3 @@ class SimpleUserError(Error):
         *errorHandle (ErrorHandle): Represents the error handle that is attached to the error
     """
     ...
-
-
-def runAndRaise(toCatch: Exception, toRaise: Exception) -> Callable:
-    def __decoratorfunction(func):
-        try:
-            func()
-        except toCatch as exc:
-            raise toRaise(exc)
-        except SafeCatchAll as exc:
-            # TODO add better message on non-propagated errors
-            print("In @runAndRaise exception was propagated because it did not match the given toCatch parameter in decorator generation")
-            raise exc
-    return __decoratorfunction
