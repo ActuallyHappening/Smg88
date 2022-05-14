@@ -1,14 +1,11 @@
-#include <Smg88.h>
-#include <IRremote.h>
-#include <IRcodes.h>
-
 #define LED_BUILTIN 2
 
 #define IR_RECEIVER_PIN 13
 #define IR_SEND_PIN 14
 
-#define DEBUG
-#define INFO
+#include <Smg88.h>
+#include <IRremote.h>
+#include <IRcodes.h>
 
 void setup()
 {
@@ -16,11 +13,4 @@ void setup()
   Serial.println("Smg88");
   IrReceiver.begin(IR_RECEIVER_PIN);
   IrSender.begin(IR_SEND_PIN);
-}
-
-void loop()
-{
-#ifdef DEBUG
-  Serial.println(F("Looping"))
-#endif
 }
