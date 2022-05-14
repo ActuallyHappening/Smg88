@@ -3,7 +3,6 @@ from dotenv import dotenv_values
 
 try:
     from .. import errors
-    from ..typehelp import
 except ImportError:
     raise(Exception("I NEED AN ERRORS LIBRARY GIMME!"))
 
