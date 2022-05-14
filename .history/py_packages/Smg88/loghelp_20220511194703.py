@@ -8,12 +8,16 @@ Syntactic sugar for logging
 from datetime import datetime
 from enum import Enum, auto, unique
 import logging
-import loghelp
-from typing import Any
-from typehelp import *
+from types import EllipsisType
+from typing import Any, Callable, Type, Union
 
 
 from . import errors
+
+
+o_str = str | EllipsisType
+o_Callable = Callable | EllipsisType
+o_bool = bool | EllipsisType
 
 
 class Serializer(object, metaclass=type):
@@ -70,6 +74,6 @@ def callbacknamed(
             # TODO add warning for using func decorator without a given function ??
             raise errors.InappropriateRequest(
                 "WTF? Decorator used without given function?")
-        func.__name__ = name  # type: ignore
+        func.__name__ = name  # type: ignore   to stop func which could be ... (checked above) from a static view
         return func
     return __decoratorfunction

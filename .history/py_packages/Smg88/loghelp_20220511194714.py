@@ -8,12 +8,16 @@ Syntactic sugar for logging
 from datetime import datetime
 from enum import Enum, auto, unique
 import logging
-import loghelp
-from typing import Any
-from typehelp import *
+from types import EllipsisType
+from typing import Any, Callable, Type, Union
 
 
 from . import errors
+
+
+o_str = str | EllipsisType
+o_Callable = Callable | EllipsisType
+o_bool = bool | EllipsisType
 
 
 class Serializer(object, metaclass=type):

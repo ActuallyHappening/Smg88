@@ -3,7 +3,6 @@ from dotenv import dotenv_values
 
 try:
     from .. import errors
-    from ..typehelp import
 except ImportError:
     raise(Exception("I NEED AN ERRORS LIBRARY GIMME!"))
 
@@ -26,7 +25,7 @@ workingchannel = f"{usedGroup}.testing123"
 aio = AIO.Client(username, key)
 
 
-def post(data: AIO.Data = AIO.Data(warning="<DEFAULT DATA PASSED TO postTO>"), /, name: o_str = ..., *, group: o_str = usedGroup, feed: o_str = workingchannel,) -> AIO.Data:
+def post(data: AIO.Data = AIO.Data(warning="<DEFAULT DATA PASSED TO postTO>"), /, *, group: str = usedGroup, feed: str = workingchannel,) -> AIO.Data:
     """Posts data to the given feed and handles edge cases"""
 
     @errors.runAndRaise(AIO.AdafruitIOError, AIOIntegrationError("Adafruit IO Error"))
