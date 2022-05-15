@@ -36,17 +36,13 @@ void loop()
     else
     {
       // Print a short summary of received data
-      Serial.print(F("Received IR data:"));
       IrReceiver.printIRResultShort(&Serial);
-      Serial.println();
       IRData myData = IrReceiver.decodedIRData;
       handleIRInput(myData);
-      IrReceiver.resume();
     }
   }
   else
   {
-    ;
 #ifdef INFO
     Serial.println(F("No IR signal received"));
 #endif
