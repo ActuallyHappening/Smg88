@@ -4,5 +4,5 @@
     "board": "esp32:esp32:esp32",
     "programmer": "esp32:esptool",
     "sketch": "cpp_packages/Smg88/Smg88.ino",
-    "output": "/Users/smartguy88-home/Desktop"
+    "output": "/Users/smartguy88-home/Desktop/Arduino Build/Build Folder"
 }
