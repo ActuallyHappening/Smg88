@@ -11,7 +11,7 @@
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("Smg88 v0.0.1");
+  Serial.println("Smg88 v0.0.0");
   IrReceiver.begin(IR_RECEIVER_PIN, LED_BUILTIN);
   IrSender.begin(IR_SEND_PIN);
 
@@ -31,7 +31,7 @@ void loop()
     if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_WAS_OVERFLOW)
     {
       Serial.println(F("Overflow detected! Probably to complicated an IR signal (like AirCon controller)"));
-      Serial.println("Try to increase the \"RAW_BUFFER_LENGTH\" value of " + String(RAW_BUFFER_LENGTH) + " in " + __FILE__);
+      Serial.println("Try to increase the \"RAW_BUFFER_LENGTH\" value of " + STR(RAW_BUFFER_LENGTH) + " in " + __FILE__);
     }
     else
     {
@@ -40,7 +40,7 @@ void loop()
       IrReceiver.printIRResultShort(&Serial);
       Serial.println();
       IRData myData = IrReceiver.decodedIRData;
-      handleIRInput(myData); // Handles data custom function
+      handleIRInput(myData);
       IrReceiver.resume();
     }
   }
@@ -55,22 +55,18 @@ void loop()
 void handleIRInput(IRData givenData)
 {
   decode_type_t myProtocol = givenData.protocol;
-  uint_16 myCommand = givenData.command;
-  uint_16 myAddress = givenData.address if (myProtocol & decode_type_t::UNKNOWN)
+  if (myProtocol & decode_type_t.UNKNOWN)
   {
     Serial.println(F("Unknown protocol"));
   }
   else
   {
-#ifdef DEBUG
     Serial.print(F("Protocol: "));
     Serial.println(myProtocol);
     Serial.print(F("Command: "));
-    Serial.println(myCommand);
+    Serial.println(givenData.command);
     Serial.print(F("Address: "));
-    Serial.println(myAddress);
+    Serial.println(givenData.address);
     Serial.print(F("Raw data: "));
-#endif
-    Smg88::HandleIRGroup();
   }
 }

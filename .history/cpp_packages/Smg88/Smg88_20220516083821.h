@@ -9,7 +9,8 @@ class Smg88
 public:
   class IRhandler
   {
-  public:
-    String handleIRGroup(IRData inputData);
   }
 }
+
+String
+HandleIRGroup(IRData inputData);

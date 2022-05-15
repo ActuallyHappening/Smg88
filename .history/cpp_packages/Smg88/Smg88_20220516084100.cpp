@@ -2,8 +2,7 @@
 
 String Smg88::IRhandler::handleIRGroup(decode_type_t myProtocol, uint_16 myAddress, uint_16 myCommand)
 {
-  String myResult = "__default__";
-  return myResult;
+  String myResult = "";
 }
 
 String Smg88::IRhandler::handleIRGroup(IRData inputData)

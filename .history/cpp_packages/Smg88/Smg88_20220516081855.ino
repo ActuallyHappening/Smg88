@@ -56,13 +56,13 @@ void handleIRInput(IRData givenData)
 {
   decode_type_t myProtocol = givenData.protocol;
   uint_16 myCommand = givenData.command;
-  uint_16 myAddress = givenData.address if (myProtocol & decode_type_t::UNKNOWN)
+  int myAddress = givenData.address;
+  if (myProtocol & decode_type_t::UNKNOWN)
   {
     Serial.println(F("Unknown protocol"));
   }
   else
   {
-#ifdef DEBUG
     Serial.print(F("Protocol: "));
     Serial.println(myProtocol);
     Serial.print(F("Command: "));
@@ -70,7 +70,6 @@ void handleIRInput(IRData givenData)
     Serial.print(F("Address: "));
     Serial.println(myAddress);
     Serial.print(F("Raw data: "));
-#endif
     Smg88::HandleIRGroup();
   }
 }
