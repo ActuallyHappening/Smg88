@@ -1,10 +1,9 @@
-#include "Smg88.h"
+#include <Smg88.h>
 #include <IRremote.h>
-//#include "IRcodes.h"
+#include <IRcodes.h>
 
-/*
-// using namespace Smg88;
-// using namespace IRcodes;
+using namespace Smg88;
+using namespace IRcodes;
 
 #define IR_RECEIVER_PIN 13
 #define IR_SEND_PIN 14
@@ -23,8 +22,6 @@ void setup()
   printActiveIRProtocols(&Serial);
   Serial.print(F("at pin "));
   Serial.println(IR_RECEIVER_PIN);
-
-  IRcodes;
 
   IRcodes::Data testingData;
   testingData.send(0x0, IrSender);
@@ -83,4 +80,3 @@ void handleIRInput(IRData givenData)
     Smg88::HandleIRGroup();
   }
 }
-*/

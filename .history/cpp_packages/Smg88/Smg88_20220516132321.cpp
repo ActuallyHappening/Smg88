@@ -5,7 +5,7 @@
 // using namespace Smg88; // Their is a class inside Smg88.h so using the file namespace to access the class (more intuitive)
 // using namespace IRcodes;
 
-Smg88 smg88 = Smg88();
+smg88 = Smg88();
 
 String
 smg88::IRhandler::handleIRSection(uint_16 myCommandRaw)

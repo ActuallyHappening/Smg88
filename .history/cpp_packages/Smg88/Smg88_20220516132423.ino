@@ -1,6 +1,6 @@
 #include "Smg88.h"
 #include <IRremote.h>
-//#include "IRcodes.h"
+#include "IRcodes.h"
 
 /*
 // using namespace Smg88;

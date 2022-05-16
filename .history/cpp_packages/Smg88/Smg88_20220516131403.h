@@ -14,6 +14,6 @@ public:
   {
   public:
     String handleIRGroup(IRData inputData);
-    String handleIRGroup(decode_type_t myProtocol, int myAddress, int myCommand);
-  };
+    String handleIRGroup(decode_type_t myProtocol, uint_16 myAddress, uint_16 myCommand)
+  }
 }

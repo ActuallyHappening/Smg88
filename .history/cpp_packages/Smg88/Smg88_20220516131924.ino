@@ -1,8 +1,7 @@
 #include "Smg88.h"
 #include <IRremote.h>
-//#include "IRcodes.h"
+#include "IRcodes.h"
 
-/*
 // using namespace Smg88;
 // using namespace IRcodes;
 
@@ -83,4 +82,3 @@ void handleIRInput(IRData givenData)
     Smg88::HandleIRGroup();
   }
 }
-*/
