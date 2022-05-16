@@ -1,6 +1,6 @@
 #include "Smg88.h"
 #include <IRremote.hpp>
-#include "IRcodes.h"
+//#include "IRcodes.h"
 
 #define DEBUG
 #define INFO

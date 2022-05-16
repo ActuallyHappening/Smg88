@@ -1,10 +1,12 @@
 #include "Smg88.h"
-#include <IRremote.hpp>
-#include "IRcodes.h"
+#include <IRremote.h>
+//#include "IRcodes.h"
+
+#define IR_RECEIVER_PIN 13
+#define IR_SEND_PIN 14
 
 #define DEBUG
 #define INFO
-//#define IMPLEMENTATION
 
 void setup()
 {
@@ -21,7 +23,7 @@ void setup()
 
 void loop()
 {
-#ifdef IMPLEMENTATION
+#ifdef INFO
   Serial.println(F("Looping ..."));
 #endif
   if (IrReceiver.decode())
@@ -45,7 +47,7 @@ void loop()
   else
   {
     ;
-#ifdef IMPLEMENTATION
+#ifdef INFO
     Serial.println(F("No IR signal received"));
 #endif
   }
@@ -53,9 +55,8 @@ void loop()
 void handleIRInput(IRData givenData)
 {
   decode_type_t myProtocol = givenData.protocol;
-  int myCommand = givenData.command;
-  int myAddress = givenData.address;
-  if (myProtocol & decode_type_t::UNKNOWN)
+  uint_16 myCommand = givenData.command;
+  uint_16 myAddress = givenData.address if (myProtocol & decode_type_t::UNKNOWN)
   {
     Serial.println(F("Unknown protocol"));
   }
@@ -73,3 +74,4 @@ void handleIRInput(IRData givenData)
     // Smg88::HandleIRGroup();
   }
 }
+* /

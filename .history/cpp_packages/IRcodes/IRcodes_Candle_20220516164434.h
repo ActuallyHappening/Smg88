@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <IRremote.h>
 
 struct Command
 {
@@ -8,7 +9,4 @@ struct Command
 
 class IRcodes
 {
-public:
-  Command ON;
-  Command OFF;
 }

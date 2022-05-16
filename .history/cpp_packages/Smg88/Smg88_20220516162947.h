@@ -4,4 +4,5 @@
 #define IR_RECEIVER_PIN 13
 #define IR_SEND_PIN 14
 
-#define IRCODES_INCLUDE_CANDLE
+#include "IRcodes.h"
+#include <IRremote.h>
