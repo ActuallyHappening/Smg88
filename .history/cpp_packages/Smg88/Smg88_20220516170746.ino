@@ -64,8 +64,8 @@ void handleIRInput(IRData givenData)
     // Could do stuff here :)
     Serial.println(IRcodes);
     Serial.println(IRcodes::Candle);
-    Serial.println(IRCodes::Candle.ON);
-    if (IRcodess::Candle.ON.matches(myAddress, myCommand))
+    Serial.println(IRcodes_candle);
+    if (IRcodes_candle.ON.matches(myAddress, myCommand))
     {
       Serial.println(F("Received IR signal for ON"));
     }

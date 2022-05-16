@@ -9,7 +9,7 @@
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("Smg88 v0.0.3");
+  Serial.println("Smg88 v0.0.2");
   IrReceiver.begin(IR_RECEIVER_PIN, LED_BUILTIN);
   IrSender.begin(IR_SEND_PIN);
 
@@ -62,16 +62,6 @@ void handleIRInput(IRData givenData)
   else
   {
     // Could do stuff here :)
-    Serial.println(IRcodes);
-    Serial.println(IRcodes::Candle);
-    Serial.println(IRCodes::Candle.ON);
-    if (IRcodess::Candle.ON.matches(myAddress, myCommand))
-    {
-      Serial.println(F("Received IR signal for ON"));
-    }
-    else
-    {
-      Serial.println(F("Unknown command :("));
-    }
+    Serial.println(IRstore.ON.address);
   }
 }

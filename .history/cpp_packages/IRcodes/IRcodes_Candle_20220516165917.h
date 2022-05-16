@@ -4,10 +4,6 @@ struct Command
 {
   int address;
   int command;
-  bool matches(int address, int command)
-  {
-    return (this->address == address) && (this->command == command);
-  }
 }
 
 class Commands
