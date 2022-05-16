@@ -11,7 +11,5 @@ public:
     void is(IRData checkData);
   } class DATA
   {
-    Data ON;
-    Data OFF;
   }
 }
