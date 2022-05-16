@@ -11,7 +11,7 @@
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("Smg88 v0.1.0"); // SCAN VERSION v0.1.0
+  Serial.println("Smg88 v0.1.0");
   IrReceiver.begin(IR_RECEIVER_PIN, LED_BUILTIN);
   IrSender.begin(IR_SEND_PIN);
 
