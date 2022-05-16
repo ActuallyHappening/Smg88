@@ -27,30 +27,34 @@ def getAndUpdateConfigFile():
                 VERSION = newVersion[1:]  # remove the first 'v'
             with open(libraryFile, "w") as libraryJSONFile:
                 libraryJSONFile.write(_newLibraryFile)
-            return oldVersion, VERSION  # e.g. 0.1.1
+            return VERSION  # e.g. 0.1.1
 
 
 def scanSRCandUpdateVersion(oldVersion, newVersion):
-    print("Scanning src folder for version updates ...")
     for file in glob(os.path.join(__location__, "/src/*")):
         fileName = os.path.basename(file)
         fileText = "__default__"
         with open(file, "w") as _file:
-             fileText = file.read()
-              _fileText = ""
-               if "SCAN VERSION" not in fileText:
-                    continue
-                for line in fileText.split("\n"):
-                    if "SCAN VERSION" in line:
-                        print(f"Replacing {oldVersion} with {newVersion} in {fileName}")
-                        line.replace(oldVersion, newVersion)
-                    _fileText += line
-                fileText = fileText.replace("SCAN VERSION", newVersion)
+            fileText = file.read()
+            _fileText = ""
+            if "SCAN VERSION" not in fileText:
+                continue
+            for line in fileText.split("\n"):
+                if "SCAN VERSION" in line:
+                    helperStr = line[line.index("SCAN VERSION")+len("SCAN VERSION"):]
+                    firstPart = line[:line.index("SCAN VERSION")]
+                    if helperStr.strip() not in firstPart:
+                        print("OH OHHH hepler STR not found in line!")
+                        return
+                    line.replace("SCAN VERSION"+helperStr, newVersion)
+                _fileText += line
+
+            fileText = fileText.replace("SCAN VERSION", newVersion)
 
 
 def main():
     oldVersion, newVersion = getAndUpdateConfigFile()
-    scanSRCandUpdateVersion(oldVersion, newVersion)
+    scanSRCandUpdateVersion(newVersion)
 
 
 if __name__ == "__main__":
