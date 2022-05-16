@@ -49,9 +49,7 @@ def scanSRCandUpdateVersion(oldVersion, newVersion):
                     print(f"Replacing {oldVersion} with {newVersion} in {fileName}")
                     line.replace(oldVersion, newVersion)
                 _fileText += line
-            fileText = _fileText
-        with open(file, "w") as _file:
-            _file.write(fileText)
+            fileText = fileText.replace("SCAN VERSION", newVersion)
 
 
 def main():

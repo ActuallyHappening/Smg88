@@ -38,9 +38,8 @@ def scanSRCandUpdateVersion(oldVersion, newVersion):
     for file in glob(os.path.join(__location__, "src/*")):
         fileName = os.path.basename(file)
         fileText = "__default__"
-        with open(file, "r") as _file:
-            # print(f"{fileName=}")
-            fileText = _file.read()
+        with open(file, "w") as _file:
+            fileText = file.read()
             _fileText = ""
             if "SCAN VERSION" not in fileText:
                 continue
@@ -49,9 +48,7 @@ def scanSRCandUpdateVersion(oldVersion, newVersion):
                     print(f"Replacing {oldVersion} with {newVersion} in {fileName}")
                     line.replace(oldVersion, newVersion)
                 _fileText += line
-            fileText = _fileText
-        with open(file, "w") as _file:
-            _file.write(fileText)
+            fileText = fileText.replace("SCAN VERSION", newVersion)
 
 
 def main():

@@ -22,7 +22,7 @@ def getAndUpdateConfigFile():
             with open(libraryFile, "r") as libraryJSONFile:
                 _newLibraryFile = libraryJSONFile.read()
                 print(f"{_newLibraryFile=}")
-                VERSION = json.loads(_newLibraryFile)["version"].strip()
+                VERSION = json.loads(libraryJSONFile.read())["version"].strip()
                 oldVersion = VERSION[1:]  # remove the first 'v'
                 _version = VERSION.split('.')
                 newVersion = f"{_version[0]}.{_version[1]}.{int(_version[2]) + 1}"  # e.g. v0.1.0 --> v0.1.1
@@ -35,12 +35,11 @@ def getAndUpdateConfigFile():
 
 def scanSRCandUpdateVersion(oldVersion, newVersion):
     print("Scanning src folder for version updates ...")
-    for file in glob(os.path.join(__location__, "src/*")):
+    for file in glob(os.path.join(__location__, "/src/*")):
         fileName = os.path.basename(file)
         fileText = "__default__"
-        with open(file, "r") as _file:
-            # print(f"{fileName=}")
-            fileText = _file.read()
+        with open(file, "w") as _file:
+            fileText = file.read()
             _fileText = ""
             if "SCAN VERSION" not in fileText:
                 continue
@@ -49,9 +48,7 @@ def scanSRCandUpdateVersion(oldVersion, newVersion):
                     print(f"Replacing {oldVersion} with {newVersion} in {fileName}")
                     line.replace(oldVersion, newVersion)
                 _fileText += line
-            fileText = _fileText
-        with open(file, "w") as _file:
-            _file.write(fileText)
+            fileText = fileText.replace("SCAN VERSION", newVersion)
 
 
 def main():
