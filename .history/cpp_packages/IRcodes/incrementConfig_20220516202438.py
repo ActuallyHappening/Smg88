@@ -49,8 +49,7 @@ def scanSRCandUpdateVersion(oldVersion, newVersion):
                     print(f"Replacing {oldVersion} with {newVersion} in {fileName}")
                     if oldVersion not in line:
                         print("   Old version not found in file even though // SCAN VERSION was found !")
-                    line = line.replace(oldVersion, newVersion)  # .replace("// SCAN VERSION", f"// SCAnN VERSION {oldVersion} --> {newVersion}")
-                    print(f"  New Line: {line=}")
+                    line.replace(oldVersion, newVersion)
                 _fileText += line + "\n"
             fileText = _fileText
         with open(file, "w") as _file:

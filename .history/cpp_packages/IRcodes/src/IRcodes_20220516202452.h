@@ -1,5 +1,5 @@
-#warning IRcodes.h Version 0.1.16 // SCAN VERSION
-#define IRCODES_VERSION "0.1.16" // SCAN VERSION
+#warning IRcodes.h Version 0.1.11 // SCAN VERSION
+#define IRCODES_VERSION "0.1.11" // SCAN VERSION
 
 #include <Arduino.h>
 

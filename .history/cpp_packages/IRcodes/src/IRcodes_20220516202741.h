@@ -1,5 +1,5 @@
-#warning IRcodes.h Version 0.1.16 // SCAN VERSION
-#define IRCODES_VERSION "0.1.16" // SCAN VERSION
+#warning IRcodes.h Version 0.1.13 // SCAN VERSION
+#define IRCODES_VERSION "0.1.13" // SCAN VERSION
 
 #include <Arduino.h>
 
@@ -21,4 +21,3 @@ int test = 69;
 #else
 #warning NOT including IRCODES_INCLUDE_CANDLE
 #endif
-
