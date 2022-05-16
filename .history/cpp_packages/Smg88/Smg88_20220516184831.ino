@@ -1,4 +1,4 @@
-#include <Smg88.h>
+#include "Smg88.h"
 #include <IRremote.hpp>
 #include "IRcodes.h"
 
@@ -6,12 +6,10 @@
 #define INFO
 //#define IMPLEMENTATION
 
-int shouldNOTERROR = testVar2;
-
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("Smg88 v0.0.4");
+  Serial.println("Smg88 v0.0.3");
   IrReceiver.begin(IR_RECEIVER_PIN, LED_BUILTIN);
   IrSender.begin(IR_SEND_PIN);
 
@@ -64,10 +62,10 @@ void handleIRInput(IRData givenData)
   else
   {
     // Could do stuff here :)
-    Serial.println(IRcodes);
+    Serial.println(IRcodes));
     Serial.println(IRcodes::Candle);
     Serial.println(IRCodes::Candle.ON);
-    if (IRcodes::Candle.ON.matches(myAddress, myCommand))
+    if (IRcodess::Candle.ON.matches(myAddress, myCommand))
     {
       Serial.println(F("Received IR signal for ON"));
     }

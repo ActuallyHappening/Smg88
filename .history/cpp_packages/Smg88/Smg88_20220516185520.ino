@@ -1,17 +1,18 @@
 #include <Smg88.h>
 #include <IRremote.hpp>
-#include "IRcodes.h"
+#include "../IRcodes/IRcodes.h"
 
 #define DEBUG
 #define INFO
 //#define IMPLEMENTATION
 
-int shouldNOTERROR = testVar2;
+#include "test.h"
+int shouldNOTERROR = testVar;
 
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("Smg88 v0.0.4");
+  Serial.println("Smg88 v0.0.3");
   IrReceiver.begin(IR_RECEIVER_PIN, LED_BUILTIN);
   IrSender.begin(IR_SEND_PIN);
 

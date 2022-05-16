@@ -1,5 +1,3 @@
-#warning IRcodes.h Version 0.0.4
-
 #include <Arduino.h>
 
 int testVar2 = 69420;

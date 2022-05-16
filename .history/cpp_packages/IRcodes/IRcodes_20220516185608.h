@@ -1,12 +1,10 @@
-#warning IRcodes.h Version 0.0.4
-
 #include <Arduino.h>
 
-int testVar2 = 69420;
+testVar2
 
 #ifdef IRCODES_INCLUDE_CANDLE
 #ifdef DEBUG
-Serial.println(F("Including IRCodes::Candle"));
+    Serial.println(F("Including IRCodes::Candle"));
 #endif
 
 #include "IRcodes_Candle.h"
