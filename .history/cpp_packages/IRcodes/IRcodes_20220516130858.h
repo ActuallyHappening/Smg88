@@ -11,6 +11,7 @@ public:
     uint_16 command;
     void send(uint_16 myIrSender);
     void is(IRData checkData);
+    ()
   } struct Group // Marks a subset of Data for constant protocols
   {
     Data __raw__;
