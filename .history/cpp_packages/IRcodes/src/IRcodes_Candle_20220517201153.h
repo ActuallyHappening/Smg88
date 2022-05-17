@@ -20,9 +20,4 @@ class IRcodes_Candle
 public:
   Command ON;
   Command OFF;
-  IRcodes_Candle()
-  {
-    ON = Command(0x80, 0x12);
-    OFF = Command(0x80, 0x1A);
-  }
 } IRcodes_Candle_Commands;

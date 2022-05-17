@@ -8,21 +8,14 @@ struct Command
   {
     return (this->address == address) && (this->command == command);
   }
-  Command(int _address, int _command)
+  Command(int address, int command)
   {
-    address = _address;
-    command = _command;
   }
 };
 
-class IRcodes_Candle
+class IRcodes_Candle_Commands
 {
 public:
   Command ON;
   Command OFF;
-  IRcodes_Candle()
-  {
-    ON = Command(0x80, 0x12);
-    OFF = Command(0x80, 0x1A);
-  }
-} IRcodes_Candle_Commands;
+};
