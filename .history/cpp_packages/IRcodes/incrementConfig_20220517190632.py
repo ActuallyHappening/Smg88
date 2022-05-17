@@ -38,20 +38,22 @@ def scanSRCandUpdateVersion(oldVersion, newVersion):
     for file in glob(os.path.join(__location__, "src/*")):
         updateFile(file, oldVersion, newVersion)
     print("Scanning root directory for library.properties updates ...")
-    for file in glob(os.path.join(__location__, "*")):
+    for file in glob(os.path.join(__location__, "//*")):
         if os.path.basename(file) == "library.properties":
             updateFile(file, oldVersion, newVersion)
+        else:
+            print(f"Skipping (root) {file=}")
 
 
 def updateFile(file, oldVersion, newVersion):
     fileName = os.path.basename(file)
     fileText = "__default__"
     with open(file, "r") as _file:
-        #print(f"{fileName=}", end=" ")
+        print(f"{fileName=}", end=" ")
         fileText = _file.read()
         _fileText = ""
         if "SCAN VERSION" not in fileText:
-            #print(f"skipping ...")
+            print(f"skipping ...")
             return
         for line in fileText.split("\n"):
             if "SCAN VERSION" in line:

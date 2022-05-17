@@ -6,7 +6,7 @@
         "type": "git",
         "url": "https://github.com/Smartestguy88/Smg88/tree/main/cpp_packages/IRcodes"
     },
-    "version": "v0.1.16",
+    "version": "v0.1.30",
     "frameworks": "arduino",
     "platforms": ["atmelavr", "atmelmegaavr", "atmelsam", "espressif8266", "espressif32", "ststm32"],
     "authors": [{

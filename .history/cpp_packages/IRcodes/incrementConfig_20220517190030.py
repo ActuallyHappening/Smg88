@@ -37,9 +37,8 @@ def scanSRCandUpdateVersion(oldVersion, newVersion):
     print("Scanning src folder for version updates ...")
     for file in glob(os.path.join(__location__, "src/*")):
         updateFile(file, oldVersion, newVersion)
-    print("Scanning root directory for library.properties updates ...")
-    for file in glob(os.path.join(__location__, "*")):
-        if os.path.basename(file) == "library.properties":
+    for file in glob(__location__):
+        if file == "library.properties":
             updateFile(file, oldVersion, newVersion)
 
 
@@ -47,11 +46,10 @@ def updateFile(file, oldVersion, newVersion):
     fileName = os.path.basename(file)
     fileText = "__default__"
     with open(file, "r") as _file:
-        #print(f"{fileName=}", end=" ")
+        # print(f"{fileName=}")
         fileText = _file.read()
         _fileText = ""
         if "SCAN VERSION" not in fileText:
-            #print(f"skipping ...")
             return
         for line in fileText.split("\n"):
             if "SCAN VERSION" in line:

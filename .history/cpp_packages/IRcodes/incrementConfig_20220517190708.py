@@ -47,11 +47,11 @@ def updateFile(file, oldVersion, newVersion):
     fileName = os.path.basename(file)
     fileText = "__default__"
     with open(file, "r") as _file:
-        #print(f"{fileName=}", end=" ")
+        print(f"{fileName=}", end=" ")
         fileText = _file.read()
         _fileText = ""
         if "SCAN VERSION" not in fileText:
-            #print(f"skipping ...")
+            print(f"skipping ...")
             return
         for line in fileText.split("\n"):
             if "SCAN VERSION" in line:
