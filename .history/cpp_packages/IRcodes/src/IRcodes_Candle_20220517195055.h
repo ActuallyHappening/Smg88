@@ -9,10 +9,13 @@ struct Command
     return (this->address == address) && (this->command == command);
   }
 };
-
-class IRcodes_Candle_Commands
+class IRcodes_Candle
 {
-public:
-  Command ON;
-  Command OFF;
+
+  class Commands
+  {
+  public:
+    Command ON;
+    Command OFF;
+  };
 };

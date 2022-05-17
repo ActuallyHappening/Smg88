@@ -12,7 +12,8 @@ struct Command
 
 class IRcodes_Candle_Commands
 {
-public:
-  Command ON;
-  Command OFF;
+  IRcodes_Candle_Commands(list commands)
+  {
+    this->commands = commands;
+  }
 };

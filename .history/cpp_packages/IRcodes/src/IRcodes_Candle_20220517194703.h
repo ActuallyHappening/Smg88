@@ -10,7 +10,7 @@ struct Command
   }
 };
 
-class IRcodes_Candle_Commands
+class Commands
 {
 public:
   Command ON;
