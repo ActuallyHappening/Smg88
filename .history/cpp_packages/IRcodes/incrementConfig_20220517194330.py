@@ -50,11 +50,11 @@ def updateFile(file, oldVersion, newVersion, scanKey="SCAN VERSION"):
         #print(f"{fileName=}", end=" ")
         fileText = _file.read()
         _fileText = ""
-        if scanKey not in fileText:
+        if "SCAN VERSION" not in fileText:
             #print(f"skipping ...")
             return
         for line in fileText.split("\n"):
-            if scanKey in line:
+            if "SCAN VERSION" in line:
                 print(f"Replacing {oldVersion} with {newVersion} in {fileName}")
                 if oldVersion not in line:
                     print("   Old version not found in file even though // SCAN VERSION was found !")
