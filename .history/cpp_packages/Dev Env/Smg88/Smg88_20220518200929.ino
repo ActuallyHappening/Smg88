@@ -88,12 +88,11 @@ void handleIRInput(IRData givenData)
         if (myCommand == IRcodes.Candle.ON.command)
         {
           Serial.println(F("ON -> Sending to Feed"));
-          Smg88_feed->save("ESP32 IRcodes version = " + String(IRCODES_VERSION) + " = ON");
+          Smg88_feed->save("ESP32 version = " + String() + "ON");
         }
         else if (myCommand == IRcodes.Candle.OFF.command)
         {
           Serial.println(F("OFF -> Sending to Feed"));
-          Smg88_feed->save("ESP32 IRcodes version = " + String(IRCODES_VERSION) + " = ON");
         }
         else
         {

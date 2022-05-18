@@ -24,16 +24,10 @@ void setup()
   Serial.print(F("at pin "));
   Serial.println(IR_RECEIVER_PIN);
 
-  io.connect();
+  while (!Serial)
+    ;
 
-  while (io.status() < AIO_CONNECTED)
-  {
-    Serial.print(F(". "));
-    delay(420);
-  }
-
-  Serial.println();
-  Serial.println(io.statusText());
+  Serial
 }
 
 void loop()
@@ -41,7 +35,6 @@ void loop()
 #ifdef IMPLEMENTATION
   Serial.println(F("Looping ..."));
 #endif
-  io.run();
   if (IrReceiver.decode())
   {
     if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_WAS_OVERFLOW)
@@ -87,13 +80,11 @@ void handleIRInput(IRData givenData)
       {
         if (myCommand == IRcodes.Candle.ON.command)
         {
-          Serial.println(F("ON -> Sending to Feed"));
-          Smg88_feed->save("ESP32 IRcodes version = " + String(IRCODES_VERSION) + " = ON");
+          Serial.println(F("ON"));
         }
         else if (myCommand == IRcodes.Candle.OFF.command)
         {
-          Serial.println(F("OFF -> Sending to Feed"));
-          Smg88_feed->save("ESP32 IRcodes version = " + String(IRCODES_VERSION) + " = ON");
+          Serial.println(F("OFF"));
         }
         else
         {
