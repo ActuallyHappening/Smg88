@@ -69,40 +69,6 @@ void handleIRInput(IRData givenData)
     if (myProtocol & decode_type_t::NEC)
     {
       Serial.println(F("NEC protocol yess!"));
-      if (myAddress == IRcodes.Candle.address)
-      {
-        if (myCommand == IRcodes.Candle.ON.command)
-        {
-          Serial.println(F("ON"));
-        }
-        else if (myCommand == IRcodes.Candle.OFF.command)
-        {
-          Serial.println(F("OFF"));
-        }
-        else
-        {
-          Serial.println(F("Unknown command"));
-        }
-      }
-      else
-      {
-        Serial.println(F("Unknown address"));
-      }
-      {
-        Serial.println(F("NEC protocol ON"));
-      }
-      else if (myCommand == 0x81)
-      {
-        Serial.println(F("NEC protocol OFF"));
-      }
-      else
-      {
-        Serial.println(F("NEC protocol unknown command"));
-      }
     }
-    else
-    {
-      Serial.println(F("Protocol not programmed for :("))
     }
-  }
 }

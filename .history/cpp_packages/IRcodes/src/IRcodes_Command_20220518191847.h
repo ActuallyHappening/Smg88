@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-class CA_Command
+class Command
 {
 public:
   // int address;

@@ -4,12 +4,12 @@
 class IRCodes_Candle
 {
 public:
-  int address = 0x80;
+  int addredd = 0x80;
   CA_Command ON;
   CA_Command OFF;
   IRCodes_Candle()
   {
-    ON = CA_Command(0x12);
-    OFF = CA_Command(0x1A);
+    ON = CA_Command(0x80, 0x12);
+    OFF = CA_Command(0x80, 0x1A);
   }
 };
