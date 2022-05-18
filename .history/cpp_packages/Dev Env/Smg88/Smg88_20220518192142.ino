@@ -88,6 +88,17 @@ void handleIRInput(IRData givenData)
       {
         Serial.println(F("Unknown address"));
       }
+      {
+        Serial.println(F("NEC protocol ON"));
+      }
+      else if (myCommand == 0x81)
+      {
+        Serial.println(F("NEC protocol OFF"));
+      }
+      else
+      {
+        Serial.println(F("NEC protocol unknown command"));
+      }
     }
     else
     {

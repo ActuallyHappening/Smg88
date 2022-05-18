@@ -8,11 +8,11 @@ public:
   // {
   //   return (this->address == address) && (this->command == command);
   // }
-  CA_Command()
+  Command()
   {
     command = 0;
   }
-  CA_Command(int _command)
+  Command(int _command)
   {
     command = _command;
   }

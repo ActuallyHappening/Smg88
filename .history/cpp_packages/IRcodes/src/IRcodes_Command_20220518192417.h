@@ -3,17 +3,20 @@
 class CA_Command
 {
 public:
+  // int address;
   int command;
   // bool matches(int address, int command)
   // {
   //   return (this->address == address) && (this->command == command);
   // }
-  CA_Command()
+  Command()
   {
+    // address = 0;
     command = 0;
   }
-  CA_Command(int _command)
+  Command(int _command /*, int a*/)
   {
+    // address = a;
     command = _command;
   }
 };
