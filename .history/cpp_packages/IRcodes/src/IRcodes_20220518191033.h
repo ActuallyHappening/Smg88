@@ -17,7 +17,7 @@ public:
   IRCodes_Candle Candle;
   IRCodes()
   {
-    IRCodes_Candle Candle();
+    Candle = IRCodes_Candle();
   }
 } IRcodes;
 
