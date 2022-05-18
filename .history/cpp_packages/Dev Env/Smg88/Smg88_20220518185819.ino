@@ -70,6 +70,6 @@ void handleIRInput(IRData givenData)
     {
       Serial.println(F("NEC protocol yess!"));
     }
-    Serial.println("IRcodes::ON::command: " + IRcodes.Candle.ON.command);
+    Serial.println("IRcodes::ON::command: " + IRcodes::Candle::ON::command);
   }
 }

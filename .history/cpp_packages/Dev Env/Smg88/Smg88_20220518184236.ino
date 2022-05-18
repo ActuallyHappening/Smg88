@@ -19,8 +19,6 @@ void setup()
   printActiveIRProtocols(&Serial);
   Serial.print(F("at pin "));
   Serial.println(IR_RECEIVER_PIN);
-
-  IRCodes testing();
 }
 
 void loop()
@@ -70,6 +68,6 @@ void handleIRInput(IRData givenData)
     {
       Serial.println(F("NEC protocol yess!"));
     }
-    Serial.println("IRcodes::ON::command: " + IRcodes.Candle.ON.command);
+    Serial.println("IRcodes::ON::command: " + String(IRcodes::ON::command));
   }
 }

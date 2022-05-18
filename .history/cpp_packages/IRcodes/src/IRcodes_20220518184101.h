@@ -14,7 +14,7 @@ Serial.println(F("Including IRCodes::Candle version " IRCODES_VERSION));
 class IRCodes
 {
 public:
-  IRCodes_Candle Candle;
+  int Candle;
   IRCodes()
   {
     Candle = IRcodes_Candle;

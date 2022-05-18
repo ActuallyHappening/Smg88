@@ -4,9 +4,11 @@
 #include <Arduino.h>
 #define IRCODES_INCLUDE_CANDLE
 
+class
+
 #ifdef IRCODES_INCLUDE_CANDLE
 #ifdef DEBUG
-Serial.println(F("Including IRCodes::Candle version " IRCODES_VERSION));
+    Serial.println(F("Including IRCodes::Candle version " IRCODES_VERSION));
 #endif
 
 #include "IRcodes_Candle.h"

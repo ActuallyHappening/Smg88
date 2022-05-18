@@ -13,11 +13,10 @@ Serial.println(F("Including IRCodes::Candle version " IRCODES_VERSION));
 
 class IRCodes
 {
-public:
-  IRCodes_Candle Candle;
+  IRcodes_Candles Candle
   IRCodes()
   {
-    Candle = IRcodes_Candle;
+    Candle = IRcodes_Candle_Commands;
   }
 } IRcodes;
 

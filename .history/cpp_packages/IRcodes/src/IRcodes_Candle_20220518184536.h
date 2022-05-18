@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include "IRcodes_Command.h"
 
 class IRCodes_Candle
 {
@@ -11,4 +10,4 @@ public:
     ON = Command(0x80, 0x12);
     OFF = Command(0x80, 0x1A);
   }
-};
+} IRcodes_Candle;
