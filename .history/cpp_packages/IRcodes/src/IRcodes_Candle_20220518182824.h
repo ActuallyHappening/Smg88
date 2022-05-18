@@ -9,11 +9,6 @@ public:
   {
     return (this->address == address) && (this->command == command);
   }
-  Command()
-  {
-    address = 0;
-    command = 0;
-  }
   Command(int a, int c)
   {
     address = a;

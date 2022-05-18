@@ -28,7 +28,7 @@ public:
   Command OFF;
   IRcodes_Candle()
   {
-    ON = Command(0x80, 0x12); // TODO don't think this is a int literal WTF ??
-    OFF = Command(0x80, 0x1A);
+    // ON = Command(0x80, 0x12); // TODO don't think this is a int literal WTF ??
+    // OFF = Command(0x80, 0x1A);
   }
 } IRcodes_Candle_Commands;

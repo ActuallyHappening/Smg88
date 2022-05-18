@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#ifdef PLEASENO
 class Command
 {
 public:
@@ -9,15 +10,10 @@ public:
   {
     return (this->address == address) && (this->command == command);
   }
-  Command()
+  Command(int _address, int _command)
   {
-    address = 0;
-    command = 0;
-  }
-  Command(int a, int c)
-  {
-    address = a;
-    command = c;
+    address = _address;
+    command = _command;
   }
 };
 
@@ -28,7 +24,8 @@ public:
   Command OFF;
   IRcodes_Candle()
   {
-    ON = Command(0x80, 0x12); // TODO don't think this is a int literal WTF ??
-    OFF = Command(0x80, 0x1A);
+    Command ON = Command(0x80, 0x12); // TODO don't think this is a int literal WTF ??
+    Command OFF = Command(0x80, 0x1A);
   }
 } IRcodes_Candle_Commands;
+#endif
