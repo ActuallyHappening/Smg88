@@ -68,7 +68,7 @@ void handleIRInput(IRData givenData)
     Serial.println(F("Known protocol"));
     if (myProtocol & decode_type_t::NEC)
     {
-      Serial.println(F("NEC protocol yes!"));
+      Serial.println(F("NEC protocol yess!"));
       if (myAddress == IRcodes.Candle.address)
       {
         if (myCommand == IRcodes.Candle.ON.command)
@@ -82,7 +82,7 @@ void handleIRInput(IRData givenData)
         else
         {
           Serial.println("Unknown command, myAddress = " + String(myAddress) + ", myCommand = " + String(myCommand));
-          Serial.println("Wanted Address: " + String(IRcodes.Candle.address) + ", Wanted Command: " + String(IRcodes.Candle.ON.command));
+          Serial.pritnln("Wanted Address: " + IRcodes.Candle.address + ", Wanted Command: " + IRcodes.Candle.ON.command);
         }
       }
       else

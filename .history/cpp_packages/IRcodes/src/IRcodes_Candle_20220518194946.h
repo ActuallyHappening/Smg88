@@ -7,4 +7,7 @@ public:
   int address = 128;
   CA_Command ON = (0x12);
   CA_Command OFF = (0x1A);
+  IRCodes_Candle()
+  {
+  }
 };

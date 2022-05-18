@@ -82,7 +82,7 @@ void handleIRInput(IRData givenData)
         else
         {
           Serial.println("Unknown command, myAddress = " + String(myAddress) + ", myCommand = " + String(myCommand));
-          Serial.println("Wanted Address: " + String(IRcodes.Candle.address) + ", Wanted Command: " + String(IRcodes.Candle.ON.command));
+          Serial.println("Wanted Address: " + IRcodes.Candle.address + ", Wanted Command: " + IRcodes.Candle.ON.command);
         }
       }
       else

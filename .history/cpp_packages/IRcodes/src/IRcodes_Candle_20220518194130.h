@@ -5,6 +5,11 @@ class IRCodes_Candle
 {
 public:
   int address = 128;
-  CA_Command ON = (0x12);
-  CA_Command OFF = (0x1A);
+  CA_Command ON;
+  CA_Command OFF;
+  IRCodes_Candle()
+  {
+    ON(18);
+    OFF(26);
+  }
 };
