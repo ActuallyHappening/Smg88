@@ -1,0 +1,92 @@
+[
+  {
+    "__metaversion__": "__meta__",
+    "__meta__": {
+      "id": "{{id}}",
+      "value": "{{value}}",
+      "feed_id": "{{feed_id}}",
+      "feed_name": "{{feed_name}}",
+      "feed_key": "{{feed_key}}",
+      "location": {
+        "lat": "{{lat}}",
+        "lon": "{{lon}}",
+        "ele": "{{ele}}"
+      },
+      "created_at": "{{created_at}}",
+      "updated_at": "{{updated_at}}",
+      "expiration": "{{expiration}}"
+    }
+  },
+  {
+    "__metaversion__": "0.0.2",
+    "meta_from": "OPPO - Smg88",
+    "meta_prefix": "payload",
+    "meta_useful": "some",
+    "meta_to": "OPPO IN: << IFTTT",
+    "meta_forward": "OPPO PROCESS: Notification >> Expose",
+    "payload": {
+      "NotificationTitle": "{{NotificationTitle}}",
+      "AppName": " {{AppName}}",
+      "NotificationMessage": " {{NotificationMessage}}",
+      "ReceivedAt": " {{ReceivedAt}}"
+    }
+  },
+  {
+    "__metaversion__": "0.0.3",
+    "meta_from": "OPPO - Smg88",
+    "meta_prefix": "payload",
+    "meta_useful": "some",
+    "meta_to": "OPPO IN: << IFTTT :: Battery",
+    "meta_forward": "OPPO PROCESS: Battery >> Expose",
+    "meta_tags": [
+      {
+        "type": "int",
+        "name": "BatteryLevel",
+        "value": "{{}}"
+      }
+    ],
+    "payload": {
+      "": "{{}}",
+      "": " {{}}",
+      "": " {{}}",
+      "": " {{}}",
+      "": " {{}}",
+      "": "{{}}"
+    }
+  },
+  {
+    "__metaversion__": "0.0.4",
+    "meta_from": "OPPO - Smg88",
+    "meta_prefix": "payload",
+    "meta_useful": "none/few/some/many/most/all",
+    "meta_to": "OPPO IN: << IFTTT :: __",
+    "meta_forward": "OPPO PROCESS: __ >> Expose",
+    "meta_tags": [
+      {
+        "type": "int",
+        "name": "__",
+        "value": "{{__}}"
+      }
+    ],
+    "__meta__": {
+      "id": "{{id}}",
+      "value": "{{value}}",
+      "feed_id": "{{feed_id}}",
+      "feed_name": "{{feed_name}}",
+      "feed_key": "{{feed_key}}",
+      "location": {
+        "lat": "{{lat}}",
+        "lon": "{{lon}}",
+        "ele": "{{ele}}"
+      },
+      "created_at": "{{created_at}}",
+      "updated_at": "{{updated_at}}",
+      "expiration": "{{expiration}}"
+    },
+    "payload": {
+      "": "{{}}",
+      "": " {{}}",
+      "": " {{}}"
+    }
+  }
+]

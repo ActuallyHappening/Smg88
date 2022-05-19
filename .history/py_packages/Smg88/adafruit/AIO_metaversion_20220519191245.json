@@ -1,0 +1,14 @@
+[{
+    "__metaversion__": "0.0.2",
+    "meta_from": "OPPO - Smg88",
+    "meta_prefix": "payload",
+    "meta_useful": "some",
+    "meta_to": "OPPO IN: << IFTTT",
+    "meta_forward": "OPPO PROCESS: Notification >> Expose",
+    "payload": {
+        "NotificationTitle": "{{NotificationTitle}}",
+        "AppName": " {{AppName}}",
+        "NotificationMessage": " {{NotificationMessage}}",
+        "ReceivedAt": " {{ReceivedAt}}"
+    }
+}, ]
