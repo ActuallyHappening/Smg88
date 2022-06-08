@@ -23,6 +23,9 @@ eversync --str > chrome extension
 
 AWS
 aws -> thisisfalse88@gmail.com Smartguy 89
+ah -> actuallyhappening42@gmail.com
+
+appleID -> actuallyhappening42@gmail.com appleid
 """
 
 chars = string.ascii_letters + string.digits + string.punctuation + \
