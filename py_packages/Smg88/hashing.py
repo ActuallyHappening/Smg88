@@ -16,7 +16,8 @@ smg88 --str > google
 pypi88 --str
 pypi87 --str
 
-commbank
+commbank -- old
+combank -- new
 electronics --str > gmail password
 
 eversync --str > chrome extension
